@@ -7,4 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
     <string name="sign_in"><u>SIGN IN</u></string>
+    <string name="sh_username">USERNAME</string>
+    <string name="sh_pass">PASSWORD</string>
+    <string name="sh_default">DEFAULT</string>
 </resources>
