@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/splashscreen"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="500dp"
         android:src="@drawable/dsc_logo" />
     <TextView
