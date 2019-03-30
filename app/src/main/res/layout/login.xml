@@ -66,6 +66,7 @@
         android:layout_marginTop="285dp"
         android:background="#fff" />
     <EditText
+        android:id="@+id/login_username"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -79,6 +80,7 @@
         android:textSize="30sp" />
 
     <EditText
+        android:id="@+id/login_password"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -93,6 +95,7 @@
         android:textSize="30dp" />
 
     <Button
+        android:id="@+id/register_button"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -124,6 +127,7 @@
             android:layout_height="wrap_content"
             android:text="@string/sign_in"
             android:textColor="#fff"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:clickable="true"/>
     </LinearLayout>
 </RelativeLayout>
