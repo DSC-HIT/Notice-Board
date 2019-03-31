@@ -102,20 +102,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="456dp"
         android:background="@drawable/my_button_bg"
-        android:text="SIGN IN"
+        android:text="@string/register"
         android:textColor="#ffff"
         android:textSize="20sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="209dp"
-        android:layout_marginTop="515dp"
-        android:text="@string/forgot_password"
-        android:textColor="#fff"
-        android:textSize="15sp" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -128,7 +119,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="-614dp"
-            android:text="Don't have an account?  "
+            android:text="Already have an account? "
             android:textColor="#fff"
             android:textSize="20sp" />
 
@@ -136,7 +127,7 @@
             android:id="@+id/register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/register"
+            android:text="@string/login"
             android:textColor="#fff"
             android:textSize="25sp"
             android:clickable="true"/>

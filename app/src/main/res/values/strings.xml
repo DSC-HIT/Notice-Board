@@ -12,6 +12,7 @@
     <string name="sh_pass">PASSWORD</string>
     <string name="sh_default">DEFAULT</string>
 
+    <string name="login"><u>LOGIN</u></string>
     <string name="register"><u>REGISTER</u></string>
     <string name="forgot_password"><u>Forgot Password?</u></string>
 

@@ -16,6 +16,11 @@
             android:id="@+id/nav_notes"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Notes" />
+        <item
+            android:id="@+id/logout"
+            android:title="Log Out"
+            android:icon="@drawable/logout"
+            />
     </group>
 
     <item android:title="Uploads">
