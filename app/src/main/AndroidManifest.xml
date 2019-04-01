@@ -9,6 +9,7 @@
         android:roundIcon="@drawable/dsc_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".DetailActivity"></activity>
         <activity
             android:name=".SplashScreen"
             android:label="NoticeBoard"
@@ -22,23 +23,23 @@
         <activity
             android:name=".LoginActivity"
             android:label="NoticeBoard"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".SignUpActivity"
             android:label="NoticeBoard"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-            <!--<intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
     </application>
 
