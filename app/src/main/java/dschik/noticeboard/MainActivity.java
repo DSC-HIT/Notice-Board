@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity
     private String PASS_WORD = "password";
     private String DEFAULT = "null";
 
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

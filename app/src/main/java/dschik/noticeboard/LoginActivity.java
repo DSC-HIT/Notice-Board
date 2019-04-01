@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 public class LoginActivity extends Activity {
-
     Button register;
     EditText username,password;
     String userrole="admin";
@@ -38,7 +37,6 @@ public class LoginActivity extends Activity {
     private String PASS_WORD = "password";
 
     private FirebaseAuth mAuth;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

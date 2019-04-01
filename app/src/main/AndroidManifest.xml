@@ -12,7 +12,7 @@
         <activity
             android:name=".SplashScreen"
             android:label="NoticeBoard"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,13 +22,12 @@
         <activity
             android:name=".LoginActivity"
             android:label="NoticeBoard"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".SignUpActivity"
             android:label="NoticeBoard"
-            android:theme="@style/AppTheme.NoActionBar">
-
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name=".MainActivity"
