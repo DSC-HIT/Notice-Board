@@ -36,8 +36,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 
+<<<<<<< HEAD
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
+=======
+public class LoginActivity extends Activity {
+>>>>>>> b31a6611248d6f84d2a2afd6b21b91a05b402fd7
     Button register;
 
     EditText username, password;
@@ -57,9 +61,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     String pass_word;
 
     private FirebaseAuth mAuth;
+<<<<<<< HEAD
 
     GoogleApiClient mGoogleApiClient;
 
+=======
+>>>>>>> b31a6611248d6f84d2a2afd6b21b91a05b402fd7
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
