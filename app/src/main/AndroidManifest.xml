@@ -9,7 +9,9 @@
         android:roundIcon="@drawable/dsc_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DetailActivity"></activity>
+        <activity
+            android:name=".DetailActivity">
+        </activity>
         <activity
             android:name=".SplashScreen"
             android:label="NoticeBoard"
@@ -32,12 +34,14 @@
             android:theme="@style/AppTheme">
         </activity>
 =======
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        android:theme="@style/AppTheme">
         <activity
             android:name=".SignUpActivity"
             android:label="NoticeBoard"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
->>>>>>> origin/master
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        >>>>>>> origin/master
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
