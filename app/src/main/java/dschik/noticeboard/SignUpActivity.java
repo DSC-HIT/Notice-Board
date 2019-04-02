@@ -61,7 +61,7 @@ public class SignUpActivity extends AppCompatActivity implements  GoogleApiClien
         mAuth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken("766540027212-bhi293a09qqgr2knbgp9l3sfdqj9a33b.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
         //default_web_client_id
@@ -158,15 +158,19 @@ public class SignUpActivity extends AppCompatActivity implements  GoogleApiClien
     @Override
     public void onActivityResult(int req, int resultCode, Intent data) {
         super.onActivityResult(req, resultCode, data);
+        Log.d("aa","test");
         if (req == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            Log.d("aa","hell");
             if (result.isSuccess()) {
+                Log.d("aa","hello");
                 GoogleSignInAccount account = result.getSignInAccount();
                 String name = "";
                 try {
                     firebaseAuthWithGoogle(account);
                 } catch (NullPointerException n) {
                     n.printStackTrace();
+                    Log.d("aa","packman");
                 }
                 Toast.makeText(this, name, Toast.LENGTH_LONG).show();
             }

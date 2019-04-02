@@ -25,12 +25,12 @@
         <activity
             android:name=".LoginActivity"
             android:label="NoticeBoard"
-            android:theme="@style/AppTheme">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         </activity>
         <activity
             android:name=".SignUpActivity"
             android:label="NoticeBoard"
-            android:theme="@style/AppTheme">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         </activity>
         <activity
             android:name=".MainActivity"
@@ -43,6 +43,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             -->
+        </activity>
+        <activity android:name=".UploadActivity"
+            android:label="NoticeBoard"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+
         </activity>
     </application>
 

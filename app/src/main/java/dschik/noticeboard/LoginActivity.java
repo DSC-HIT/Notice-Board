@@ -36,15 +36,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 
-
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     Button register;
 
     EditText username, password;
-    String userrole = "admin";
+    //String userrole = "admin";
     TextView signin;
-    private String[] userRoleString = new String[]{"admin", "student"};
+    //private String[] userRoleString = new String[]{"admin", "student"};
 
     private static final int RC_SIGN_IN = 9001;
 
@@ -60,6 +59,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private FirebaseAuth mAuth;
 
     GoogleApiClient mGoogleApiClient;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,14 +71,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mAuth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken("766540027212-bhi293a09qqgr2knbgp9l3sfdqj9a33b.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
 
 
         register = (Button) findViewById(R.id.register_button);
@@ -89,16 +88,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (userrole.equals("admin")) {
-                    user_name = username.getText().toString();
-                    pass_word = password.getText().toString();
+                user_name = username.getText().toString();
+                pass_word = password.getText().toString();
 
-                    if (TextUtils.isEmpty(pass_word)) {
-                        password.setError("Invalid password");
-                    } else {
-                        signin(user_name, pass_word);
-                    }
+                if (TextUtils.isEmpty(pass_word)) {
+                    password.setError("Invalid password");
+                } else {
+                    signin(user_name, pass_word);
                 }
+
             }
         });
 
@@ -130,7 +128,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
-                if(account != null)
+                if (account != null)
                     firebaseAuthWithGoogle(account);
             }
         }
@@ -154,7 +152,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 name = user.getDisplayName();
                                 user_name = user.getEmail();
                                 pass_word = user.getUid();//using ID as password
-                                Log.d("aa",name+"=="+user_name+"=="+pass_word);
+                                Log.d("aa", name + "==" + user_name + "==" + pass_word);
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
@@ -208,9 +206,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("aa", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed."+task.getException(),
+                            Toast.makeText(LoginActivity.this, "Authentication failed." + task.getException(),
                                     Toast.LENGTH_SHORT).show();
-                            Log.d("aa",task.getException()+"");
+                            Log.d("aa", task.getException() + "");
                             //updateUI(null);
                         }
 
