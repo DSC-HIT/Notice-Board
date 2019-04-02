@@ -15,5 +15,5 @@
     <string name="login"><u>LOGIN</u></string>
     <string name="register"><u>REGISTER</u></string>
     <string name="forgot_password"><u>Forgot Password?</u></string>
-
+    <!--<string name="default_web_client_id" translatable="false">123.googleusercontent.com</string>-->
 </resources>

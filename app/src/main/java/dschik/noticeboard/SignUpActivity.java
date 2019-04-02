@@ -64,6 +64,7 @@ public class SignUpActivity extends AppCompatActivity implements  GoogleApiClien
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+        //default_web_client_id
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
