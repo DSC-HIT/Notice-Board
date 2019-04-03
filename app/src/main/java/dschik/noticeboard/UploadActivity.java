@@ -214,19 +214,25 @@ public class UploadActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-
+            Intent intent=new Intent(UploadActivity.this,NoticeViewer.class);
+            startActivity(intent);
         } else if (id == R.id.nav_announcement) {
-
+            Intent intent=new Intent(UploadActivity.this,AnnouncementActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_notes) {
+            Intent intent=new Intent(UploadActivity.this,NotesDownload.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share_announcements) {
             Intent intent=new Intent(UploadActivity.this,UploadActivity.class);
             intent.putExtra("flag",true);
             startActivity(intent);
+            Toast.makeText(this,"you are already in upload page",Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_share_notes) {
             Intent intent=new Intent(UploadActivity.this,UploadActivity.class);
             intent.putExtra("flag",false);
             startActivity(intent);
+            Toast.makeText(this,"you are already in upload page",Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.logout){
 
