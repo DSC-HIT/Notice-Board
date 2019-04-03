@@ -118,8 +118,11 @@ public class NotesDownload extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            // Handle the camera action
+            Intent intent=new Intent(NotesDownload.this,NoticeViewer.class);
+            startActivity(intent);
         } else if (id == R.id.nav_announcement) {
+            Intent intent=new Intent(NotesDownload.this,AnnouncementActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_notes) {
             Intent intent=new Intent(NotesDownload.this,NotesDownload.class);
