@@ -5,133 +5,146 @@
     android:layout_height="match_parent"
     android:background="@drawable/loginback">
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="11dp"
-        android:src="@drawable/heritage_logo" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="11dp"
+                    android:src="@drawable/heritage_logo" />
 
-    <LinearLayout
-        android:id="@+id/reg_google"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="221dp"
-        android:background="#fff"
-        android:clickable="true"
-        android:orientation="horizontal"
-        android:layout_centerHorizontal="true">
+                <LinearLayout
+                    android:id="@+id/reg_google"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="221dp"
+                    android:background="#fff"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:layout_centerHorizontal="true">
 
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_margin="3dp"
-            android:src="@drawable/google_app_logo" />
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_margin="3dp"
+                        android:src="@drawable/google_app_logo" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="40dp"
-            android:paddingLeft="15dp"
-            android:paddingTop="8dp"
-            android:text="REGISTER WITH GOOGLE"
-            android:textSize="15sp" />
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="267dp"
-        android:text="OR"
-        android:textColor="#fff"
-        android:textSize="25sp"
-        android:layout_centerHorizontal="true"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="40dp"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="8dp"
+                        android:text="REGISTER WITH GOOGLE"
+                        android:textSize="15sp" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="267dp"
+                    android:text="OR"
+                    android:textColor="#fff"
+                    android:textSize="25sp"
+                    android:layout_centerHorizontal="true"/>
 
-    <View
-        android:layout_width="135dp"
-        android:layout_height="1dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="285dp"
-        android:background="#fff" />
+                <View
+                    android:layout_width="135dp"
+                    android:layout_height="1dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="285dp"
+                    android:background="#fff" />
 
-    <View
-        android:layout_width="135dp"
-        android:layout_height="1dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="285dp"
-        android:background="#fff" />
-    <EditText
-        android:id="@+id/signin_username"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="320dp"
-        android:layout_centerHorizontal="true"
-        android:background="#fff"
-        android:hint="Heritage ID"
-        android:inputType="textEmailAddress"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="30sp" />
+                <View
+                    android:layout_width="135dp"
+                    android:layout_height="1dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="285dp"
+                    android:background="#fff" />
+                <EditText
+                    android:id="@+id/signin_username"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="320dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="#fff"
+                    android:hint="Heritage ID"
+                    android:inputType="textEmailAddress"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="30sp" />
 
-    <EditText
-        android:id="@+id/signin_password"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="383dp"
-        android:background="#fff"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:shadowRadius="50"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="30dp" />
+                <EditText
+                    android:id="@+id/signin_password"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="383dp"
+                    android:background="#fff"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:shadowRadius="50"
+                    android:textAlignment="center"
+                    android:textColor="#000000"
+                    android:textSize="30dp" />
 
-    <Button
-        android:id="@+id/signin_button"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="456dp"
-        android:background="@drawable/my_button_bg"
-        android:text="@string/register"
-        android:textColor="#ffff"
-        android:textSize="20sp" />
+                <Button
+                    android:id="@+id/signin_button"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="456dp"
+                    android:background="@drawable/my_button_bg"
+                    android:text="@string/register"
+                    android:textColor="#ffff"
+                    android:textSize="20sp" />
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="560dp">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="560dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="-614dp"
-            android:text="Already have an account? "
-            android:textColor="#fff"
-            android:textSize="20sp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="-614dp"
+                        android:text="Already have an account? "
+                        android:textColor="#fff"
+                        android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/register"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:textColor="#fff"
-            android:textSize="25sp"
-            android:clickable="true"/>
-    </LinearLayout>
+                    <TextView
+                        android:id="@+id/register"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/login"
+                        android:textColor="#fff"
+                        android:textSize="25sp"
+                        android:clickable="true"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </RelativeLayout>

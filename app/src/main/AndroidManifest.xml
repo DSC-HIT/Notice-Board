@@ -45,8 +45,8 @@
             -->
         </activity>
         <activity android:name=".UploadActivity"
-            android:label="NoticeBoard"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:label="Upload Files Here"
+            android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
     </application>

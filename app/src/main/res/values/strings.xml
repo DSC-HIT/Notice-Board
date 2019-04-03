@@ -16,4 +16,10 @@
     <string name="register"><u>REGISTER</u></string>
     <string name="forgot_password"><u>Forgot Password?</u></string>
     <!--<string name="default_web_client_id" translatable="false">123.googleusercontent.com</string>-->
+
+    <string-array name="file_type">
+        <item>JPEG</item>
+        <item>PNG</item>
+        <item>PDF</item>
+    </string-array>
 </resources>

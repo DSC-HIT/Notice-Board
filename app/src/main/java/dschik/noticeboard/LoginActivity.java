@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mAuth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("766540027212-bhi293a09qqgr2knbgp9l3sfdqj9a33b.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -155,6 +155,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 Log.d("aa", name + "==" + user_name + "==" + pass_word);
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(i);
                                 //username.setText(user_name);
                                 //password.setText(pass_word);
@@ -182,6 +183,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if (currentUser != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(intent);
         }
 

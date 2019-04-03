@@ -132,11 +132,11 @@ public class MainActivity extends AppCompatActivity implements
 
         } else if (id == R.id.nav_share_announcements) {
             Intent intent=new Intent(MainActivity.this,UploadActivity.class);
-            intent.putExtra("che","announcements");
+            intent.putExtra("flag",true);
             startActivity(intent);
         } else if (id == R.id.nav_share_notes) {
             Intent intent=new Intent(MainActivity.this,UploadActivity.class);
-            intent.putExtra("kol","notes");
+            intent.putExtra("flag",false);
             startActivity(intent);
         }
         else if (id == R.id.logout){
@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements
         mAuth.signOut();
         Intent i = new Intent(this,LoginActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(i);
         Toast.makeText(this,"Log In Please",Toast.LENGTH_SHORT).show();
 
@@ -170,11 +171,25 @@ public class MainActivity extends AppCompatActivity implements
     public void onDestroy()
     {
         super.onDestroy();
-        Intent intent = new Intent(Intent.ACTION_MAIN);
+        /*Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        startActivity(intent);*/
     }
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        if(mAuth.getCurrentUser() ==  null)
+        {
+            Intent intent= new Intent(MainActivity.this, LoginActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+    }
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {

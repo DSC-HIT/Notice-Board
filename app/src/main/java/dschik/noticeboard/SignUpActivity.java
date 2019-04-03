@@ -61,9 +61,11 @@ public class SignUpActivity extends AppCompatActivity implements  GoogleApiClien
         mAuth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("766540027212-bhi293a09qqgr2knbgp9l3sfdqj9a33b.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+
+        Log.d("aa",getString(R.string.default_web_client_id));
         //default_web_client_id
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
