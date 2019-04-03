@@ -207,8 +207,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("aa", "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed."+task.getException(),
+                            Log.d("aa", "signInWithEmail:failure"+task.getException().getMessage());
+                            Toast.makeText(LoginActivity.this, task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             Log.d("aa",task.getException()+"");
                             //updateUI(null);

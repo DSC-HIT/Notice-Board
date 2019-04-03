@@ -144,8 +144,8 @@ public class SignUpActivity extends AppCompatActivity implements  GoogleApiClien
                                     Toast.LENGTH_SHORT).show();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d("aa", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(SignUpActivity.this, "Authentication failed."+task.getException(),
+                            Log.d("aa", "createUserWithEmail:failure"+ task.getException().getMessage());
+                            Toast.makeText(SignUpActivity.this, "Authentication failed."+task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
                         }
@@ -203,7 +203,7 @@ public class SignUpActivity extends AppCompatActivity implements  GoogleApiClien
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.w("aa", "signInWithCredential:failure", task.getException());
+                            Log.d("aa", "signInWithCredential:failure"+ task.getException());
                             Toast.makeText(SignUpActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
 
                         }

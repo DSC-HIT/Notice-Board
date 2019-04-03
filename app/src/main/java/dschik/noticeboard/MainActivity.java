@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,12 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
@@ -67,7 +70,18 @@ public class MainActivity extends AppCompatActivity implements
 
         View header = navigationView.getHeaderView(0);
         TextView usr = header.findViewById(R.id.userText);
-        usr.setText(mAuth.getCurrentUser().getDisplayName());
+
+        FirebaseUser user= mAuth.getCurrentUser();
+        Log.d("aa",user.getDisplayName().length()+"99");
+        if(user.getDisplayName().length() == 0)
+        {
+            String s = user.getEmail();
+            int in = s.indexOf('@');
+            s = s.substring(0,in);
+            usr.setText(s);
+        }else
+            usr.setText(user.getDisplayName());
+
     }
 
     @Override
