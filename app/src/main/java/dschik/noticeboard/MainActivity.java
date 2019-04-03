@@ -131,9 +131,13 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.nav_notes) {
 
         } else if (id == R.id.nav_share_announcements) {
-
+            Intent intent=new Intent(MainActivity.this,UploadActivity.class);
+            intent.putExtra("che","announcements");
+            startActivity(intent);
         } else if (id == R.id.nav_share_notes) {
-
+            Intent intent=new Intent(MainActivity.this,UploadActivity.class);
+            intent.putExtra("kol","notes");
+            startActivity(intent);
         }
         else if (id == R.id.logout){
             shedit = sh.edit();
