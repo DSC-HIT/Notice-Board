@@ -1,5 +1,6 @@
 package dschik.noticeboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -115,18 +116,26 @@ public class AnnouncementActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_notice) {
+            Intent intent=new Intent(AnnouncementActivity.this,NoticeViewer.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_announcement) {
+            Intent intent=new Intent(AnnouncementActivity.this,AnnouncementActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_notes) {
+            Intent intent=new Intent(AnnouncementActivity.this,NotesDownload.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_logout) {
 
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_share_announcements) {
+            Intent intent=new Intent(AnnouncementActivity.this,UploadActivity.class);
+            intent.putExtra("flag",true);
+            startActivity(intent);
+        } else if (id == R.id.nav_share_notes) {
+            Intent intent=new Intent(AnnouncementActivity.this,UploadActivity.class);
+            intent.putExtra("flag",false);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
