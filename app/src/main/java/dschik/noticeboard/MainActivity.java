@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity implements
         } else if (id == R.id.nav_announcement) {
 
         } else if (id == R.id.nav_notes) {
+            Intent intent=new Intent(MainActivity.this,NotesDownload.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share_announcements) {
             Intent intent=new Intent(MainActivity.this,UploadActivity.class);
