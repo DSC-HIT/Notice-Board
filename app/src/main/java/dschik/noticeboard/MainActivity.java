@@ -134,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements
             Intent intent=new Intent(MainActivity.this,NoticeViewer.class);
             startActivity(intent);
         } else if (id == R.id.nav_announcement) {
+            Intent intent=new Intent(MainActivity.this,AnnouncementActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_notes) {
             Intent intent=new Intent(MainActivity.this,NotesDownload.class);
