@@ -70,7 +70,7 @@ public class AnnouncementActivity extends AppCompatActivity
     }
     private ArrayList<DataObject> getDataSet() {
         ArrayList results = new ArrayList<DataObject>();
-        for (int index = 1; index < 20; index++) {
+        for (int index = 0; index < 20; index++) {
             DataObject obj = new DataObject("ANNOUNCEMENT " + index,
                     "TOPIC" + index);
             results.add(index, obj);
