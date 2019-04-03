@@ -26,7 +26,6 @@
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true"
                 android:textColor="#08104c"/>
-
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
@@ -50,7 +49,7 @@
                 android:layout_width="40dp"
                 android:layout_marginLeft="10dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_file_download_black_24dp"/>
+                android:background="@drawable/ic_share_black_24dp"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

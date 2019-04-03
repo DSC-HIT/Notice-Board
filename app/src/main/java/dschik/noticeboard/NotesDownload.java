@@ -73,8 +73,8 @@ public class NotesDownload extends AppCompatActivity
     private ArrayList<DataObject> getDataSet() {
         ArrayList results = new ArrayList<DataObject>();
         for (int index = 0; index < 20; index++) {
-            DataObject obj = new DataObject("Some Primary Text " + index,
-                    "Secondary " + index);
+            DataObject obj = new DataObject("NOTE " + index,
+                    "SUBJECT" + index);
             results.add(index, obj);
         }
         return results;
