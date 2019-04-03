@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".AnnouncementActivity"
+            android:label="@string/title_activity_announcement"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".NoticeViewer"
             android:label="@string/title_activity_notice_viewer"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NotesDownload"
             android:label="@string/title_activity_notes_download"

@@ -24,4 +24,5 @@
     </string-array>
     <string name="title_activity_notes_download">NotesDownload</string>
     <string name="title_activity_notice_viewer">NoticeViewer</string>
+    <string name="title_activity_announcement">AnnouncementActivity</string>
 </resources>
