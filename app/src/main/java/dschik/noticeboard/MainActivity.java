@@ -72,7 +72,13 @@ public class MainActivity extends AppCompatActivity implements
         TextView usr = header.findViewById(R.id.userText);
 
         FirebaseUser user= mAuth.getCurrentUser();
-        Log.d("aa",user.getDisplayName().length()+"99");
+        try {
+
+            Log.d("aa", user.getDisplayName().length() + "99");
+        }
+        catch (NullPointerException ob1){
+            ob1.printStackTrace();
+        }
         if(user.getDisplayName().length() == 0)
         {
             String s = user.getEmail();
