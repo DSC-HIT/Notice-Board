@@ -125,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            // Handle the camera action
+            Intent intent=new Intent(MainActivity.this,NoticeViewer.class);
+            startActivity(intent);
         } else if (id == R.id.nav_announcement) {
 
         } else if (id == R.id.nav_notes) {
