@@ -23,16 +23,12 @@
           }
         },
         {
-          "client_id": "766540027212-j8k4lfakhi60uo1po1c1nmvl05efpl1m.apps.googleusercontent.com",
+          "client_id": "766540027212-26otpa1io0l3hggu60k6r0o323djc1s9.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "dschik.noticeboard",
             "certificate_hash": "07a65700c5ed117212163996d75ae96c0cf542db"
           }
-        },
-        {
-          "client_id": "766540027212-2aprl8n1hp19j29q6olnjijfhn5oca11.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -41,20 +37,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "766540027212-2aprl8n1hp19j29q6olnjijfhn5oca11.apps.googleusercontent.com",
+              "client_id": "766540027212-l8dc12v6l0hqqk0f6k6atf858g2n6tju.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mAuth = FirebaseAuth.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestIdToken("766540027212-2aprl8n1hp19j29q6olnjijfhn5oca11.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -126,10 +126,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onActivityResult(req, resultCode, data);
         if (req == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            Log.d("aa",result.getStatus().getStatusCode()+"**");
             if (result.isSuccess()) {
+                Log.d("aa","pp");
                 GoogleSignInAccount account = result.getSignInAccount();
                 if (account != null)
                     firebaseAuthWithGoogle(account);
+            }
+            else
+            {
+                Log.d("aa","qq");
             }
         }
     }
@@ -225,4 +231,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
+    @Override
+    public void onDestroy()
+    {
+        super.onDestroy();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+
+
 }
