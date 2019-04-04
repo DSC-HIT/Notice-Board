@@ -72,7 +72,13 @@ public class MainActivity extends AppCompatActivity implements
         TextView usr = header.findViewById(R.id.userText);
 
         FirebaseUser user= mAuth.getCurrentUser();
-        Log.d("aa",user.getDisplayName().length()+"99");
+        try {
+
+            Log.d("aa", user.getDisplayName().length() + "99");
+        }
+        catch (NullPointerException ob1){
+            ob1.printStackTrace();
+        }
         if(user.getDisplayName().length() == 0)
         {
             String s = user.getEmail();
@@ -93,7 +99,6 @@ public class MainActivity extends AppCompatActivity implements
             super.onBackPressed();
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -125,10 +130,15 @@ public class MainActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            // Handle the camera action
+            Intent intent=new Intent(MainActivity.this,NoticeViewer.class);
+            startActivity(intent);
         } else if (id == R.id.nav_announcement) {
+            Intent intent=new Intent(MainActivity.this,AnnouncementActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_notes) {
+            Intent intent=new Intent(MainActivity.this,NotesDownload.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share_announcements) {
             Intent intent=new Intent(MainActivity.this,UploadActivity.class);

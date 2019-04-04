@@ -9,11 +9,10 @@
         android:id="@+id/splashscreen"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:src="@drawable/dsc_logo" />
+        android:src="@drawable/dsc_logo_splash_screen" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="WELCOME TO HERITAGE GUIDE"
         android:textAlignment="center"/>
-
 </LinearLayout>
