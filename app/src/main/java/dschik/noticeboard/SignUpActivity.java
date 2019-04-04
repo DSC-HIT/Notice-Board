@@ -127,7 +127,7 @@ public class SignUpActivity extends AppCompatActivity implements  GoogleApiClien
 
     }
 
-    private void createAccount(String username, String password)
+    private void createAccount(final String username, String password)
     {
         mAuth.createUserWithEmailAndPassword(username,password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -137,6 +137,10 @@ public class SignUpActivity extends AppCompatActivity implements  GoogleApiClien
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("aa", "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            shedit.putString("dis_name",username);
+                            shedit.apply();
+
                             Intent intent=new Intent(SignUpActivity.this,MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(intent);
@@ -193,14 +197,20 @@ public class SignUpActivity extends AppCompatActivity implements  GoogleApiClien
                             String name = "";
                             try {
                                 name = user.getDisplayName();
+
+                                shedit.putString("dis_name",name);
+                                shedit.apply();
+
+
                                 user_name = user.getEmail();
-                                pass_word = user.getUid();//using ID as password
+                                pass_word = user.getUid();
                                 Log.d("aa",name+"=="+user_name+"=="+pass_word);
                                 Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
-                                //username.setText(user_name);
-                                //password.setText(pass_word);
+
+
+
                             } catch (NullPointerException n) {
                                 n.printStackTrace();
                             }

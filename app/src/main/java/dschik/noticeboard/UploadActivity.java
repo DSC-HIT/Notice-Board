@@ -2,7 +2,9 @@ package dschik.noticeboard;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -62,6 +64,8 @@ public class UploadActivity extends AppCompatActivity implements
 
     private Uri filePath;
 
+    SharedPreferences sh;
+
 
     private Button choose;
     private Button upload;
@@ -84,6 +88,7 @@ public class UploadActivity extends AppCompatActivity implements
         choose.setOnClickListener(this);
         upload.setOnClickListener(this);
 
+        sh = getSharedPreferences("shared",Context.MODE_PRIVATE);
 
 
         //getting intent and setting the motto
@@ -131,16 +136,7 @@ public class UploadActivity extends AppCompatActivity implements
         View header = navigationView.getHeaderView(0);
         usr = header.findViewById(R.id.userText);
 
-        FirebaseUser user= mAuth.getCurrentUser();
-        Log.d("aa",user.getDisplayName().length()+"99");
-        if(user.getDisplayName().length() == 0)
-        {
-            String s = user.getEmail();
-            int in = s.indexOf('@');
-            s = s.substring(0,in);
-            usr.setText(s);
-        }else
-            usr.setText(user.getDisplayName());
+        usr.setText(sh.getString("dis_name","user"));
 
 
 

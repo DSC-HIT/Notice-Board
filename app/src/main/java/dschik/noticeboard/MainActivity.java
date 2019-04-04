@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
         ,NavigationView.OnNavigationItemSelectedListener {
     SharedPreferences sh;
-    SharedPreferences.Editor shedit;
+
 
     GoogleApiClient mGoogleApiClient;
     private String USER_NAME = "username";
@@ -46,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sh = getSharedPreferences("shared",Context.MODE_PRIVATE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -72,21 +74,8 @@ public class MainActivity extends AppCompatActivity implements
         TextView usr = header.findViewById(R.id.userText);
 
         FirebaseUser user= mAuth.getCurrentUser();
-        try {
 
-            Log.d("aa", user.getDisplayName().length() + "99");
-        }
-        catch (NullPointerException ob1){
-            ob1.printStackTrace();
-        }
-        if(user.getDisplayName().length() == 0)
-        {
-            String s = user.getEmail();
-            int in = s.indexOf('@');
-            s = s.substring(0,in);
-            usr.setText(s);
-        }else
-            usr.setText(user.getDisplayName());
+        usr.setText(sh.getString("dis_name","user"));
 
     }
 
@@ -150,10 +139,7 @@ public class MainActivity extends AppCompatActivity implements
             startActivity(intent);
         }
         else if (id == R.id.logout){
-            shedit = sh.edit();
-            shedit.putString(USER_NAME,DEFAULT);
-            shedit.putString(PASS_WORD,DEFAULT);
-            shedit.apply();
+
             signOut();
         }
 

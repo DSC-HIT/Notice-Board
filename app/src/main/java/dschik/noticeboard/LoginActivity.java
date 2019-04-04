@@ -156,6 +156,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             String name = "";
                             try {
                                 name = user.getDisplayName();
+
+                                shedit.putString("dis_name",name);
+                                shedit.apply();
+
+
                                 user_name = user.getEmail();
                                 pass_word = user.getUid();//using ID as password
                                 Log.d("aa", name + "==" + user_name + "==" + pass_word);
@@ -163,6 +168,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(i);
+
                                 //username.setText(user_name);
                                 //password.setText(pass_word);
                             } catch (NullPointerException n) {
@@ -195,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
-    private void signin(String username, String password) {
+    private void signin(final String username, String password) {
         mAuth.signInWithEmailAndPassword(username, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -205,9 +211,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             Log.d("aa", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
+
+                                shedit.putString("dis_name",username.substring(0,username.indexOf('@')));
+                                shedit.apply();
+
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
+
                             }
 
                             //updateUI(user);
