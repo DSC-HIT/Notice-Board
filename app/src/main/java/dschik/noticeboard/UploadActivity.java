@@ -36,16 +36,21 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.net.URL;
 
 
 public class UploadActivity extends AppCompatActivity implements
@@ -56,6 +61,8 @@ public class UploadActivity extends AppCompatActivity implements
 
     private static final int PICK_IMAGE_REQUEST = 123;
     private StorageReference mStorageRef;
+    FirebaseDatabase db;
+    DatabaseReference dbref;
 
     private final String type_ext[]={".jpeg",".png",".pdf"};
     private String type_name;
@@ -154,7 +161,8 @@ public class UploadActivity extends AppCompatActivity implements
         //firebase storage
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
-
+        db = FirebaseDatabase.getInstance();
+        dbref = db.getReference();
 
 
     }
@@ -284,7 +292,10 @@ public class UploadActivity extends AppCompatActivity implements
         }
         else if(v == upload)
         {
-            uploadFile();
+            if(file.getText().toString().equals(""))
+                file.setError("Invalid Name!!!");
+            else
+                uploadFile();
         }
 
     }
@@ -304,8 +315,11 @@ public class UploadActivity extends AppCompatActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
             filePath = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
@@ -319,6 +333,7 @@ public class UploadActivity extends AppCompatActivity implements
                 }else {
                     imagePreview.setImageResource(R.drawable.pdf_logo);
                 }
+
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -336,7 +351,9 @@ public class UploadActivity extends AppCompatActivity implements
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Uploading");
             progressDialog.show();
-            String file_name = file.getText().toString();
+
+            final String file_name = file.getText().toString();
+
             StorageReference rRef = mStorageRef.child(motto+"/"+file_name+type_name);
 
 
@@ -350,6 +367,20 @@ public class UploadActivity extends AppCompatActivity implements
 
                             //and displaying a success toast
                             Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+
+                            String url = taskSnapshot.getDownloadUrl().toString();
+                            dbref.child(file_name).setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful())
+                                    {
+                                        Toast.makeText(UploadActivity.this,"Upload successful",Toast.LENGTH_SHORT).show();
+                                    }else {
+                                        Toast.makeText(UploadActivity.this,"Upload NOT successful",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

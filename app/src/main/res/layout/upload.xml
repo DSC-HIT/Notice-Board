@@ -54,7 +54,7 @@
                         android:layout_marginRight="25dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Enter the name of the file."/>
+                        android:hint="Enter the name of the file." />
                 </LinearLayout>
 
 

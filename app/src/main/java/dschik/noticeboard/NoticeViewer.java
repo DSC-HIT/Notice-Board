@@ -101,15 +101,19 @@ public class NoticeViewer extends AppCompatActivity
             }
         });
     }
-        private ArrayList<DataObject> getDataSet() {
-        ArrayList results = new ArrayList<DataObject>();
-        for (int index = 0; index < 20; index++) {
-            DataObject obj = new DataObject("NOTICE " + index,
-                    "Notice head" + index);
-            results.add(index, obj);
-        }
-        return results;
+
+
+    private ArrayList<DataObject> getDataSet() {
+    ArrayList results = new ArrayList<DataObject>();
+    for (int index = 0; index < 20; index++) {
+        DataObject obj = new DataObject("NOTICE " + index,
+                "Notice head" + index);
+        results.add(index, obj);
     }
+    return results;
+    }
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

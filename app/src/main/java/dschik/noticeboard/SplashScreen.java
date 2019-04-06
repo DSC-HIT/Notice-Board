@@ -13,7 +13,7 @@ public class SplashScreen extends Activity {
     private String USER_NAME = "username";
     private String PASS_WORD = "password";
     private String DEFAULT = "null";
-    private final int splash_display_length=1500;
+    private final int splash_display_length=1;
 
     @Override
     public void onCreate(Bundle savedInstanceState){

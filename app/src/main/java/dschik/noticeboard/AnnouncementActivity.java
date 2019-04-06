@@ -30,6 +30,11 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -39,6 +44,11 @@ public class AnnouncementActivity extends AppCompatActivity
 
     GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
+
+    FirebaseDatabase db;
+    DatabaseReference dbref;
+
+    ArrayList results = new ArrayList<DataObject>();
 
     SharedPreferences sh;
 
@@ -61,6 +71,44 @@ public class AnnouncementActivity extends AppCompatActivity
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
+
+        db = FirebaseDatabase.getInstance();
+        dbref = db.getReference();
+
+        dbref.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String file= dataSnapshot.getKey();
+                String url = dataSnapshot.getValue(String.class);
+                int index =0;
+                Log.d("aa",file+"++"+url);
+                DataObject obj = new DataObject(file,url);
+                results.add(index, obj);
+                index++;
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -115,15 +163,14 @@ public class AnnouncementActivity extends AppCompatActivity
             }
         });
     }
+
+
     private ArrayList<DataObject> getDataSet() {
-        ArrayList results = new ArrayList<DataObject>();
-        for (int index = 0; index < 20; index++) {
-            DataObject obj = new DataObject("ANNOUNCEMENT " + index,
-                    "TOPIC" + index);
-            results.add(index, obj);
-        }
+
         return results;
     }
+
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -210,4 +257,6 @@ public class AnnouncementActivity extends AppCompatActivity
             }
         });
     }
+
+
 }
