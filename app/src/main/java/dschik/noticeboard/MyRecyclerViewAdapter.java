@@ -1,18 +1,18 @@
 package dschik.noticeboard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.DataObjectHolder> {
-
-
 
     private static String LOG_TAG = "MyRecyclerViewAdapter";
     private ArrayList<DataObject> mDataset;
@@ -22,13 +22,25 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         TextView label;
         TextView dateTime;
-
-        public DataObjectHolder(View itemView) {
+        Button b;
+        public DataObjectHolder(final View itemView) {
             super(itemView);
             label = (TextView) itemView.findViewById(R.id.textView);
             dateTime = (TextView) itemView.findViewById(R.id.textView2);
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
+            b=itemView.findViewById(R.id.carder_button2);
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String text=dateTime.getText().toString();
+                    Intent intent=new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_SUBJECT,"Your Subject");
+                    intent.putExtra(Intent.EXTRA_TEXT,text);
+                    itemView.getContext().startActivity(Intent.createChooser(intent,"Share text via"));
+                }
+            });
         }
 
         @Override

@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +62,6 @@ public class NotesDownload extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_download);
-
         sh = getSharedPreferences("shared", Context.MODE_PRIVATE);
 
         mAuth = FirebaseAuth.getInstance();
@@ -149,6 +149,29 @@ public class NotesDownload extends AppCompatActivity
         TextView usr = header.findViewById(R.id.userText);
 
         usr.setText(sh.getString("dis_name","user"));
+
+        final TextView t=(TextView) findViewById(R.id.textView2);
+        Button b=(Button)findViewById(R.id.carder_button2);
+
+        /*b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String text=t.getText().toString();
+                Intent intent=new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_SUBJECT,"Your Subject");
+                intent.putExtra(Intent.EXTRA_TEXT,text);
+                startActivity(Intent.createChooser(intent,"Share text via"));
+                Intent intent=new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                String shareBody="Your body here";
+                String shareSub="Your Subject here";
+                intent.putExtra(Intent.EXTRA_SUBJECT,shareSub);
+                intent.putExtra(Intent.EXTRA_TEXT,shareSub);
+                startActivity(Intent.createChooser(intent,"Share using"));
+
+            }
+        });*/
     }
     @Override
     protected void onResume() {
@@ -162,7 +185,6 @@ public class NotesDownload extends AppCompatActivity
         });
     }
     private ArrayList<DataObject> getDataSet() {
-
         return results;
     }
     @Override
@@ -235,7 +257,6 @@ public class NotesDownload extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
     private void signOut() {
         mAuth.signOut();
         Intent i = new Intent(this,LoginActivity.class);
