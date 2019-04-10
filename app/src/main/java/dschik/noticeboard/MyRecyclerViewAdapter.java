@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -22,11 +24,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         TextView label;
         TextView dateTime;
+        Button view;
 
-        public DataObjectHolder(View itemView) {
+        public DataObjectHolder(final View itemView) {
             super(itemView);
             label = (TextView) itemView.findViewById(R.id.textView);
             dateTime = (TextView) itemView.findViewById(R.id.textView2);
+            view = itemView.findViewById(R.id.carder_button1);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(itemView.getContext(),"clicked",Toast.LENGTH_SHORT).show();
+                }
+            });
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
         }

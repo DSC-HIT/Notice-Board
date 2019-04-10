@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -87,6 +88,7 @@ public class NotesDownload extends AppCompatActivity
                 results.add(index, obj);
                 index++;
                 mRecyclerView.setAdapter(mAdapter);
+
             }
 
             @Override
@@ -149,6 +151,8 @@ public class NotesDownload extends AppCompatActivity
         TextView usr = header.findViewById(R.id.userText);
 
         usr.setText(sh.getString("dis_name","user"));
+
+
     }
     @Override
     protected void onResume() {
