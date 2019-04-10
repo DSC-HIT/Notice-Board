@@ -62,7 +62,6 @@ public class NotesDownload extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_download);
-
         sh = getSharedPreferences("shared", Context.MODE_PRIVATE);
 
         mAuth = FirebaseAuth.getInstance();
@@ -151,8 +150,7 @@ public class NotesDownload extends AppCompatActivity
         TextView usr = header.findViewById(R.id.userText);
 
         usr.setText(sh.getString("dis_name","user"));
-
-
+        
     }
     @Override
     protected void onResume() {
@@ -166,7 +164,6 @@ public class NotesDownload extends AppCompatActivity
         });
     }
     private ArrayList<DataObject> getDataSet() {
-
         return results;
     }
     @Override
@@ -239,7 +236,6 @@ public class NotesDownload extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
     private void signOut() {
         mAuth.signOut();
         Intent i = new Intent(this,LoginActivity.class);
