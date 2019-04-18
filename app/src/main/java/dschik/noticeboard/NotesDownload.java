@@ -150,7 +150,7 @@ public class NotesDownload extends AppCompatActivity
         TextView usr = header.findViewById(R.id.userText);
 
         usr.setText(sh.getString("dis_name","user"));
-        
+
     }
     @Override
     protected void onResume() {

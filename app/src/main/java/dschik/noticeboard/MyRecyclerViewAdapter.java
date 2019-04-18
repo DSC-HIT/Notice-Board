@@ -44,10 +44,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 @Override
                 public void onClick(View view) {
                     String text=dateTime.getText().toString();
+                    String title = label.getText().toString();
                     Intent intent=new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
                     intent.putExtra(Intent.EXTRA_SUBJECT,"Your Subject");
-                    intent.putExtra(Intent.EXTRA_TEXT,text);
+                    intent.putExtra(Intent.EXTRA_TEXT,title+"\n"+text);
                     itemView.getContext().startActivity(Intent.createChooser(intent,"Share text via"));
                 }
             });

@@ -31,6 +31,12 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class NoticeViewer extends AppCompatActivity
@@ -45,6 +51,10 @@ public class NoticeViewer extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static String LOG_TAG = "CardViewActivity";
+
+
+    JSONObject jobj;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +99,27 @@ public class NoticeViewer extends AppCompatActivity
         TextView usr = header.findViewById(R.id.userText);
 
         usr.setText(sh.getString("dis_name","user"));
+
+
     }
+
+    private String readJSONFromAsset() { //utility fucntion to get json data from assets
+        String json = null;
+        try {
+            InputStream is = getAssets().open("heridata.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+    }
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -104,13 +134,34 @@ public class NoticeViewer extends AppCompatActivity
 
 
     private ArrayList<DataObject> getDataSet() {
-    ArrayList results = new ArrayList<DataObject>();
-    for (int index = 0; index < 20; index++) {
-        DataObject obj = new DataObject("NOTICE " + index,
-                "Notice head" + index);
-        results.add(index, obj);
-    }
-    return results;
+
+        try {
+            jobj = new JSONObject(readJSONFromAsset());
+
+            //Log.d("aa",jobj.toString());
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        ArrayList results = new ArrayList<DataObject>();
+        try {
+            int i =0;
+            JSONArray jarray = jobj.getJSONArray("notice");
+            int size = jarray.length();
+            //Log.d("aa","test"+size);
+            for (i=0; i< size; i++) {
+                JSONObject j = jarray.getJSONObject(i+1);
+                String head = j.getString("heading");
+                String link = j.getString("link");
+                DataObject obj = new DataObject(head, link);
+                results.add(i, obj);
+                //Log.d("aa","*--");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return results;
     }
 
 
