@@ -37,6 +37,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class NoticeViewer extends AppCompatActivity
@@ -61,6 +63,8 @@ public class NoticeViewer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_viewer);
 
+
+
         sh = getSharedPreferences("shared",Context.MODE_PRIVATE);
 
         mAuth = FirebaseAuth.getInstance();
@@ -78,8 +82,15 @@ public class NoticeViewer extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MyRecyclerViewAdapter(getDataSet());
-        mRecyclerView.setAdapter(mAdapter);
+
+        NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView);
+        URL url[] = new URL[1];
+        try {
+            url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        noticeAsyncTask.execute(url);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -103,66 +114,17 @@ public class NoticeViewer extends AppCompatActivity
 
     }
 
-    private String readJSONFromAsset() { //utility fucntion to get json data from assets
-        String json = null;
-        try {
-            InputStream is = getAssets().open("heridata.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
-    }
+
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter
-                .MyClickListener() {
-            @Override
-            public void onItemClick(int position, View v) {
-                Log.i(LOG_TAG, " Clicked on Item " + position);
-            }
-        });
+
     }
 
 
-    private ArrayList<DataObject> getDataSet() {
 
-        try {
-            jobj = new JSONObject(readJSONFromAsset());
-
-            //Log.d("aa",jobj.toString());
-        }catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        ArrayList results = new ArrayList<DataObject>();
-        try {
-            int i =0;
-            JSONArray jarray = jobj.getJSONArray("notice");
-            int size = jarray.length();
-            //Log.d("aa","test"+size);
-            for (i=0; i< size; i++) {
-                JSONObject j = jarray.getJSONObject(i+1);
-                String head = j.getString("heading");
-                String link = j.getString("link");
-                DataObject obj = new DataObject(head, link);
-                results.add(i, obj);
-                //Log.d("aa","*--");
-            }
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-        return results;
-    }
 
 
     @Override
