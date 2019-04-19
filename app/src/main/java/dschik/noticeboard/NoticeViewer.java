@@ -86,7 +86,8 @@ public class NoticeViewer extends AppCompatActivity
         NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView);
         URL url[] = new URL[1];
         try {
-            url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
+            //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
+            url[0]= new URL("https://scraping-noticeboard.herokuapp.com/");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

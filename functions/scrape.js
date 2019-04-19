@@ -22,9 +22,9 @@ function scrapeNoticeBoard(){
                });
                  resolve(notices);//promise returned
             }
-        });    
+        });
     });
-   
+
 }
 
 module.exports = scrapeNoticeBoard();

@@ -55,14 +55,14 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String>{
         try {
             int i =0;
             dt = new ArrayList<>();
-            jobj = new JSONObject(s);
-            JSONArray jarray = jobj.getJSONArray("notice");
+            //jobj = new JSONObject(s);
+            JSONArray jarray = new JSONArray(s);
             int size = jarray.length();
             //Log.d("aa","test"+size);
             for (i=0; i< size; i++) {
                 JSONObject j = jarray.getJSONObject(i);
-                String head = j.getString("heading");
-                String link = j.getString("link");
+                String head = j.getString("title");
+                String link = "http://heritageit.edu/"+j.getString("link");
                 DataObject obj = new DataObject(head, link);
                 dt.add(i, obj);
                 //Log.d("aa","*--");
