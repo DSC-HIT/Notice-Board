@@ -5,7 +5,10 @@
     <string name="nav_header_title">Developers Student Club, HITK</string>
     <string name="nav_header_subtitle">We Build We Innovate.</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">About</string>
+    <string name="about">A Student friendly application that gives you all the resources that you will need in your college. This includes
+    notes announcements notices and much more. This application is made under the Developers Student Club - HITK program. Join the
+    society to learn and built more such applications and solutions.</string>
     <string name="sign_in"><u>SIGN IN</u></string>
 
     <string name="sh_username">USERNAME</string>

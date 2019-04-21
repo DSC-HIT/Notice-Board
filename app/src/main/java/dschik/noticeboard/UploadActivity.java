@@ -203,7 +203,9 @@ public class UploadActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
 
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
+            Intent i = new Intent(UploadActivity.this, AboutActivity.class);
+            startActivity(i);
             return true;
         }
 

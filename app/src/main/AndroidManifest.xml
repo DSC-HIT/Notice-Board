@@ -12,7 +12,11 @@
         <activity
             android:name=".AnnouncementActivity"
             android:label="@string/title_activity_announcement"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".AboutActivity"
+            android:label="About"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"/>
         <activity
             android:name=".NoticeViewer"
             android:label="@string/title_activity_notice_viewer"

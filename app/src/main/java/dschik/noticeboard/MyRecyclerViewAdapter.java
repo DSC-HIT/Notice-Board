@@ -1,7 +1,9 @@
 package dschik.noticeboard;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.DataObjectHolder> {
@@ -28,6 +32,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         public DataObjectHolder(final View itemView) {
             super(itemView);
+            final Context context = itemView.getContext();
             label = (TextView) itemView.findViewById(R.id.textView);
             dateTime = (TextView) itemView.findViewById(R.id.textView2);
             view = itemView.findViewById(R.id.carder_button1);
@@ -37,8 +42,22 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     Toast.makeText(itemView.getContext(),"clicked",Toast.LENGTH_SHORT).show();
                 }
             });
+
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
+
+            itemView.findViewById(R.id.carder_button1).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Uri uri = Uri.parse(dateTime.getText().toString());
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,uri);
+                    context.startActivity(browserIntent);
+
+                }
+            });
+
+
             b=itemView.findViewById(R.id.carder_button2);
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -50,6 +69,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     intent.putExtra(Intent.EXTRA_SUBJECT,"Your Subject");
                     intent.putExtra(Intent.EXTRA_TEXT,title+"\n"+text);
                     itemView.getContext().startActivity(Intent.createChooser(intent,"Share text via"));
+                }
+            });
+
+            itemView.findViewById(R.id.carder_button3).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String link = dateTime.getText().toString();
+                    DownloadManager d = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);
+                    Uri uri = Uri.parse(link);
+                    DownloadManager.Request request= new DownloadManager.Request(uri);
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
+                    Long referrence = d.enqueue(request);
+                    Log.d("aa","down clicked");
                 }
             });
         }
