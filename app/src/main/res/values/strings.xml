@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NoticeBoard</string>
+    <string name="app_name">HIT CRUNCH</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Developers Student Club, HITK</string>
@@ -25,7 +25,7 @@
         <item>PNG</item>
         <item>PDF</item>
     </string-array>
-    <string name="title_activity_notes_download">NotesDownload</string>
-    <string name="title_activity_notice_viewer">NoticeViewer</string>
-    <string name="title_activity_announcement">AnnouncementActivity</string>
+    <string name="title_activity_notes_download">Notes</string>
+    <string name="title_activity_notice_viewer">Notice Board</string>
+    <string name="title_activity_announcement">Announcements</string>
 </resources>

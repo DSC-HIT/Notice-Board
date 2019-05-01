@@ -19,7 +19,7 @@
         android:layout_below="@+id/mainlogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MOTTO OF THE DAY"
+        android:text="HERITAGE INSTITUTE OF TECHNOLOGY"
         android:layout_marginTop="60dp"
         android:textColor="#fff"
         android:layout_centerHorizontal="true"/>

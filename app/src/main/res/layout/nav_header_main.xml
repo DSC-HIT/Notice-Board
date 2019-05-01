@@ -18,7 +18,7 @@
         android:layout_height="120dp"
         android:contentDescription="@string/nav_header_desc"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/dsc_logo_new1" />
+        app:srcCompat="@drawable/hitcrunch_logo" />
 
     <TextView
         android:layout_width="match_parent"

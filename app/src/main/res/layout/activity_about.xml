@@ -39,7 +39,7 @@
         app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/dsc_logo_new1" />
+        app:srcCompat="@drawable/hitcrunch_logo" />
 
     <ImageView
         android:id="@+id/imageView3"

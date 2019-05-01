@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/dsc_logo_new1"
+        android:icon="@drawable/hitcrunch_logo"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/dsc_logo_new1"
+        android:roundIcon="@drawable/hitcrunch_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -28,7 +28,7 @@
         <activity android:name=".DetailActivity" />
         <activity
             android:name=".SplashScreen"
-            android:label="NoticeBoard"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -38,11 +38,11 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="NoticeBoard"
+            android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".SignUpActivity"
-            android:label="NoticeBoard"
+            android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" />
         <activity
             android:name=".MainActivity"

@@ -9,7 +9,7 @@
         android:id="@+id/splashscreen"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:src="@drawable/dsc_logo_splash_screen" />
+        android:src="@drawable/hitcrunch_logo" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
