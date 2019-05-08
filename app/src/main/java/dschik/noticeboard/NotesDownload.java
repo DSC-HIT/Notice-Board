@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -56,6 +57,8 @@ public class NotesDownload extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private static String LOG_TAG = "CardViewActivity";
 
+    ShimmerFrameLayout shimmerFrameLayout;
+
     ArrayList results = new ArrayList<DataObject>();
 
     @Override
@@ -79,6 +82,8 @@ public class NotesDownload extends AppCompatActivity
 
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
                 String file= dataSnapshot.getKey();
                 String url = dataSnapshot.getValue(String.class);
                 int index =0;
@@ -111,6 +116,9 @@ public class NotesDownload extends AppCompatActivity
             }
         });
 
+        shimmerFrameLayout = findViewById(R.id.shimmer);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);

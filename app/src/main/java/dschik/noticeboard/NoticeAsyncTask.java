@@ -3,7 +3,10 @@ package dschik.noticeboard;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.RelativeLayout;
+
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,10 +25,12 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String>{
     Context c;
     RecyclerView mrecyler;
     MyRecyclerViewAdapter myRecyclerViewAdapter;
-    NoticeAsyncTask(Context context, RecyclerView recyclerView)
+    ShimmerFrameLayout sh;
+    NoticeAsyncTask(Context context, RecyclerView recyclerView, ShimmerFrameLayout sh1)
     {
         mrecyler = recyclerView;
         c = context;
+        sh = sh1;
     }
 
     @Override
@@ -51,7 +56,8 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String>{
     {
         JSONObject jobj= null;
 
-
+        sh.stopShimmer();
+        sh.setVisibility(View.GONE);
         try {
             int i =0;
             dt = new ArrayList<>();

@@ -10,6 +10,20 @@
     tools:showIn="@layout/app_bar_notes_download"
     android:background="@drawable/loginback"
     android:orientation="vertical">
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <include layout="@layout/card_view_row"/>
+            <include layout="@layout/card_view_row"/>
+            <include layout="@layout/card_view_row"/>
+            <include layout="@layout/card_view_row"/>
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"
