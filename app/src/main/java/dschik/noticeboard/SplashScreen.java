@@ -8,17 +8,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class SplashScreen extends Activity {
     SharedPreferences sh;
     private String USER_NAME = "username";
     private String PASS_WORD = "password";
     private String DEFAULT = "null";
-    private final int splash_display_length=1000;
+    private final int splash_display_length=2500;
+    private FirebaseAuth mAuth;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
+
+        mAuth = FirebaseAuth.getInstance();
 
         sh = getSharedPreferences("shared",Context.MODE_PRIVATE);
 
@@ -27,7 +33,8 @@ public class SplashScreen extends Activity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(username.equals("heritage") && password.equals("123"))
+                FirebaseUser fb = mAuth.getCurrentUser();
+                if(/*username.equals("heritage") && password.equals("123")*/ fb != null)
                 {
                     Intent mainIntent =new Intent(SplashScreen.this,MainActivity.class);
                     SplashScreen.this.startActivity(mainIntent);
