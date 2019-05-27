@@ -370,7 +370,16 @@ public class UploadActivity extends AppCompatActivity implements
                             //and displaying a success toast
                             Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
 
-                            String url = taskSnapshot.getDownloadUrl().toString();
+                            /*Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                            task.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                 String url = uri.toString();
+                                }
+                            });*/
+
+                            String url = taskSnapshot.getStorage().getDownloadUrl().toString();
+
                             dbref.child(file_name).setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
