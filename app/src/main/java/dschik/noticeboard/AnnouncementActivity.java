@@ -17,6 +17,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -37,6 +39,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class AnnouncementActivity extends AppCompatActivity
@@ -59,6 +63,7 @@ public class AnnouncementActivity extends AppCompatActivity
     private static String LOG_TAG = "CardViewActivity";
 
     ShimmerFrameLayout shimmerFrameLayout;
+    SwipeRefreshLayout swiper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,47 +83,13 @@ public class AnnouncementActivity extends AppCompatActivity
         db = FirebaseDatabase.getInstance();
         dbref = db.getReference();
 
-        dbref.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                shimmerFrameLayout.stopShimmer();
-                shimmerFrameLayout.setVisibility(View.GONE);
-                String file= dataSnapshot.getKey();
-                String url = dataSnapshot.getValue(String.class);
-                int index =0;
-                Log.d("aa",file+"++"+url);
-                DataObject obj = new DataObject(file,url);
-                results.add(index, obj);
-                index++;
-                mRecyclerView.setAdapter(mAdapter);
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        getContent();
 
         shimmerFrameLayout = findViewById(R.id.shimmer);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
+
+
 
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
@@ -130,6 +101,8 @@ public class AnnouncementActivity extends AppCompatActivity
         mAdapter = new MyRecyclerViewAdapter(getDataSet());
 
         mRecyclerView.setAdapter(mAdapter);
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -160,6 +133,73 @@ public class AnnouncementActivity extends AppCompatActivity
         FirebaseUser user= mAuth.getCurrentUser();
 
         usr.setText(sh.getString("dis_name","user"));
+
+
+
+        swiper = findViewById(R.id.swiper);
+        swiper.setColorSchemeColors(getResources().getColor(R.color.colorPrimary)
+                , getResources().getColor(R.color.primarylight)
+                , getResources().getColor(R.color.colorAccent)
+                , getResources().getColor(R.color.colorPrimaryDark));
+
+        swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                swiper.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getContent();
+                    }
+                },1000);
+            }
+        });
+
+    }
+
+    void getContent()
+    {
+        dbref.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                swiper.setRefreshing(false);
+
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
+                String file= dataSnapshot.getKey();
+                String url = dataSnapshot.getValue(String.class);
+                int index =0;
+                Log.d("aa",file+"++"+url);
+                DataObject obj = new DataObject(file,url);
+                results.add(index, obj);
+                index++;
+                mRecyclerView.setAdapter(mAdapter);
+
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
     @Override

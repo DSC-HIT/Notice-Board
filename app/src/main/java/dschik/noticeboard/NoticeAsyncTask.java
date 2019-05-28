@@ -3,6 +3,9 @@ package dschik.noticeboard;
 import android.content.Context;
 import android.os.AsyncTask;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import android.util.Log;
 import android.view.View;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -22,11 +25,13 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String>{
     RecyclerView mrecyler;
     MyRecyclerViewAdapter myRecyclerViewAdapter;
     ShimmerFrameLayout sh;
-    NoticeAsyncTask(Context context, RecyclerView recyclerView, ShimmerFrameLayout sh1)
+    SwipeRefreshLayout swip;
+    NoticeAsyncTask(Context context, RecyclerView recyclerView, ShimmerFrameLayout sh1,SwipeRefreshLayout ss)
     {
         mrecyler = recyclerView;
         c = context;
         sh = sh1;
+        swip =ss;
     }
 
     @Override
@@ -53,7 +58,9 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String>{
         JSONObject jobj= null;
 
         sh.stopShimmer();
+        swip.setRefreshing(false);
         sh.setVisibility(View.GONE);
+        Log.d("aa","called");
         try {
             int i =0;
             dt = new ArrayList<>();

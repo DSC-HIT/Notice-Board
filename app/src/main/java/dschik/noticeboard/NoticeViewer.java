@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -15,6 +17,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -75,18 +79,46 @@ public class NoticeViewer extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ShimmerFrameLayout shimmerFrameLayout = findViewById(R.id.shimmer);
+        final ShimmerFrameLayout shimmerFrameLayout = findViewById(R.id.shimmer);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
-        NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView,shimmerFrameLayout);
+        final SwipeRefreshLayout swiper = findViewById(R.id.swiper);
+        final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView,shimmerFrameLayout,swiper);
         URL url[] = new URL[1];
         try {
             //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
-            url[0]= new URL("https://scraping-noticeboard.herokuapp.com/");
+            url[0]= new URL("https://scraping-noticeboard.herokuapp.com/notices");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
         noticeAsyncTask.execute(url);
+
+        swiper.setColorSchemeColors(getResources().getColor(R.color.colorPrimary)
+                , getResources().getColor(R.color.primarylight)
+                , getResources().getColor(R.color.colorAccent)
+                , getResources().getColor(R.color.colorPrimaryDark));
+
+        swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                swiper.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView,shimmerFrameLayout,swiper);
+                        URL url[] = new URL[1];
+                        try {
+                            //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
+                            url[0]= new URL("https://scraping-noticeboard.herokuapp.com/notices");
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        noticeAsyncTask.execute(url);
+                    }
+                },1000);
+            }
+        });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
