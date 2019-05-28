@@ -10,6 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,12 +44,22 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class UploadActivity extends AppCompatActivity implements
@@ -352,44 +365,59 @@ public class UploadActivity extends AppCompatActivity implements
 
             final String file_name = file.getText().toString();
 
-            StorageReference rRef = mStorageRef.child(motto+"/"+file_name+type_name);
+            final StorageReference rRef = mStorageRef.child(motto + "/" + file_name + type_name);
+
+            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH);
+            Date date = new Date();
+            FirebaseUser fuser = mAuth.getCurrentUser();
+            StorageMetadata storageMetadata = new StorageMetadata.Builder()
+                    .setContentType(type_name)
+                    .setCustomMetadata("user", fuser.getDisplayName())
+                    .setCustomMetadata("date", dateFormat.format(date)).build();
 
 
-            rRef.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            UploadTask uploadTask = rRef.putFile(filePath,storageMetadata);
+
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    //if the upload is successfull
+                    //hiding the progress dialog
+                    progressDialog.dismiss();
+
+                    //and displaying a success toast
+                    Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
+
+
+                    Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                    task.addOnCompleteListener(new OnCompleteListener<Uri>() {
                         @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            //if the upload is successfull
-                            //hiding the progress dialog
-                            progressDialog.dismiss();
-
-                            //and displaying a success toast
-                            Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
-
-                            /*Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
-                            task.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                 String url = uri.toString();
-                                }
-                            });*/
-
-                            String url = taskSnapshot.getStorage().getDownloadUrl().toString();
-
-                            dbref.child(file_name).setValue(url).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            Uri uri = task.getResult();
+                            URL url= null;
+                            try {
+                                url = new URL(uri.toString());
+                            } catch (MalformedURLException e) {
+                                e.printStackTrace();
+                            }
+                            String rl = url.toString();
+                            Log.d("aa",rl);
+                            dbref.child(file_name).setValue(rl).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    if(task.isSuccessful())
-                                    {
-                                        Toast.makeText(UploadActivity.this,"Upload successful",Toast.LENGTH_SHORT).show();
-                                    }else {
-                                        Toast.makeText(UploadActivity.this,"Upload NOT successful",Toast.LENGTH_SHORT).show();
+                                    if (task.isSuccessful()) {
+                                        Toast.makeText(UploadActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(UploadActivity.this, "Upload NOT successful", Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
-
                         }
-                    })
+                    });
+                    //String url = "test";
+
+                }
+            })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception exception) {

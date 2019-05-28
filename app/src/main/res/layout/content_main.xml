@@ -7,21 +7,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main"
-    android:background="@drawable/loginback">
-    <ImageView
-        android:id="@+id/mainlogo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginTop="60dp"
-        android:src="@drawable/heritage_logo"
-        android:layout_centerHorizontal="true"/>
-    <TextView
-        android:layout_below="@+id/mainlogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="HERITAGE INSTITUTE OF TECHNOLOGY"
-        android:layout_marginTop="60dp"
-        android:textColor="#fff"
-        android:layout_centerHorizontal="true"/>
+    android:background="@drawable/background_gradient">
+
 
 </RelativeLayout>

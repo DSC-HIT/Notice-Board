@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="20dp"
-        card_view:cardCornerRadius="4dp"
+        card_view:cardCornerRadius="10dp"
         card_view:contentPadding="10dp"
         app:cardElevation="8dp">
 
@@ -25,7 +25,7 @@
                 android:layout_alignParentTop="true"
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true"
-                android:textColor="#08104c"/>
+                android:textColor="@color/primaryText"/>
 
             <TextView
                 android:id="@+id/textView2"
@@ -34,14 +34,14 @@
                 android:layout_below="@+id/textView"
                 android:layout_marginTop="20dp"
                 android:layout_margin="5dp"
-                android:textColor="#08104c"/>
+                android:textColor="@color/primaryText"/>
             <Button
                 android:id="@+id/carder_button1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="VIEW"
                 android:layout_below="@+id/textView2"
-                android:background="@drawable/carder_button"
+                android:background="@color/colorAccent"
                 android:textColor="#fff"/>
             <Button
                 android:id="@+id/carder_button2"
