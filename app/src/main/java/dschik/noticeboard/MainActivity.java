@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements
         shimmerFrameLayout.startShimmer();
         final SwipeRefreshLayout swiper = findViewById(R.id.swiper);
         final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(MainActivity.this,mRecyclerView,shimmerFrameLayout,swiper);
-        URL url[] = new URL[1];
+        URL[] url = new URL[1];
         try {
             //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
             url[0]= new URL("https://scraping-noticeboard.herokuapp.com/links");
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements
                     @Override
                     public void run() {
                         final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(MainActivity.this,mRecyclerView,shimmerFrameLayout,swiper);
-                        URL url[] = new URL[1];
+                        URL[] url = new URL[1];
                         try {
                             //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
                             url[0]= new URL("https://scraping-noticeboard.herokuapp.com/links");
@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements
                         }
                         noticeAsyncTask.execute(url);
                     }
-                },1000);
+                },2000);
             }
         });
 

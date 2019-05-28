@@ -9,6 +9,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
@@ -17,6 +19,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -55,6 +59,7 @@ public class NotesDownload extends AppCompatActivity
     private static String LOG_TAG = "CardViewActivity";
 
     ShimmerFrameLayout shimmerFrameLayout;
+    SwipeRefreshLayout swiper;
 
     ArrayList results = new ArrayList<DataObject>();
 
@@ -74,44 +79,7 @@ public class NotesDownload extends AppCompatActivity
 
         db = FirebaseDatabase.getInstance();
         dbref = db.getReference();
-
-        dbref.addChildEventListener(new ChildEventListener() {
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                shimmerFrameLayout.stopShimmer();
-                shimmerFrameLayout.setVisibility(View.GONE);
-                String file= dataSnapshot.getKey();
-                String url = dataSnapshot.getValue(String.class);
-                int index =0;
-                Log.d("aa",file+"++"+url);
-                DataObject obj = new DataObject(file,url);
-                results.add(index, obj);
-                index++;
-                mRecyclerView.setAdapter(mAdapter);
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        getContent();
 
         shimmerFrameLayout = findViewById(R.id.shimmer);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
@@ -155,6 +123,66 @@ public class NotesDownload extends AppCompatActivity
         TextView usr = header.findViewById(R.id.userText);
 
         usr.setText(sh.getString("dis_name","user"));
+
+        swiper = findViewById(R.id.swiper1);
+        swiper.setColorSchemeColors(getResources().getColor(R.color.colorPrimary)
+                , getResources().getColor(R.color.primarylight)
+                , getResources().getColor(R.color.colorPrimaryDark)
+                , getResources().getColor(R.color.colorAccent));
+        swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swiper.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getContent();
+                    }
+                },2000);
+            }
+        });
+
+    }
+
+    private void getContent()
+    {
+        dbref.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                swiper.setRefreshing(false);
+                shimmerFrameLayout.stopShimmer();
+                shimmerFrameLayout.setVisibility(View.GONE);
+                String file= dataSnapshot.getKey();
+                String url = dataSnapshot.getValue(String.class);
+                int index =0;
+                Log.d("aa",file+"++"+url);
+                DataObject obj = new DataObject(file,url);
+                results.add(index, obj);
+                index++;
+                mRecyclerView.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
     @Override

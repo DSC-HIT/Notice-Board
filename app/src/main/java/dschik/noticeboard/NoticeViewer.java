@@ -50,7 +50,7 @@ public class NoticeViewer extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static String LOG_TAG = "CardViewActivity";
-
+    SwipeRefreshLayout swiper;
 
     JSONObject jobj;
 
@@ -60,7 +60,7 @@ public class NoticeViewer extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_viewer);
 
-
+        swiper = findViewById(R.id.swiper);
 
         sh = getSharedPreferences("shared",Context.MODE_PRIVATE);
 
@@ -82,7 +82,7 @@ public class NoticeViewer extends AppCompatActivity
         final ShimmerFrameLayout shimmerFrameLayout = findViewById(R.id.shimmer);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
-        final SwipeRefreshLayout swiper = findViewById(R.id.swiper);
+
         final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView,shimmerFrameLayout,swiper);
         URL url[] = new URL[1];
         try {
@@ -93,31 +93,7 @@ public class NoticeViewer extends AppCompatActivity
         }
         noticeAsyncTask.execute(url);
 
-        swiper.setColorSchemeColors(getResources().getColor(R.color.colorPrimary)
-                , getResources().getColor(R.color.primarylight)
-                , getResources().getColor(R.color.colorAccent)
-                , getResources().getColor(R.color.colorPrimaryDark));
 
-        swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-
-                swiper.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView,shimmerFrameLayout,swiper);
-                        URL url[] = new URL[1];
-                        try {
-                            //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
-                            url[0]= new URL("https://scraping-noticeboard.herokuapp.com/notices");
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
-                        noticeAsyncTask.execute(url);
-                    }
-                },1000);
-            }
-        });
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -138,6 +114,35 @@ public class NoticeViewer extends AppCompatActivity
         TextView usr = header.findViewById(R.id.userText);
 
         usr.setText(sh.getString("dis_name","user"));
+
+
+        swiper.setColorSchemeColors(getResources().getColor(R.color.colorPrimary)
+                , getResources().getColor(R.color.primarylight)
+                , getResources().getColor(R.color.colorPrimaryDark)
+                , getResources().getColor(R.color.colorAccent));
+
+
+
+        swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                swiper.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView,shimmerFrameLayout,swiper);
+                        URL url[] = new URL[1];
+                        try {
+                            //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
+                            url[0]= new URL("https://scraping-noticeboard.herokuapp.com/notices");
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        noticeAsyncTask.execute(url);
+                    }
+                },2000);
+            }
+        });
 
 
     }
