@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AboutActivity"
-    android:background="@drawable/loginback">
+    android:background="@drawable/side_nav_bar">
 
     <TextView
         android:id="@+id/textView"

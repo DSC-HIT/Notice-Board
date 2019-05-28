@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 
 import android.view.View;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -16,6 +17,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -31,6 +36,9 @@ import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
         ,NavigationView.OnNavigationItemSelectedListener {
@@ -41,6 +49,10 @@ public class MainActivity extends AppCompatActivity implements
     private String USER_NAME = "username";
     private String PASS_WORD = "password";
     private String DEFAULT = "null";
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     private FirebaseAuth mAuth;
     @Override
@@ -60,6 +72,55 @@ public class MainActivity extends AppCompatActivity implements
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        final ShimmerFrameLayout shimmerFrameLayout = findViewById(R.id.shimmer);
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        final SwipeRefreshLayout swiper = findViewById(R.id.swiper);
+        final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(MainActivity.this,mRecyclerView,shimmerFrameLayout,swiper);
+        URL url[] = new URL[1];
+        try {
+            //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
+            url[0]= new URL("https://scraping-noticeboard.herokuapp.com/links");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        noticeAsyncTask.execute(url);
+
+        swiper.setColorSchemeColors(getResources().getColor(R.color.colorPrimary)
+                , getResources().getColor(R.color.primarylight)
+                , getResources().getColor(R.color.colorAccent)
+                , getResources().getColor(R.color.colorPrimaryDark));
+
+        swiper.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                swiper.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(MainActivity.this,mRecyclerView,shimmerFrameLayout,swiper);
+                        URL url[] = new URL[1];
+                        try {
+                            //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
+                            url[0]= new URL("https://scraping-noticeboard.herokuapp.com/links");
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        noticeAsyncTask.execute(url);
+                    }
+                },1000);
+            }
+        });
+
+
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 

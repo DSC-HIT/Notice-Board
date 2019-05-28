@@ -55,8 +55,17 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String>{
     @Override
     protected void onPostExecute(String s)
     {
+        String q1 = "";
+        String q2 = "";
         JSONObject jobj= null;
-
+        if(c instanceof MainActivity)
+        {
+            q1 = "desc";
+            q2 = "link";
+        } else if(c instanceof NoticeViewer) {
+            q1 = "title";
+            q2 = "link";
+        }
         sh.stopShimmer();
         swip.setRefreshing(false);
         sh.setVisibility(View.GONE);
@@ -70,8 +79,8 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String>{
             //Log.d("aa","test"+size);
             for (i=0; i< size; i++) {
                 JSONObject j = jarray.getJSONObject(i);
-                String head = j.getString("title");
-                String link = "http://heritageit.edu/"+j.getString("link");
+                String head = j.getString(q1);
+                String link = "http://heritageit.edu/"+j.getString(q2);
                 DataObject obj = new DataObject(head, link);
                 dt.add(i, obj);
                 //Log.d("aa","*--");

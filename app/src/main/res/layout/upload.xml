@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_gradient">
+    android:background="@drawable/side_nav_bar">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="50dp"
-                    android:layout_marginTop="90dp"></Spinner>
+                    android:layout_marginTop="90dp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -47,14 +47,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/upload_button"
-                        android:text="BROWSE FILES" />
+                        android:text="BROWSE FILES"
+                        android:textColor="@color/colorAccent"/>
                     <EditText
                         android:id="@+id/file_name"
                         android:layout_weight="1"
                         android:layout_marginRight="25dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Enter the name of the file." />
+                        android:hint="Enter the name of the file."
+                        android:textColorHint="@color/colorAccent"/>
                 </LinearLayout>
 
 
@@ -73,11 +75,11 @@
                 <Button
                     android:id="@+id/upload_button"
                     android:layout_width="150dp"
-                    android:layout_height="100dp"
+                    android:layout_height="150dp"
                     android:layout_below="@id/preview_image"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/upload"/>
+                    android:background="@drawable/cloud_upload"/>
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
