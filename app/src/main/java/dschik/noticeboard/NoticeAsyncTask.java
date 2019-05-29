@@ -84,7 +84,7 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String>{
                 JSONObject j = jarray.getJSONObject(i);
                 String head = j.getString(q1);
                 String link = q3+j.getString(q2);
-                if(!link.contains(".pdf"))
+                if(link.contains(".pdf") && c instanceof MainActivity)
                 {
                     link = "http://heritageit.edu/"+link;
                 }
