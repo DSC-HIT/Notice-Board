@@ -36,20 +36,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:layout_toLeftOf="@+id/carder_button2"
-                    android:layout_alignParentLeft="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
                     android:textColor="@color/primaryText"/>
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/linearLayout2"
-                android:layout_below="@+id/relativeLayout1"
+                android:layout_below="@id/relativeLayout1"
                 android:orientation="horizontal">
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:layout_marginTop="20dp"
                     android:layout_margin="5dp"
                     android:background="@drawable/carder_view_image"/>
@@ -58,18 +58,18 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:layout_margin="5dp"
-                        android:textColor="@color/primaryText"/>
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:id="@+id/urldata"
+                        android:visibility="invisible"/>
                     <TextView
+                        android:id="@+id/sendername"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NAME"
                         android:textStyle="bold"/>
                     <TextView
+                        android:id="@+id/dateTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="DATE"

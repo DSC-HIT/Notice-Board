@@ -3,6 +3,7 @@ package dschik.noticeboard;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -169,10 +170,15 @@ public class AnnouncementActivity extends AppCompatActivity
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.GONE);
                 String file= dataSnapshot.getKey();
-                String url = dataSnapshot.getValue(String.class);
+                record data = dataSnapshot.getValue(record.class);
                 int index =0;
+                String url = data.getUrl();
+                String sendername= data.getSender().equals("")?"sender":data.getSender();
+                String datesent = data.getDate().equals("")?"date":data.getDate();
+                Bitmap bmp = data.getBmp();
                 Log.d("aa",file+"++"+url);
-                DataObject obj = new DataObject(file,url);
+
+                DataObject obj = new DataObject(file,url,sendername,datesent,bmp);
                 results.add(index, obj);
                 index++;
                 mRecyclerView.setAdapter(mAdapter);

@@ -84,7 +84,11 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String>{
                 JSONObject j = jarray.getJSONObject(i);
                 String head = j.getString(q1);
                 String link = q3+j.getString(q2);
-                DataObject obj = new DataObject(head, link);
+                if(!link.contains(".pdf"))
+                {
+                    link = "http://heritageit.edu/"+link;
+                }
+                DataObject obj = new DataObject(head, link, "Hritage Institute of Technology","01/01/19",null);
                 dt.add(i, obj);
                 //Log.d("aa","*--");
                 myRecyclerViewAdapter= new MyRecyclerViewAdapter(dt);

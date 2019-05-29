@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.BitmapShader;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -54,6 +57,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -367,8 +373,8 @@ public class UploadActivity extends AppCompatActivity implements
 
             final StorageReference rRef = mStorageRef.child(motto + "/" + file_name + type_name);
 
-            DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH);
-            Date date = new Date();
+            final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH);
+            final Date date = new Date();
             FirebaseUser fuser = mAuth.getCurrentUser();
             StorageMetadata storageMetadata = new StorageMetadata.Builder()
                     .setContentType(type_name)
@@ -400,13 +406,44 @@ public class UploadActivity extends AppCompatActivity implements
                             } catch (MalformedURLException e) {
                                 e.printStackTrace();
                             }
-                            String rl = url.toString();
-                            Log.d("aa",rl);
-                            dbref.child(file_name).setValue(rl).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                            String rl = url.toString();//get firebase uri
+
+                            final FirebaseUser fuser1 = mAuth.getCurrentUser();//getting details for record database class object
+                            Date date = new Date();
+                            Bitmap bitmp = null;
+                            InputStream is = null;                                  /* creating bitmap from file path uri
+                                                                                        */
+                            try {
+                                is = getContentResolver().openInputStream(filePath);
+                                bitmp = BitmapFactory.decodeStream(is);
+                                is.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                             record r = null;
+                            /*if(type_name.equalsIgnoreCase(".jpeg") || type_name.equalsIgnoreCase(".png")) {
+                                r = new record(rl, fuser1.getDisplayName(), dateFormat.format(date),bitmp);
+                                // if they are image the bitmap is attached to record object
+                            }
+                            else
+                            {
+                                //else set to null. to be handled by view adapter
+                                r = new record(rl, fuser1.getDisplayName(), dateFormat.format(date),null);
+                            }*/
+                            r = new record(rl, fuser1.getDisplayName(), dateFormat.format(date),null);
+                            //Log.d("aa",filePath);
+                            dbref.child(file_name).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
+                                        /*
+                                        gets the bitmap of the local file using its local uri
+                                        */
+
+
                                         Toast.makeText(UploadActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                                        //imagePreview.setImageBitmap(bitmp);
                                     } else {
                                         Toast.makeText(UploadActivity.this, "Upload NOT successful", Toast.LENGTH_SHORT).show();
                                     }

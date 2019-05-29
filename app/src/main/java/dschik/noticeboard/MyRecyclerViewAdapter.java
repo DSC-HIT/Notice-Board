@@ -14,6 +14,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.DataObjectHolder> {
@@ -21,52 +23,56 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private static String LOG_TAG = "MyRecyclerViewAdapter";
     private ArrayList<DataObject> mDataset;
     private static MyClickListener myClickListener;
+    //static String[] url;
+    static  int range = 0;
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView label;
         TextView dateTime;
-        //ImageView view;
+        TextView sendername;
+        TextView urldata;
+        ImageView preview;
         Button b;
 
         public DataObjectHolder(final View itemView) {
             super(itemView);
             final Context context = itemView.getContext();
             label = (TextView) itemView.findViewById(R.id.textView);
-            dateTime = (TextView) itemView.findViewById(R.id.textView2);
-            /*view = itemView.findViewById(R.id.imageView);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(itemView.getContext(),"clicked",Toast.LENGTH_SHORT).show();
-                }
-            });*/
+            dateTime = (TextView) itemView.findViewById(R.id.dateTime);
+            sendername = (TextView) itemView.findViewById(R.id.sendername);
+            urldata = (TextView) itemView.findViewById(R.id.urldata);
+            preview = (ImageView) itemView.findViewById(R.id.imageView);
 
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
 
-            /*itemView.findViewById(R.id.carder_button1).setOnClickListener(new View.OnClickListener() {
+
+
+            preview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Uri uri = Uri.parse(dateTime.getText().toString());
+                    int pos = getAdapterPosition();
+                    Log.d("aa",pos+"");
+                    String ull = urldata.getText().toString();
+                    //String ull = url[pos];
+                    Uri uri = Uri.parse(ull);
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW,uri);
                     context.startActivity(browserIntent);
-
                 }
-            });*/
+            });
 
 
             b=itemView.findViewById(R.id.carder_button2);
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String text=dateTime.getText().toString();
+                    String link=urldata.getText().toString();
                     String title = label.getText().toString();
                     Intent intent=new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
                     intent.putExtra(Intent.EXTRA_SUBJECT,"Your Subject");
-                    intent.putExtra(Intent.EXTRA_TEXT,title+"\n"+text);
+                    intent.putExtra(Intent.EXTRA_TEXT,title+"\n"+link);
                     itemView.getContext().startActivity(Intent.createChooser(intent,"Share text via"));
                 }
             });
@@ -74,7 +80,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             itemView.findViewById(R.id.carder_button3).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String link = dateTime.getText().toString();
+                    String link = urldata.getText().toString();
                     DownloadManager d = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);
                     Uri uri = Uri.parse(link);
                     DownloadManager.Request request= new DownloadManager.Request(uri);
@@ -105,6 +111,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     public MyRecyclerViewAdapter(ArrayList<DataObject> myDataset) {
         mDataset = myDataset;
+        //url = new String[myDataset.size()];
+        //Log.d("aa",myDataset.size()+"kk");
+
     }
 
     @Override
@@ -119,8 +128,29 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
+        String sendername = "Sender: "+mDataset.get(position).getmText3();
+        String datetime = "Date: "+mDataset.get(position).getmText4();
+        String url = mDataset.get(position).getmText2();
         holder.label.setText(mDataset.get(position).getmText1());
-        holder.dateTime.setText(mDataset.get(position).getmText2());
+        holder.sendername.setText(sendername);
+        holder.dateTime.setText(datetime);
+        holder.urldata.setText(url);
+        if(mDataset.get(position).getBmp() != null)//if it is a image bitmap will have data and that is set in preview
+            holder.preview.setImageBitmap(mDataset.get(position).getBmp());
+        else{                                       //else the preview is set according to file type
+            if(url.contains(".pdf"))
+            {
+                holder.preview.setImageResource(R.drawable.pdf_logo);
+            }
+            else if(url.contains(".jpeg") || url.contains(".png")){
+                holder.preview.setImageResource(R.drawable.image_logo);
+            }
+            else {
+                holder.preview.setImageResource(R.drawable.link);
+            }
+        }
+        //url[position] = mDataset.get(position).getmText2();
+
     }
 
     public void addItem(DataObject dataObj, int index) {

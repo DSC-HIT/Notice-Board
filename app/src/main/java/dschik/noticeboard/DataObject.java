@@ -1,12 +1,20 @@
 package dschik.noticeboard;
 
+import android.graphics.Bitmap;
+
 public class DataObject {
     private String mText1;
     private String mText2;
+    private String mText3;
+    private String mText4;
+    private Bitmap bmp;
 
-    DataObject (String text1, String text2){
+    DataObject (String text1, String text2, String text3, String text4, Bitmap bm){
         mText1 = text1;
         mText2 = text2;
+        mText3 = text3;
+        mText4 = text4;
+        bmp = bm;
     }
 
     public String getmText1() {
@@ -23,5 +31,26 @@ public class DataObject {
 
     public void setmText2(String mText2) {
         this.mText2 = mText2;
+    }
+
+    public String getmText3() {
+        return mText3;
+    }
+
+    public void setmText3(String mText3) {
+        this.mText2 = mText3;
+    }
+
+    public String getmText4() {
+        return mText4;
+    }
+
+    public void setmText4(String mText4) {
+        this.mText2 = mText4;
+    }
+
+    public Bitmap getBmp()
+    {
+        return bmp;
     }
 }
