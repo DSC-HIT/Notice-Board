@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         TextView label;
         TextView dateTime;
-        Button view;
+        //ImageView view;
         Button b;
 
         public DataObjectHolder(final View itemView) {
@@ -33,18 +34,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             final Context context = itemView.getContext();
             label = (TextView) itemView.findViewById(R.id.textView);
             dateTime = (TextView) itemView.findViewById(R.id.textView2);
-            view = itemView.findViewById(R.id.carder_button1);
+            /*view = itemView.findViewById(R.id.imageView);
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(itemView.getContext(),"clicked",Toast.LENGTH_SHORT).show();
                 }
-            });
+            });*/
 
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
 
-            itemView.findViewById(R.id.carder_button1).setOnClickListener(new View.OnClickListener() {
+            /*itemView.findViewById(R.id.carder_button1).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -53,7 +54,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     context.startActivity(browserIntent);
 
                 }
-            });
+            });*/
 
 
             b=itemView.findViewById(R.id.carder_button2);
@@ -86,7 +87,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
         @Override
         public void onClick(View v) {
-            myClickListener.onItemClick(getAdapterPosition(), v);
+            try {
+
+                myClickListener.onItemClick(getAdapterPosition(), v);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
