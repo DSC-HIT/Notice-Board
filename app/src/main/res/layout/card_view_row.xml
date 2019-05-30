@@ -31,14 +31,20 @@
                     android:background="@drawable/ic_menu_share"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"/>
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/primaryText"/>
+                    android:layout_toLeftOf="@+id/carder_button2"
+                    android:layout_centerHorizontal="true">
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"
+                        android:layout_centerHorizontal="true"
+                        android:textColor="@color/primaryText"/>
+                </LinearLayout>
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -74,18 +80,18 @@
                         android:layout_height="wrap_content"
                         android:text="DATE"
                         android:textStyle="bold"/>
+                    <Button
+                        android:id="@+id/carder_button3"
+                        android:layout_below="@+id/linearLayout2"
+                        android:layout_width="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/download_button"
+                        android:textColor="#ffff"
+                        android:text="    DOWNLOAD    "
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"/>
                 </LinearLayout>
             </LinearLayout>
-            <Button
-                android:id="@+id/carder_button3"
-                android:layout_below="@+id/linearLayout2"
-                android:layout_width="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/download_button"
-                android:textColor="#ffff"
-                android:text="    DOWNLOAD    "
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
