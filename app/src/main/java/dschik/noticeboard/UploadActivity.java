@@ -1,6 +1,6 @@
 package dschik.noticeboard;
-
-
+import android.media.Image;
+import android.content.Context;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,9 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -34,7 +37,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import java.io.IOException;
 
 import com.google.android.gms.auth.api.Auth;;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -50,6 +53,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
@@ -65,6 +70,7 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -381,7 +387,41 @@ public class UploadActivity extends AppCompatActivity implements
                     .setCustomMetadata("user", fuser.getDisplayName())
                     .setCustomMetadata("date", dateFormat.format(date)).build();
 
+            Context context=UploadActivity.this;
+            Uri uri;
+            uri=filePath;
+            FirebaseVisionImage image = null;
+            try{
+                image=FirebaseVisionImage.fromFilePath(context,uri);
+                Log.d("aa","try");
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+                Log.d("aa","catch");
+            }
+            FirebaseVisionImageLabeler labeler= FirebaseVision.getInstance()
+                    .getOnDeviceImageLabeler();
 
+            labeler.processImage(image)
+                    .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+
+                        @Override
+                        public void onSuccess(List<FirebaseVisionImageLabel> labels) {
+                            for (FirebaseVisionImageLabel label: labels) {
+                                String text = label.getText();
+                                String entityId = label.getEntityId();
+                                float confidence = label.getConfidence();
+                                Log.d("aa",text+" "+entityId+" "+confidence);
+                        }
+                        Log.d("aa","for");
+                    }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.d("aa","abcd");
+                        }
+                    });
             UploadTask uploadTask = rRef.putFile(filePath,storageMetadata);
 
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -389,6 +429,7 @@ public class UploadActivity extends AppCompatActivity implements
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     //if the upload is successfull
                     //hiding the progress dialog
+
                     progressDialog.dismiss();
 
                     //and displaying a success toast
