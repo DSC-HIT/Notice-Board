@@ -9,6 +9,9 @@
         android:roundIcon="@drawable/hitcrunch_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="label" />
         <activity
             android:name=".AnnouncementActivity"
             android:label="@string/title_activity_announcement"
