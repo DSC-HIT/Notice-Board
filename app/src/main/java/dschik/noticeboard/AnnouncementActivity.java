@@ -136,15 +136,6 @@ public class AnnouncementActivity<search> extends AppCompatActivity
             }
 
         });
-        /*search =(ImageView)findViewById(R.id.search_icon);
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i =new Intent(AnnouncementActivity.this,UploadActivity.class);
-                i.putExtra("flag",true);
-                startActivity(i);
-            }
-        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
