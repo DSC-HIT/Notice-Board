@@ -7,6 +7,7 @@
     tools:context=".AnnouncementActivity">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -16,12 +17,43 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorAccent"
+            app:layout_scrollFlags="scroll|snap"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_search_black_24dp"/>
+            <!--<RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="Announcements"
+                    android:textStyle="bold"
+                    android:textColor="#000000"
+                    android:textSize="20sp"/>
+                <ImageView
+                    android:id="@+id/search_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_search_black_24dp"
+                    android:layout_alignParentRight="true"/>
+            </RelativeLayout>-->
         </androidx.appcompat.widget.Toolbar>
+
+
+
+        <!--new-->
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="#fff"
+            app:tabMaxWidth="0dp"
+            app:tabMode="fixed" />
+        <!--new-->
+
+
+
 
     </com.google.android.material.appbar.AppBarLayout>
 
