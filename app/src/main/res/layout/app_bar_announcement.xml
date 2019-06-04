@@ -19,7 +19,7 @@
             android:background="?attr/colorAccent"
             app:layout_scrollFlags="scroll|snap"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
-            <!--<RelativeLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
@@ -36,24 +36,8 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_search_black_24dp"
                     android:layout_alignParentRight="true"/>
-            </RelativeLayout>-->
+            </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
-
-
-
-        <!--new-->
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabGravity="fill"
-            app:tabIndicatorColor="#fff"
-            app:tabMaxWidth="0dp"
-            app:tabMode="fixed" />
-        <!--new-->
-
-
-
 
     </com.google.android.material.appbar.AppBarLayout>
 

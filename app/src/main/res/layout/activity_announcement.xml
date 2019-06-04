@@ -13,50 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
-    <!--new-->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/layout_appbar_search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <com.google.android.material.appbar.AppBarLayout
-                android:id="@+id/appBar_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/AppTheme.AppBarOverlay">
-                <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar_search"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:background="#fff"
-                    app:popupTheme="@style/AppTheme.PopupOverlay">
-                    <EditText
-                        android:id="@+id/editText_search"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:hint="@string/searchwithdot"
-                        android:textColorHint="#666" />
-
-                </androidx.appcompat.widget.Toolbar>
-
-            </com.google.android.material.appbar.AppBarLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:background="@drawable/dropshadow">
-            </View>
-        </LinearLayout>
-    </FrameLayout>
-
-    <!--new-->
-
-
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

@@ -188,45 +188,11 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                 },1000);
             }
         });
-        appBar = (AppBarLayout) findViewById(R.id.appBar);
-        searchAppBarLayout = findViewById(R.id.layout_appbar_search);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        searchEditText = (EditText) findViewById(R.id.editText_search);
 
-        setSupportActionBar(toolbar);
-
-
-        initSearchBar();
-        initTabLayout();
-        initViewPager();
-
-        // select 'Chat' tab.
-        tabLayout.addTab(tabLayout.newTab().setText("chat"));
-        tabLayout.getTabAt(1).select();
 
 
     }
 
-    private void initSearchBar() {
-        searchToolBar =(Toolbar) findViewById(R.id.toolbar_search);
-        if(searchToolBar!=null) {
-            searchToolBar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-            searchAppBarLayout.setVisibility(View.GONE);
-            searchToolBar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            });
-
-        }
-    }
-    private void initTabLayout(){
-        
-    }
-    private void initViewPager(){
-        
-    }
 
     void getContent()
     {
