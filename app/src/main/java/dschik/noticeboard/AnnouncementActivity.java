@@ -1,16 +1,21 @@
 package dschik.noticeboard;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
@@ -22,6 +27,12 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +43,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -40,9 +52,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 import java.util.ArrayList;
 
-public class AnnouncementActivity extends AppCompatActivity
+public class AnnouncementActivity<search> extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
                     ,GoogleApiClient.OnConnectionFailedListener{
 
@@ -60,9 +73,19 @@ public class AnnouncementActivity extends AppCompatActivity
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static String LOG_TAG = "CardViewActivity";
+    private AppBarLayout appBar;
+    private Toolbar toolbar;
+    private EditText searchEditText;
+    private View searchAppBarLayout;
+    private TabLayout tabLayout;
+    private Toolbar searchToolBar;
+
+
 
     ShimmerFrameLayout shimmerFrameLayout;
     SwipeRefreshLayout swiper;
+
+    private ImageView search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +134,17 @@ public class AnnouncementActivity extends AppCompatActivity
                 i.putExtra("flag",true);
                 startActivity(i);
             }
+
         });
+        /*search =(ImageView)findViewById(R.id.search_icon);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i =new Intent(AnnouncementActivity.this,UploadActivity.class);
+                i.putExtra("flag",true);
+                startActivity(i);
+            }
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -151,7 +184,10 @@ public class AnnouncementActivity extends AppCompatActivity
             }
         });
 
+
+
     }
+
 
     void getContent()
     {
