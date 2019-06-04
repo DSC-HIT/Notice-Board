@@ -11,7 +11,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
@@ -154,17 +153,21 @@ public class NotesDownload extends AppCompatActivity
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.GONE);
                 String file= dataSnapshot.getKey();
-                record data = dataSnapshot.getValue(record.class);
+                Record data = dataSnapshot.getValue(Record.class);
                 int index =0;
                 String url = data.getUrl();
                 String sendername= data.getSender();
                 String datesent = data.getDate();
                 Bitmap bmp = data.getBmp();
+                String description = data.getDescription();
+                String type = data.getType();
                 Log.d("aa",file+"++"+url);
-                DataObject obj = new DataObject(file,url,sendername,datesent,bmp);
-                results.add(index, obj);
-                index++;
-                mRecyclerView.setAdapter(mAdapter);
+                if(type.equalsIgnoreCase("Notes")) {
+                    DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
+                    results.add(index, obj);
+                    index++;
+                    mRecyclerView.setAdapter(mAdapter);
+                }
 
             }
 

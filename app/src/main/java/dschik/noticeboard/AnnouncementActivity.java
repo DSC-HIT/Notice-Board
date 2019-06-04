@@ -40,8 +40,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class AnnouncementActivity extends AppCompatActivity
@@ -89,9 +87,6 @@ public class AnnouncementActivity extends AppCompatActivity
         shimmerFrameLayout = findViewById(R.id.shimmer);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
-
-
-
 
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
@@ -170,18 +165,21 @@ public class AnnouncementActivity extends AppCompatActivity
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.GONE);
                 String file= dataSnapshot.getKey();
-                record data = dataSnapshot.getValue(record.class);
+                Record data = dataSnapshot.getValue(Record.class);
                 int index =0;
                 String url = data.getUrl();
                 String sendername= data.getSender().equals("")?"sender":data.getSender();
                 String datesent = data.getDate().equals("")?"date":data.getDate();
                 Bitmap bmp = data.getBmp();
+                String description = data.getDescription();
+                String type = data.getType();
                 Log.d("aa",file+"++"+url);
-
-                DataObject obj = new DataObject(file,url,sendername,datesent,bmp);
-                results.add(index, obj);
-                index++;
-                mRecyclerView.setAdapter(mAdapter);
+                if(type.equalsIgnoreCase("Announcement")) {
+                    DataObject obj = new DataObject(file, url, sendername, datesent, bmp,description);
+                    results.add(index, obj);
+                    index++;
+                    mRecyclerView.setAdapter(mAdapter);
+                }
 
 
             }

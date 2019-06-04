@@ -1,23 +1,18 @@
 package dschik.noticeboard;
-import android.media.Image;
 import android.content.Context;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.BitmapShader;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
-import com.google.android.gms.tasks.Continuation;
 import com.google.android.material.navigation.NavigationView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -56,7 +51,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
-import com.google.firebase.ml.vision.label.FirebaseVisionOnDeviceImageLabelerOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
@@ -64,8 +58,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -101,6 +93,7 @@ public class UploadActivity extends AppCompatActivity implements
     private Button upload;
     ImageView imagePreview;
     EditText file;
+    EditText description;
     GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     @Override
@@ -111,6 +104,7 @@ public class UploadActivity extends AppCompatActivity implements
         //initialization of views and setting ClickListeners
         TextView usr,motto_view;
         file = findViewById(R.id.file_name);
+        description = findViewById(R.id.postDescription);
         imagePreview = findViewById(R.id.preview_image);
         choose = findViewById(R.id.choose_button);
         upload = findViewById(R.id.upload_button);
@@ -374,6 +368,7 @@ public class UploadActivity extends AppCompatActivity implements
         if (filePath != null) {
             //displaying a progress dialog while upload is going on
             final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             progressDialog.setTitle("Uploading");
             progressDialog.show();
 
@@ -401,10 +396,10 @@ public class UploadActivity extends AppCompatActivity implements
                 e.printStackTrace();
                 Log.d("aa","catch");
             }
-            FirebaseVisionOnDeviceImageLabelerOptions options = new FirebaseVisionOnDeviceImageLabelerOptions.Builder()
+            FirebaseVisionCloudImageLabelerOptions options = new FirebaseVisionCloudImageLabelerOptions.Builder()
                                                             .setConfidenceThreshold(0.7f).build();
             FirebaseVisionImageLabeler labeler= FirebaseVision.getInstance()
-                    .getOnDeviceImageLabeler(options);
+                    .getCloudImageLabeler(options);
 
             labeler.processImage(image)
                     .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
@@ -440,7 +435,7 @@ public class UploadActivity extends AppCompatActivity implements
                     Toast.makeText(getApplicationContext(), "File Uploaded ", Toast.LENGTH_LONG).show();
 
 
-                    Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();
+                    Task<Uri> task = taskSnapshot.getMetadata().getReference().getDownloadUrl();//getting the download URL
                     task.addOnCompleteListener(new OnCompleteListener<Uri>() {
                         @Override
                         public void onComplete(@NonNull Task<Uri> task) {
@@ -452,9 +447,9 @@ public class UploadActivity extends AppCompatActivity implements
                                 e.printStackTrace();
                             }
 
-                            String rl = url.toString();//get firebase uri
+                            String rl = url.toString();//got firebase URL
 
-                            final FirebaseUser fuser1 = mAuth.getCurrentUser();//getting details for record database class object
+                            final FirebaseUser fuser1 = mAuth.getCurrentUser();//getting details for Record database class object
                             Date date = new Date();
                             Bitmap bitmp = null;
                             InputStream is = null;                                  /* creating bitmap from file path uri
@@ -466,17 +461,9 @@ public class UploadActivity extends AppCompatActivity implements
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                             record r = null;
-                            /*if(type_name.equalsIgnoreCase(".jpeg") || type_name.equalsIgnoreCase(".png")) {
-                                r = new record(rl, fuser1.getDisplayName(), dateFormat.format(date),bitmp);
-                                // if they are image the bitmap is attached to record object
-                            }
-                            else
-                            {
-                                //else set to null. to be handled by view adapter
-                                r = new record(rl, fuser1.getDisplayName(), dateFormat.format(date),null);
-                            }*/
-                            r = new record(rl, fuser1.getDisplayName(), dateFormat.format(date),null);
+                             Record r = null;//initializing the Record class
+                            String desc = description.getText().toString();//getting desccription of upload
+                            r = new Record(rl, fuser1.getDisplayName(), dateFormat.format(date),desc,motto,null);//setting values
                             //Log.d("aa",filePath);
                             dbref.child(file_name).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -488,6 +475,7 @@ public class UploadActivity extends AppCompatActivity implements
 
 
                                         Toast.makeText(UploadActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                                        //Snackbar.make(get, "Upload successful",Snackbar.LENGTH_SHORT).show();
                                         //imagePreview.setImageBitmap(bitmp);
                                     } else {
                                         Toast.makeText(UploadActivity.this, "Upload NOT successful", Toast.LENGTH_SHORT).show();

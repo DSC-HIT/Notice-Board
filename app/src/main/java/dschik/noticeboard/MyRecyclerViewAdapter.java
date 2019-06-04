@@ -32,6 +32,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         TextView dateTime;
         TextView sendername;
         TextView urldata;
+        TextView desc;
         ImageView preview;
         Button b;
 
@@ -43,6 +44,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             sendername = (TextView) itemView.findViewById(R.id.sendername);
             urldata = (TextView) itemView.findViewById(R.id.urldata);
             preview = (ImageView) itemView.findViewById(R.id.imageView);
+            desc = (TextView) itemView.findViewById(R.id.postDescription);
 
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
@@ -135,6 +137,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.sendername.setText(sendername);
         holder.dateTime.setText(datetime);
         holder.urldata.setText(url);
+        holder.desc.setText(mDataset.get(position).getDescription());
         if(mDataset.get(position).getBmp() != null)//if it is a image bitmap will have data and that is set in preview
             holder.preview.setImageBitmap(mDataset.get(position).getBmp());
         else{                                       //else the preview is set according to file type

@@ -2,22 +2,26 @@ package dschik.noticeboard;
 
 import android.graphics.Bitmap;
 
-public class record {
+public class Record {
     private String url;
     private String sender;
     private String date;
     private Bitmap bmp;
+    private String description;
+    private String type;
 
-    public record()
+    public Record()
     {
 
     }
 
-    public record(String ul,String send, String d,Bitmap bm)
+    public Record(String ul, String send, String d, String des, String t, Bitmap bm)
     {
         url = ul;
         sender = send;
         date = d;
+        description = des;
+        type = t;
         bmp = bm;
     }
 
@@ -31,6 +35,14 @@ public class record {
     public String getDate()
     {
         return date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getType() {
+        return type;
     }
 
     public Bitmap getBmp()

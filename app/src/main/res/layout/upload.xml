@@ -34,6 +34,7 @@
                     android:layout_marginTop="90dp"/>
 
                 <LinearLayout
+                    android:id="@+id/linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="144dp"
@@ -58,6 +59,15 @@
                         android:hint="Enter the name of the file."
                         android:textColorHint="@color/colorAccent"/>
                 </LinearLayout>
+                <EditText
+                    android:id="@+id/postDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linear"
+                    android:hint="Description(optional)"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:textColorHint="@color/colorAccent"/>
 
 
                 <ImageView
@@ -69,7 +79,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
-                    android:layout_marginTop="215dp"
+                    android:layout_marginTop="250dp"
                     android:background="@drawable/upload_image" />
 
                 <Button
