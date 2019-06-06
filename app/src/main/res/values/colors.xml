@@ -29,4 +29,22 @@
 
     <color name="dividercolor">#BDBDBD</color>
 
+    <color name="address">#2F7092</color>
+
+    <color name="headings">#3797CF</color>
+
+    <color name="solidcircle">#80FFFFFF</color>
+
+    <color name="circleborder">#30FFFFFF</color>
+
+    <color name="gradend">#67EFC8</color>
+
+    <color name="gradstart">#63C9FF</color>
+
+    <color name="followersbg">#65DCE5</color>
+
+    <color name="followingbg">#49BEFF</color>
+
+    <color name="grey">#E5E5E5</color>
+
 </resources>
