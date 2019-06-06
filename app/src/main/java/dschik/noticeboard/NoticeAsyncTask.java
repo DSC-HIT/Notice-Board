@@ -91,7 +91,7 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String>{
                 DataObject obj = new DataObject(head, link, "Heritage Institute of Technology","01/01/19",null,"");
                 dt.add(i, obj);
                 //Log.d("aa","*--");
-                myRecyclerViewAdapter= new MyRecyclerViewAdapter(dt);
+                myRecyclerViewAdapter= new MyRecyclerViewAdapter(dt,c);
                 mrecyler.setAdapter(myRecyclerViewAdapter);
             }
         } catch (Exception e){

@@ -53,6 +53,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 
 import java.util.ArrayList;
@@ -119,7 +120,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(),AnnouncementActivity.this);
 
         mRecyclerView.setAdapter(mAdapter);
 
@@ -181,12 +182,68 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
     }
 
-    void refreshContent()
+    private void searchContent(String newText)
     {
 
+        Query myquery= dbref.orderByChild(newText);
+
+        myquery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("aa","added");
+                shimmerFrameLayout.setVisibility(ShimmerFrameLayout.GONE);
+                shimmerFrameLayout.stopShimmer();
+                String file= dataSnapshot.getKey();
+                Record data = dataSnapshot.getValue(Record.class);
+                int index =0;
+                String url = data.getUrl();
+                String sendername= data.getSender().equals("")?"sender":data.getSender();
+                String datesent = data.getDate().equals("")?"date":data.getDate();
+                Bitmap bmp = data.getBmp();
+                String description = data.getDescription();
+                String type = data.getType();
+                Log.d("aa",file+"++"+url);
+                if(type.equalsIgnoreCase("Announcement")) {
+                    DataObject obj = new DataObject(file, url, sendername, datesent, bmp,description);
+                    results.add(index, obj);
+                    index++;
+                    mRecyclerView.setAdapter(mAdapter);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
-    void getContent()
+    private void refreshContent()
+    {
+        shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        results = new ArrayList<DataObject>();
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(),AnnouncementActivity.this);
+        mRecyclerView.setAdapter(mAdapter);
+        getContent();
+    }
+
+    private void getContent()
     {
         dbref.addChildEventListener(new ChildEventListener() {
 
@@ -287,8 +344,15 @@ public class AnnouncementActivity<search> extends AppCompatActivity
             @Override
             public boolean onQueryTextChange(String newText) {
                 //mAdapter.getFilter().filter(newText);
-                dbref.child(newText);
-                return false;
+
+                shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
+                shimmerFrameLayout.startShimmer();
+                results = new ArrayList<DataObject>();
+                mAdapter = new MyRecyclerViewAdapter(getDataSet(),AnnouncementActivity.this);
+                mRecyclerView.setAdapter(mAdapter);
+                if(!newText.equals(""))
+                    searchContent(newText);
+                return true;
             }
         });
         getMenuInflater().inflate(R.menu.announcement, menu);

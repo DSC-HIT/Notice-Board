@@ -94,7 +94,7 @@ public class NotesDownload extends AppCompatActivity
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(),NotesDownload.this);
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -136,12 +136,22 @@ public class NotesDownload extends AppCompatActivity
                 swiper.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getContent();
+                        refreshContent();
                     }
                 },2000);
             }
         });
 
+    }
+
+    private void refreshContent()
+    {
+        shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        results = new ArrayList<DataObject>();
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(),NotesDownload.this);
+        mRecyclerView.setAdapter(mAdapter);
+        getContent();
     }
 
     private void getContent()
