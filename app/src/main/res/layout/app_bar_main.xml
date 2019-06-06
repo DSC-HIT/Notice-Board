@@ -22,21 +22,6 @@
             app:contentScrim="@color/colorPrimary"
             app:scrimAnimationDuration="500"
             android:fitsSystemWindows="true">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Heritage Institute of Technology"
-                    android:textSize="20dp"
-                    android:layout_gravity="left"
-                    android:layout_marginTop="50dp"
-                    android:padding="10dp"/>
-            </LinearLayout>
-
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"

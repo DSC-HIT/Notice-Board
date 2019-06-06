@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -170,7 +171,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                 swiper.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getContent();
+                        refreshContent();
                     }
                 },1000);
             }
@@ -180,14 +181,17 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
     }
 
+    void refreshContent()
+    {
 
+    }
 
     void getContent()
     {
         dbref.addChildEventListener(new ChildEventListener() {
 
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
 
                 swiper.setRefreshing(false);
 
@@ -283,6 +287,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
             @Override
             public boolean onQueryTextChange(String newText) {
                 //mAdapter.getFilter().filter(newText);
+                dbref.child(newText);
                 return false;
             }
         });

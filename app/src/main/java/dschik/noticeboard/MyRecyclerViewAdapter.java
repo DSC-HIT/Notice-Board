@@ -12,9 +12,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
@@ -34,7 +33,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         TextView urldata;
         TextView desc;
         ImageView preview;
-        Button b;
+        MaterialButton b;
 
         public DataObjectHolder(final View itemView) {
             super(itemView);
@@ -96,7 +95,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         @Override
         public void onClick(View v) {
             try {
-
+                Log.d("aa","clicked");
+                label.setMaxLines(3);
                 myClickListener.onItemClick(getAdapterPosition(), v);
             }
             catch (Exception e)
@@ -143,7 +143,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         else{                                       //else the preview is set according to file type
             if(url.contains(".pdf"))
             {
-                holder.preview.setImageResource(R.drawable.pdf_logo);
+                holder.preview.setImageResource(R.drawable.pdf_logo1);
             }
             else if(url.contains(".jpeg") || url.contains(".png")){
                 holder.preview.setImageResource(R.drawable.image_logo);

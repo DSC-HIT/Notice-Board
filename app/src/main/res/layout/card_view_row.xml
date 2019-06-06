@@ -106,13 +106,19 @@
             android:layout_height="wrap_content"
             android:background="@drawable/carder"
             android:layout_marginBottom="15dp">
-            <Button
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                android:layout_width="wrap_content"
+                app:icon="@drawable/ic_share_black_24dp"
+                app:iconTint="@color/colorAccent"
+                android:layout_height="wrap_content"
                 android:id="@+id/carder_button2"
-                android:background="@drawable/ic_share_black_24dp"
+                android:backgroundTint="#0000"
+                android:textColor="@color/colorAccent"
+                android:layout_marginRight="-25dp"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,13 +128,12 @@
 
                 <ImageView
                     android:id="@+id/imageView"
-                    android:layout_width="195dp"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="-35dp"
                     android:layout_margin="5dp"
-                    android:background="@drawable/carder_view_image"
                     android:layout_alignParentLeft="true"
-                    android:layout_weight="1"/>
+                    android:layout_weight="2"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -172,16 +177,17 @@
                             android:textColor="#9C9C9C"
                             android:textStyle="bold"
                             android:layout_below="@+id/sendername"/>
-                        <Button
+                        <com.google.android.material.button.MaterialButton
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:id="@+id/carder_button3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="DOWNLOAD"
                             android:textSize="13sp"
-                            android:background="@drawable/download_button"
-                            android:textColor="#fff"
+                            android:textColor="@color/colorAccent"
+                            app:cornerRadius="5dp"
                             android:layout_below="@+id/dateTime"
-                            android:layout_alignParentBottom="true"
+                            android:layout_alignParentBottom="false"
                             android:layout_alignParentRight="true"
                             android:layout_marginTop="0dp"
                             android:layout_marginRight="15dp" />

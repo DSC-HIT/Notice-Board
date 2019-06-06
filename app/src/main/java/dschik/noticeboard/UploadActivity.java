@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import androidx.annotation.NonNull;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.android.material.navigation.NavigationView;
@@ -350,7 +349,7 @@ public class UploadActivity extends AppCompatActivity implements
                 {
                     imagePreview.setImageBitmap(bitmap);
                 }else {
-                    imagePreview.setImageResource(R.drawable.pdf_logo);
+                    imagePreview.setImageResource(R.drawable.pdf_logo1);
                 }
 
 
