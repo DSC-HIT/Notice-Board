@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,6 +27,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     //static String[] url;
     static  int range = 0;
 
+    Context context;
+
+    private int lastPosition = -1;
+
     public static class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView label;
@@ -34,8 +40,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         TextView desc;
         ImageView preview;
         MaterialButton b;
+        View card;
 
-        public DataObjectHolder(final View itemView) {
+        DataObjectHolder(final View itemView) {
             super(itemView);
             final Context context = itemView.getContext();
             label = (TextView) itemView.findViewById(R.id.textView);
@@ -44,6 +51,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             urldata = (TextView) itemView.findViewById(R.id.urldata);
             preview = (ImageView) itemView.findViewById(R.id.imageView);
             desc = (TextView) itemView.findViewById(R.id.postDescription);
+            card = itemView.findViewById(R.id.card_view);
 
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
@@ -82,10 +90,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 @Override
                 public void onClick(View v) {
                     String link = urldata.getText().toString();
-                    DownloadManager d = (DownloadManager) context.getSystemService(context.DOWNLOAD_SERVICE);
+                    DownloadManager d = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
                     Uri uri = Uri.parse(link);
                     DownloadManager.Request request= new DownloadManager.Request(uri);
                     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
+                    assert d != null;
                     Long referrence = d.enqueue(request);
                     Log.d("aa","down clicked");
                 }
@@ -97,6 +106,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             try {
                 Log.d("aa","clicked");
                 label.setMaxLines(3);
+                desc.setMaxLines(10);
                 myClickListener.onItemClick(getAdapterPosition(), v);
             }
             catch (Exception e)
@@ -111,8 +121,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
 
-    public MyRecyclerViewAdapter(ArrayList<DataObject> myDataset) {
+    public MyRecyclerViewAdapter(ArrayList<DataObject> myDataset, Context context) {
         mDataset = myDataset;
+        this.context = context;
         //url = new String[myDataset.size()];
         //Log.d("aa",myDataset.size()+"kk");
 
@@ -130,6 +141,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
+        setAnimation(holder.card,position);//setting animation
         String sendername = "Sender: "+mDataset.get(position).getmText3();
         String datetime = "Date: "+mDataset.get(position).getmText4();
         String url = mDataset.get(position).getmText2();
@@ -152,8 +164,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 holder.preview.setImageResource(R.drawable.link);
             }
         }
-        //url[position] = mDataset.get(position).getmText2();
 
+    }
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils
+                    .loadAnimation(context, android.R.anim.fade_in);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     public void addItem(DataObject dataObj, int index) {

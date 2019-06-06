@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import com.google.android.material.navigation.NavigationView;
@@ -38,6 +39,7 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 public class NoticeViewer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -52,6 +54,7 @@ public class NoticeViewer extends AppCompatActivity
     private RecyclerView.LayoutManager mLayoutManager;
     private static String LOG_TAG = "CardViewActivity";
     SwipeRefreshLayout swiper;
+    ShimmerFrameLayout shimmerFrameLayout;
 
     JSONObject jobj;
 
@@ -80,14 +83,13 @@ public class NoticeViewer extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        final ShimmerFrameLayout shimmerFrameLayout = findViewById(R.id.shimmer);
+        shimmerFrameLayout = findViewById(R.id.shimmer);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
 
         final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView,shimmerFrameLayout,swiper);
         URL url[] = new URL[1];
         try {
-            //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
             url[0]= new URL("https://scraping-noticeboard.herokuapp.com/notices");
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -119,8 +121,8 @@ public class NoticeViewer extends AppCompatActivity
 
         swiper.setColorSchemeColors(getResources().getColor(R.color.colorPrimary)
                 , getResources().getColor(R.color.primarylight)
-                , getResources().getColor(R.color.colorPrimaryDark)
-                , getResources().getColor(R.color.colorAccent));
+                , getResources().getColor(R.color.colorAccent)
+                , getResources().getColor(R.color.colorPrimaryDark));
 
 
 
@@ -131,21 +133,34 @@ public class NoticeViewer extends AppCompatActivity
                 swiper.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView,shimmerFrameLayout,swiper);
-                        URL url[] = new URL[1];
-                        try {
-                            //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
-                            url[0]= new URL("https://scraping-noticeboard.herokuapp.com/notices");
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
-                        noticeAsyncTask.execute(url);
+                        refreshContent();
                     }
                 },2000);
             }
         });
 
 
+    }
+
+
+    private void refreshContent()
+    {
+        shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+
+        ArrayList<DataObject> results = new ArrayList<DataObject>();
+        mAdapter = new MyRecyclerViewAdapter(results,NoticeViewer.this);
+        mRecyclerView.setAdapter(mAdapter);
+
+        final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(NoticeViewer.this,mRecyclerView,shimmerFrameLayout,swiper);
+        URL url[] = new URL[1];
+        try {
+            //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
+            url[0]= new URL("https://scraping-noticeboard.herokuapp.com/notices");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        noticeAsyncTask.execute(url);
     }
 
 
@@ -190,6 +205,8 @@ public class NoticeViewer extends AppCompatActivity
             @Override
             public boolean onQueryTextChange(String newText) {
                 //mAdapter.getFilter().filter(newText);
+
+
                 return false;
             }
         });
