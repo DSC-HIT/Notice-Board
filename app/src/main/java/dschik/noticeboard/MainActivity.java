@@ -170,6 +170,11 @@ public class MainActivity extends AppCompatActivity implements
             startActivity(i);
             return true;
         }
+        else if(id==R.id.profile){
+            Intent i=new Intent(MainActivity.this,ProfileActivity.class);
+            startActivity(i);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }

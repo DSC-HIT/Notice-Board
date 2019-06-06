@@ -308,10 +308,13 @@ public class AnnouncementActivity<search> extends AppCompatActivity
             startActivity(i);
             return true;
         }
-
+        else if(id==R.id.profile){
+            Intent i=new Intent(AnnouncementActivity.this,ProfileActivity.class);
+            startActivity(i);
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {

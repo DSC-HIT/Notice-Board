@@ -224,6 +224,11 @@ public class UploadActivity extends AppCompatActivity implements
             startActivity(i);
             return true;
         }
+        else if(id==R.id.profile){
+            Intent i=new Intent(UploadActivity.this,ProfileActivity.class);
+            startActivity(i);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
