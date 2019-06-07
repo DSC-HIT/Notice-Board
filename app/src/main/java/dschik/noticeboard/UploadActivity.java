@@ -367,9 +367,10 @@ public class UploadActivity extends AppCompatActivity implements
             final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH);
             final Date date = new Date();
             FirebaseUser fuser = mAuth.getCurrentUser();
+            assert fuser != null;
             StorageMetadata storageMetadata = new StorageMetadata.Builder()
                     .setContentType(type_name)
-                    .setCustomMetadata("user", fuser.getDisplayName())
+                    .setCustomMetadata("user", sh.getString("dis_name","name"))
                     .setCustomMetadata("date", dateFormat.format(date)).build();
 
             /*Context context = UploadActivity.this;
@@ -429,11 +430,13 @@ public class UploadActivity extends AppCompatActivity implements
                             Uri uri = task.getResult();
                             URL url = null;
                             try {
+                                assert uri != null;
                                 url = new URL(uri.toString());
                             } catch (MalformedURLException e) {
                                 e.printStackTrace();
                             }
 
+                            assert url != null;
                             String rl = url.toString();//got firebase URL
 
                             final FirebaseUser fuser1 = mAuth.getCurrentUser();//getting details for Record database class object
@@ -444,13 +447,15 @@ public class UploadActivity extends AppCompatActivity implements
                             try {
                                 is = getContentResolver().openInputStream(filePath);
                                 bitmp = BitmapFactory.decodeStream(is);
+                                assert is != null;
                                 is.close();
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             Record r = null;//initializing the Record class
                             String desc = description.getText().toString();//getting desccription of upload
-                            r = new Record(rl, fuser1.getDisplayName(), dateFormat.format(date), desc, motto, null);//setting values
+                            assert fuser1 != null;
+                            r = new Record(rl, sh.getString("dis_name","name"), dateFormat.format(date), desc, motto, null);//setting values
                             //Log.d("aa",filePath);
                             dbref.child(file_name).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

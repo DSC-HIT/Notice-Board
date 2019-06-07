@@ -28,21 +28,20 @@
                 android:src="@drawable/transparent" />
         </RelativeLayout>
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgUser"
             android:layout_centerHorizontal="true"
-            android:text="SOUHARDYA"
             android:textSize="32sp"
             android:layout_marginTop="15sp"
             android:fontFamily="sans-serif-light"
             android:textColor="#fff"/>
         <TextView
-            android:id="@+id/tv_address"
+            android:id="@+id/user_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_name"
+            android:layout_below="@+id/user_name"
             android:layout_centerHorizontal="true"
             android:text="kolkata,INDIA"
             android:textSize="14sp"
@@ -80,6 +79,7 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
                 <TextView
+                    android:id="@+id/rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5"
@@ -110,6 +110,7 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
                 <TextView
+                    android:id="@+id/progressbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="56%"
@@ -150,6 +151,7 @@
                     android:textSize="13sp"
                     android:textColor="@color/headings"/>
                 <TextView
+                    android:id="@+id/user_email"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
@@ -175,6 +177,7 @@
                     android:textSize="13sp"
                     android:textColor="@color/headings"/>
                 <TextView
+                    android:id="@+id/user_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
@@ -200,6 +203,7 @@
                     android:textSize="13sp"
                     android:textColor="@color/headings"/>
                 <TextView
+                    android:id="@+id/user_fb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"

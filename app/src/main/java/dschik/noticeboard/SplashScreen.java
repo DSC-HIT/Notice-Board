@@ -35,7 +35,7 @@ public class SplashScreen extends Activity {
             @Override
             public void run() {
                 FirebaseUser fb = mAuth.getCurrentUser();
-                if(/*username.equals("heritage") && password.equals("123")*/ fb != null)
+                if( fb != null)
                 {
                     Intent mainIntent =new Intent(SplashScreen.this,MainActivity.class);
                     SplashScreen.this.startActivity(mainIntent);

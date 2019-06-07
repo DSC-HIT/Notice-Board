@@ -59,4 +59,12 @@ public class DataObject {
     public String getDescription() {
         return description;
     }
+
+    public void setBmp(Bitmap bmp) {
+        this.bmp = bmp;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

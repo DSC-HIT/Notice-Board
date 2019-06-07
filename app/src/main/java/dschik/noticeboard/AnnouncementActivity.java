@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,8 +54,8 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
     private static String LOG_TAG = "CardViewActivity";
     GoogleApiClient mGoogleApiClient;
-    FirebaseDatabase db;
-    DatabaseReference dbref;
+    private FirebaseDatabase db;
+    private DatabaseReference dbref;
 
     ArrayList results = new ArrayList<DataObject>();
 
@@ -73,7 +72,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     private View searchAppBarLayout;
     private TabLayout tabLayout;
     private Toolbar searchToolBar;
-    private RatingBar ratingBar;
+    //private RatingBar ratingBar;
     private ImageView search;
 
     @Override
@@ -110,7 +109,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
         mRecyclerView.setAdapter(mAdapter);
 
-        ratingBar = findViewById(R.id.myRatingBar);
+        //ratingBar = findViewById(R.id.myRatingBar);
 
 
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -240,8 +239,8 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                 Record data = dataSnapshot.getValue(Record.class);
                 int index = 0;
                 String url = data.getUrl();
-                String sendername = data.getSender().equals("") ? "sender" : data.getSender();
-                String datesent = data.getDate().equals("") ? "date" : data.getDate();
+                String sendername = data.getSender();
+                String datesent = data.getDate();
                 Bitmap bmp = data.getBmp();
                 String description = data.getDescription();
                 String type = data.getType();

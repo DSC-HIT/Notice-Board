@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,12 +23,19 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -43,6 +51,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private String USER_NAME = "username";
     private String PASS_WORD = "password";
     private FirebaseAuth mAuth;
+    private FirebaseFirestore firestore;
 
     @Override
     public void onCreate(Bundle savedinstances) {
@@ -53,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         password = (EditText) findViewById(R.id.signin_password);
 
         mAuth = FirebaseAuth.getInstance();
-
+        firestore = FirebaseFirestore.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("766540027212-2aprl8n1hp19j29q6olnjijfhn5oca11.apps.googleusercontent.com")
                 .requestEmail()
@@ -95,12 +104,12 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         });
 
         findViewById(R.id.reg_google).setOnClickListener(new View.OnClickListener() {
-                                                             @Override
-                                                             public void onClick(View v) {
-                                                                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-                                                                 startActivityForResult(intent, RC_SIGN_IN);
-                                                             }
-                                                         }
+             @Override
+             public void onClick(View v) {
+                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+                 startActivityForResult(intent, RC_SIGN_IN);
+             }
+         }
         );
 
     }
@@ -125,17 +134,19 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("aa", "createUserWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
 
-                            shedit.putString("dis_name", username);
+                            shedit.putString("dis_email",username);
+                            shedit.putString("dis_name", username.substring(0, username.indexOf('@')));
                             shedit.apply();
 
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
+                            createUserAccountInFirestore();
 
-                            Toast.makeText(SignUpActivity.this, "Authentication success.",
-                                    Toast.LENGTH_SHORT).show();
+                            //Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                            //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            //startActivity(intent);
+
+                            Toast.makeText(SignUpActivity.this, "Authentication success. Now Login Using these Credentials",
+                                    Toast.LENGTH_LONG).show();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d("aa", "createUserWithEmail:failure" + task.getException().getMessage());
@@ -186,7 +197,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                             String name = "";
                             try {
                                 name = user.getDisplayName();
-
+                                shedit.putString("dis_email",user.getEmail());
                                 shedit.putString("dis_name", name);
                                 shedit.apply();
 
@@ -194,6 +205,10 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                                 user_name = user.getEmail();
                                 pass_word = user.getUid();
                                 Log.d("aa", name + "==" + user_name + "==" + pass_word);
+
+                                createUserAccountInFirestore();
+
+
                                 Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(i);
@@ -214,6 +229,31 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                         // ...
                     }
                 });
+    }
+
+    private void createUserAccountInFirestore()
+    {
+        //creating a user in DB and popullating it.
+
+        String name = sh.getString("dis_name","name");
+        String email = sh.getString("dis_email","email");
+
+        Map<String,Object> user1 =new HashMap<>();
+        user1.put("name",name);
+        user1.put("email",email);
+        //user1.put("fbuser",user);
+        firestore.collection("userr").add(user1)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(SignUpActivity.this,"Successfully siged in!",Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });   // DB operation complete
     }
 
 

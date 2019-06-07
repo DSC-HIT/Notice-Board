@@ -2,6 +2,9 @@ package dschik.noticeboard;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.Keep;
+
+@Keep
 public class Record {
     private String url;
     private String sender;
@@ -24,6 +27,8 @@ public class Record {
         type = t;
         bmp = bm;
     }
+
+
 
     public String getUrl() {
         return url;
@@ -48,5 +53,29 @@ public class Record {
     public Bitmap getBmp()
     {
         return bmp;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setBmp(Bitmap bmp) {
+        this.bmp = bmp;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

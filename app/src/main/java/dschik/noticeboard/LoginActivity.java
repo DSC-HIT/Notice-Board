@@ -6,17 +6,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.DialogTitle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -25,6 +24,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthCredential;
@@ -32,31 +33,31 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
+    private static final int RC_SIGN_IN = 9001;
     MaterialButton register;
-
     EditText username, password;
+    //private String[] userRoleString = new String[]{"admin", "student"};
     //String userrole = "admin";
     TextView signin;
-    //private String[] userRoleString = new String[]{"admin", "student"};
-
-    private static final int RC_SIGN_IN = 9001;
-
     SharedPreferences sh;
     SharedPreferences.Editor shedit;
-
-    private String USER_NAME = "username";
-    private String PASS_WORD = "password";
-
     String user_name;
     String pass_word;
-
-    private FirebaseAuth mAuth;
-
     GoogleApiClient mGoogleApiClient;
+    private String USER_NAME = "username";
+    private String PASS_WORD = "password";
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    private FirebaseFirestore firestore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         shedit = sh.edit();
 
         mAuth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("766540027212-2aprl8n1hp19j29q6olnjijfhn5oca11.apps.googleusercontent.com")
@@ -132,17 +134,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String email = input.getText().toString();
-                        if(!TextUtils.isEmpty(email))
-                        {
+                        if (!TextUtils.isEmpty(email)) {
                             FirebaseAuth auth = FirebaseAuth.getInstance();
                             auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(LoginActivity.this, "Password Reset Email Sent!",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(LoginActivity.this, "Password Reset Email Sent!", Toast.LENGTH_LONG).show();
                                 }
                             });
                         } else {
-                            Toast.makeText(LoginActivity.this, "Email Required!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Email Required!", Toast.LENGTH_LONG).show();
 
                         }
                     }
@@ -165,16 +166,14 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onActivityResult(req, resultCode, data);
         if (req == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            Log.d("aa",result.getStatus().getStatusCode()+"**");
+            Log.d("aa", result.getStatus().getStatusCode() + "**");
             if (result.isSuccess()) {
-                Log.d("aa","pp");
+                Log.d("aa", "pp");
                 GoogleSignInAccount account = result.getSignInAccount();
                 if (account != null)
                     firebaseAuthWithGoogle(account);
-            }
-            else
-            {
-                Log.d("aa","qq");
+            } else {
+                Log.d("aa", "qq");
             }
         }
     }
@@ -190,26 +189,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("aa", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
 
                             String name = "";
                             try {
                                 name = user.getDisplayName();
 
-                                shedit.putString("dis_name",name);
+                                shedit.putString("dis_email",user.getEmail());
+                                shedit.putString("dis_name", name);
                                 shedit.apply();
 
 
                                 user_name = user.getEmail();
                                 pass_word = user.getUid();//using ID as password
-                                Log.d("aa", name + "==" + user_name + "==" + pass_word);
+
+
+                                createUserAccountInFirestore();
+
+                                //sending it to next activity
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(i);
 
-                                //username.setText(user_name);
-                                //password.setText(pass_word);
+
                             } catch (NullPointerException n) {
                                 n.printStackTrace();
                             }
@@ -248,11 +251,16 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("aa", "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            user = mAuth.getCurrentUser();
                             if (user != null) {
 
-                                shedit.putString("dis_name",username.substring(0,username.indexOf('@')));
+                                shedit.putString("dis_email",username);
+                                shedit.putString("dis_name", username.substring(0, username.indexOf('@')));
                                 shedit.apply();
+
+
+                                createUserAccountInFirestore();
+
 
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -264,7 +272,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d("aa", "signInWithEmail:failure"+task.getException().getMessage());
+                            Log.d("aa", "signInWithEmail:failure" + task.getException().getMessage());
                             Toast.makeText(LoginActivity.this, task.getException().getMessage(),
 
                                     Toast.LENGTH_SHORT).show();
@@ -284,8 +292,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);
@@ -294,5 +301,29 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 
+    private void createUserAccountInFirestore()
+    {
+        //creating a user in DB and popullating it.
+
+        String name = sh.getString("dis_name","name");
+        String email = sh.getString("dis_email","email");
+
+        Map<String,Object> user1 =new HashMap<>();
+        user1.put("name",name);
+        user1.put("email",email);
+        //user1.put("fbuser",user);
+        firestore.collection("userr").add(user1)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(LoginActivity.this,"Successfully siged in!",Toast.LENGTH_LONG).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });   // DB operation complete
+    }
 
 }
