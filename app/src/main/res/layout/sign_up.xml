@@ -105,8 +105,9 @@
                     android:textColor="#000000"
                     android:textSize="30dp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/signin_button"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"

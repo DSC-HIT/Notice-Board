@@ -1,42 +1,31 @@
 package dschik.noticeboard;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.auth.api.Auth;
@@ -45,6 +34,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,39 +47,33 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-
 import java.util.ArrayList;
 
 public class AnnouncementActivity<search> extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
-                    ,GoogleApiClient.OnConnectionFailedListener{
+        , GoogleApiClient.OnConnectionFailedListener {
 
+    private static String LOG_TAG = "CardViewActivity";
     GoogleApiClient mGoogleApiClient;
-    private FirebaseAuth mAuth;
-
     FirebaseDatabase db;
     DatabaseReference dbref;
 
     ArrayList results = new ArrayList<DataObject>();
 
     SharedPreferences sh;
-
+    ShimmerFrameLayout shimmerFrameLayout;
+    SwipeRefreshLayout swiper;
+    private FirebaseAuth mAuth;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private static String LOG_TAG = "CardViewActivity";
     private AppBarLayout appBar;
     private Toolbar toolbar;
     private EditText searchEditText;
     private View searchAppBarLayout;
     private TabLayout tabLayout;
     private Toolbar searchToolBar;
-
-
-
-    ShimmerFrameLayout shimmerFrameLayout;
-    SwipeRefreshLayout swiper;
-
+    private RatingBar ratingBar;
     private ImageView search;
 
     @Override
@@ -114,49 +100,49 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView = findViewById(R.id.my_recycler_view);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new MyRecyclerViewAdapter(getDataSet(),AnnouncementActivity.this);
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), AnnouncementActivity.this);
 
         mRecyclerView.setAdapter(mAdapter);
 
+        ratingBar = findViewById(R.id.myRatingBar);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(AnnouncementActivity.this, UploadActivity.class);
-                i.putExtra("flag",true);
+                i.putExtra("flag", true);
                 startActivity(i);
             }
 
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
 
         View header = navigationView.getHeaderView(0);
         TextView usr = header.findViewById(R.id.userText);
 
-        FirebaseUser user= mAuth.getCurrentUser();
+        FirebaseUser user = mAuth.getCurrentUser();
 
-        usr.setText(sh.getString("dis_name","user"));
-
+        usr.setText(sh.getString("dis_name", "user"));
 
 
         swiper = findViewById(R.id.swiper);
@@ -174,37 +160,35 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                     public void run() {
                         refreshContent();
                     }
-                },1000);
+                }, 1000);
             }
         });
 
 
-
     }
 
-    private void searchContent(String newText)
-    {
+    private void searchContent(String newText) {
 
-        Query myquery= dbref.orderByChild(newText);
+        Query myquery = dbref.orderByKey().startAt(newText);
 
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d("aa","added");
+                Log.d("aa", "added");
                 shimmerFrameLayout.setVisibility(ShimmerFrameLayout.GONE);
                 shimmerFrameLayout.stopShimmer();
-                String file= dataSnapshot.getKey();
+                String file = dataSnapshot.getKey();
                 Record data = dataSnapshot.getValue(Record.class);
-                int index =0;
+                int index = 0;
                 String url = data.getUrl();
-                String sendername= data.getSender().equals("")?"sender":data.getSender();
-                String datesent = data.getDate().equals("")?"date":data.getDate();
+                String sendername = data.getSender().equals("") ? "sender" : data.getSender();
+                String datesent = data.getDate().equals("") ? "date" : data.getDate();
                 Bitmap bmp = data.getBmp();
                 String description = data.getDescription();
                 String type = data.getType();
-                Log.d("aa",file+"++"+url);
-                if(type.equalsIgnoreCase("Announcement")) {
-                    DataObject obj = new DataObject(file, url, sendername, datesent, bmp,description);
+                Log.d("aa", file + "++" + url);
+                if (type.equalsIgnoreCase("Announcement")) {
+                    DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
                     results.add(index, obj);
                     index++;
                     mRecyclerView.setAdapter(mAdapter);
@@ -233,18 +217,16 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         });
     }
 
-    private void refreshContent()
-    {
+    private void refreshContent() {
         shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
         shimmerFrameLayout.startShimmer();
         results = new ArrayList<DataObject>();
-        mAdapter = new MyRecyclerViewAdapter(getDataSet(),AnnouncementActivity.this);
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), AnnouncementActivity.this);
         mRecyclerView.setAdapter(mAdapter);
         getContent();
     }
 
-    private void getContent()
-    {
+    private void getContent() {
         dbref.addChildEventListener(new ChildEventListener() {
 
             @Override
@@ -254,18 +236,18 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.GONE);
-                String file= dataSnapshot.getKey();
+                String file = dataSnapshot.getKey();
                 Record data = dataSnapshot.getValue(Record.class);
-                int index =0;
+                int index = 0;
                 String url = data.getUrl();
-                String sendername= data.getSender().equals("")?"sender":data.getSender();
-                String datesent = data.getDate().equals("")?"date":data.getDate();
+                String sendername = data.getSender().equals("") ? "sender" : data.getSender();
+                String datesent = data.getDate().equals("") ? "date" : data.getDate();
                 Bitmap bmp = data.getBmp();
                 String description = data.getDescription();
                 String type = data.getType();
-                Log.d("aa",file+"++"+url);
-                if(type.equalsIgnoreCase("Announcement")) {
-                    DataObject obj = new DataObject(file, url, sendername, datesent, bmp,description);
+                Log.d("aa", file + "++" + url);
+                if (type.equalsIgnoreCase("Announcement")) {
+                    DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
                     results.add(index, obj);
                     index++;
                     mRecyclerView.setAdapter(mAdapter);
@@ -296,6 +278,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         });
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -317,7 +300,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -336,22 +319,27 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         mSearchView.setQueryHint("Search");
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+
+                shimmerFrameLayout.startShimmer();
+                shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);//starting the animation will be stoping when child arrives.
+
+                results = new ArrayList<DataObject>();
+                mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
+                mRecyclerView.setAdapter(mAdapter);
+
+
+                if (!query.equals(""))//if query string is empty DON'T query
+                    searchContent(query);
+
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //mAdapter.getFilter().filter(newText);
 
-                shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
-                shimmerFrameLayout.startShimmer();
-                results = new ArrayList<DataObject>();
-                mAdapter = new MyRecyclerViewAdapter(getDataSet(),AnnouncementActivity.this);
-                mRecyclerView.setAdapter(mAdapter);
-                if(!newText.equals(""))
-                    searchContent(newText);
                 return true;
             }
         });
@@ -371,14 +359,14 @@ public class AnnouncementActivity<search> extends AppCompatActivity
             Intent i = new Intent(AnnouncementActivity.this, AboutActivity.class);
             startActivity(i);
             return true;
-        }
-        else if(id==R.id.profile){
-            Intent i=new Intent(AnnouncementActivity.this,ProfileActivity.class);
+        } else if (id == R.id.profile) {
+            Intent i = new Intent(AnnouncementActivity.this, ProfileActivity.class);
             startActivity(i);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -386,29 +374,29 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            Intent intent=new Intent(AnnouncementActivity.this,NoticeViewer.class);
+            Intent intent = new Intent(AnnouncementActivity.this, NoticeViewer.class);
             startActivity(intent);
         } else if (id == R.id.nav_announcement) {
-            Intent intent=new Intent(AnnouncementActivity.this,AnnouncementActivity.class);
+            Intent intent = new Intent(AnnouncementActivity.this, AnnouncementActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_notes) {
-            Intent intent=new Intent(AnnouncementActivity.this,NotesDownload.class);
+            Intent intent = new Intent(AnnouncementActivity.this, NotesDownload.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             signOut();
 
         } else if (id == R.id.nav_share_announcements) {
-            Intent intent=new Intent(AnnouncementActivity.this,UploadActivity.class);
-            intent.putExtra("flag",true);
+            Intent intent = new Intent(AnnouncementActivity.this, UploadActivity.class);
+            intent.putExtra("flag", true);
             startActivity(intent);
         } else if (id == R.id.nav_share_notes) {
-            Intent intent=new Intent(AnnouncementActivity.this,UploadActivity.class);
-            intent.putExtra("flag",false);
+            Intent intent = new Intent(AnnouncementActivity.this, UploadActivity.class);
+            intent.putExtra("flag", false);
             startActivity(intent);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -420,11 +408,11 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
     private void signOut() {
         mAuth.signOut();
-        Intent i = new Intent(this,LoginActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(i);
-        Toast.makeText(this,"Log In Please",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Log In Please", Toast.LENGTH_SHORT).show();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override

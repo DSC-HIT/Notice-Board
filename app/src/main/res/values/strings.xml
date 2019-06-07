@@ -30,4 +30,6 @@
     <string name="title_activity_notes_download">Notes</string>
     <string name="title_activity_notice_viewer">Notice Board</string>
     <string name="title_activity_announcement">Announcements</string>
+    <string name="profile">Profile</string>
+    <string name="about_name">About</string>
 </resources>
