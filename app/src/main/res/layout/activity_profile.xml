@@ -33,6 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgUser"
             android:layout_centerHorizontal="true"
+            android:textAllCaps="true"
+            android:text="SOUHARDYA"
             android:textSize="32sp"
             android:layout_marginTop="15sp"
             android:fontFamily="sans-serif-light"
@@ -43,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_name"
             android:layout_centerHorizontal="true"
-            android:text="kolkata,INDIA"
+            android:text="CSE-2nd-A"
             android:textSize="14sp"
             android:fontFamily="sans-serif"
             android:textColor="@color/address"/>
@@ -55,7 +57,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_settings_black_24dp"/>
+            android:srcCompat="@drawable/ic_settings_black_24dp"/>
 
     </RelativeLayout>
     <LinearLayout
@@ -151,14 +153,12 @@
                     android:textSize="13sp"
                     android:textColor="@color/headings"/>
                 <TextView
-                    android:id="@+id/user_email"
+                    android:id="@+id/email_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
                     android:fontFamily="sans-serif-light"
-                    android:textSize="18sp"
-                    android:text="souhardyaadhikary86942@gmail.com"/>
-
+                    android:textSize="18sp" />
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -177,14 +177,13 @@
                     android:textSize="13sp"
                     android:textColor="@color/headings"/>
                 <TextView
-                    android:id="@+id/user_number"
+                    android:id="@+id/phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"
                     android:fontFamily="sans-serif-light"
                     android:textSize="18sp"
-                    android:text="8910507749"/>
-
+                    android:text="891050774"/>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
