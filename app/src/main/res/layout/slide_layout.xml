@@ -5,9 +5,31 @@
 
     <ImageView
         android:id="@+id/slide_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        app:srcCompat="@drawable/group10" />
+
+    <TextView
+        android:id="@+id/slider_heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/slide_image"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/Group10"
-        android:layout_marginTop="100dp"/>
+        android:layout_marginTop="40dp"
+        android:text="HEADING"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#fff"/>
+    <TextView
+        android:id="@+id/slide_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry."
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_below="@id/slider_heading"
+        android:layout_margin="50dp"
+        android:textColor="@color/transparentwhite"/>
 </RelativeLayout>

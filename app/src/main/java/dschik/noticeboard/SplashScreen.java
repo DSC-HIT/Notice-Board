@@ -17,7 +17,7 @@ public class SplashScreen extends Activity {
     private String USER_NAME = "username";
     private String PASS_WORD = "password";
     private String DEFAULT = "null";
-    private final int splash_display_length=10;
+    private final int splash_display_length=1000;
     private FirebaseAuth mAuth;
 
     @Override
@@ -40,8 +40,14 @@ public class SplashScreen extends Activity {
                     Intent mainIntent =new Intent(SplashScreen.this,MainActivity.class);
                     SplashScreen.this.startActivity(mainIntent);
                     SplashScreen.this.finish();
-                }else {
+                }
+                /*else {
                     Intent mainIntent = new Intent(SplashScreen.this, LoginActivity.class);
+                    SplashScreen.this.startActivity(mainIntent);
+                    SplashScreen.this.finish();
+                }*/
+                else{
+                    Intent mainIntent=new Intent(SplashScreen.this,OnBoard1.class);
                     SplashScreen.this.startActivity(mainIntent);
                     SplashScreen.this.finish();
                 }
