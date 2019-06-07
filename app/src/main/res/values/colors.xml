@@ -47,4 +47,15 @@
 
     <color name="grey">#E5E5E5</color>
 
+    <color name="colorPrimary1">#262938</color>
+
+    <color name="colorPrimaryDark1">#181A24</color>
+
+    <color name="colorAccent1">#FF4081</color>
+    
+    <color name="colorwhite">#fff</color>
+
+    <color name="transparentwhite">#cccccc</color>
+    
+
 </resources>
