@@ -7,13 +7,16 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <ImageView
                     android:layout_width="200dp"
                     android:layout_height="200dp"
@@ -106,8 +109,9 @@
                     android:textColor="#000000"
                     android:textSize="30dp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/register_button"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
@@ -115,7 +119,7 @@
                     android:layout_marginTop="456dp"
                     android:background="@drawable/my_button_bg"
                     android:text="@string/login"
-                    android:textColor="#ffff"
+                    android:textColor="@color/primaryText"
                     android:textSize="20sp" />
 
                 <TextView
@@ -158,8 +162,6 @@
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
-
-
 
 
 </RelativeLayout>

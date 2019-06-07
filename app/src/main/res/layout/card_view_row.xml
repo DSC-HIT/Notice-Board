@@ -1,109 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/tools">
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="10dp"
+        app:cardElevation="8dp"
         card_view:cardCornerRadius="10dp"
-        card_view:contentPadding="16dp"
-        app:cardElevation="8dp">
+        card_view:contentPadding="16dp">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/carder"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/carder">
+
+            <android.widget.RatingBar
+                android:id="@+id/myRatingBar"
+                style="@style/Widget.AppCompat.RatingBar.Indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5" />
+
             <com.google.android.material.button.MaterialButton
+                android:id="@+id/carder_button2"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
                 android:layout_width="wrap_content"
-                app:icon="@drawable/ic_share_black_24dp"
-                app:iconTint="@color/colorAccent"
                 android:layout_height="wrap_content"
-                android:id="@+id/carder_button2"
-                android:backgroundTint="#0000"
-                android:textColor="@color/colorAccent"
-                android:layout_marginRight="-25dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true" />
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="-25dp"
+                android:backgroundTint="#0000"
+                android:textColor="@color/colorAccent"
+                app:icon="@drawable/ic_share_black_24dp"
+                app:iconTint="@color/colorAccent" />
+
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/carder_button2"
-                android:id="@+id/linearLayout"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/imageView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="-35dp"
-                    android:layout_margin="5dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_weight="2"/>
+                    android:layout_margin="5dp"
+                    android:layout_marginTop="-35dp"
+                    android:layout_weight="2" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/textView"
-                            android:textStyle="bold"
-                            android:textSize="17sp"
-                            android:textColor="#000000"
-                            android:maxLines="1"
-                            android:ellipsize="end"/>
-                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            android:textColor="#000000"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
                             android:id="@+id/postDescription"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textView"
                             android:maxLines="1"
                             android:textColor="#585858"
-                            android:textStyle="bold"
-                            android:layout_below="@+id/textView"/>
+                            android:textStyle="bold" />
+
                         <TextView
+                            android:id="@+id/urldata"
                             android:layout_width="0dp"
                             android:layout_height="0dp"
-                            android:id="@+id/urldata"
                             android:visibility="invisible" />
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/sendername"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/postDescription"
                             android:textColor="#8C8C8C"
-                            android:textStyle="bold"
-                            android:layout_below="@+id/postDescription"/>
+                            android:textStyle="bold" />
+
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
                             android:id="@+id/dateTime"
-                            android:textColor="#9C9C9C"
-                            android:textStyle="bold"
-                            android:layout_below="@+id/sendername"/>
-                        <com.google.android.material.button.MaterialButton
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:id="@+id/carder_button3"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="DOWNLOAD"
-                            android:textSize="13sp"
-                            android:textColor="@color/colorAccent"
-                            app:cornerRadius="5dp"
+                            android:layout_below="@+id/sendername"
+                            android:textColor="#9C9C9C"
+                            android:textStyle="bold" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/carder_button3"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_below="@+id/dateTime"
-                            android:layout_alignParentBottom="false"
                             android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="false"
                             android:layout_marginTop="0dp"
-                            android:layout_marginRight="15dp" />
+                            android:layout_marginRight="15dp"
+                            android:text="DOWNLOAD"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="13sp"
+                            app:cornerRadius="5dp" />
                     </RelativeLayout>
                 </LinearLayout>
             </LinearLayout>

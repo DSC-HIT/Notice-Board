@@ -5,27 +5,23 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
-import android.view.View;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.auth.api.Auth;
@@ -34,6 +30,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -47,22 +45,19 @@ import java.util.ArrayList;
 public class NotesDownload extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 
+    private static String LOG_TAG = "CardViewActivity";
     GoogleApiClient mGoogleApiClient;
-    private FirebaseAuth mAuth;
     FirebaseDatabase db;
     DatabaseReference dbref;
 
     SharedPreferences sh;
-
+    ShimmerFrameLayout shimmerFrameLayout;
+    SwipeRefreshLayout swiper;
+    ArrayList results = new ArrayList<DataObject>();
+    private FirebaseAuth mAuth;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private static String LOG_TAG = "CardViewActivity";
-
-    ShimmerFrameLayout shimmerFrameLayout;
-    SwipeRefreshLayout swiper;
-
-    ArrayList results = new ArrayList<DataObject>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +89,7 @@ public class NotesDownload extends AppCompatActivity
         mRecyclerView.setLayoutManager(mLayoutManager);
 
 
-        mAdapter = new MyRecyclerViewAdapter(getDataSet(),NotesDownload.this);
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), NotesDownload.this);
         mRecyclerView.setAdapter(mAdapter);
 
 
@@ -106,7 +101,7 @@ public class NotesDownload extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(NotesDownload.this, UploadActivity.class);
-                i.putExtra("flag",false);
+                i.putExtra("flag", false);
                 startActivity(i);
             }
         });
@@ -123,7 +118,7 @@ public class NotesDownload extends AppCompatActivity
         View header = navigationView.getHeaderView(0);
         TextView usr = header.findViewById(R.id.userText);
 
-        usr.setText(sh.getString("dis_name","user"));
+        usr.setText(sh.getString("dis_name", "user"));
 
         swiper = findViewById(R.id.swiper1);
         swiper.setColorSchemeColors(getResources().getColor(R.color.colorPrimary)
@@ -138,24 +133,22 @@ public class NotesDownload extends AppCompatActivity
                     public void run() {
                         refreshContent();
                     }
-                },2000);
+                }, 2000);
             }
         });
 
     }
 
-    private void refreshContent()
-    {
+    private void refreshContent() {
         shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
         shimmerFrameLayout.startShimmer();
         results = new ArrayList<DataObject>();
-        mAdapter = new MyRecyclerViewAdapter(getDataSet(),NotesDownload.this);
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), NotesDownload.this);
         mRecyclerView.setAdapter(mAdapter);
         getContent();
     }
 
-    private void getContent()
-    {
+    private void getContent() {
         dbref.addChildEventListener(new ChildEventListener() {
 
             @Override
@@ -163,17 +156,17 @@ public class NotesDownload extends AppCompatActivity
                 swiper.setRefreshing(false);
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.GONE);
-                String file= dataSnapshot.getKey();
+                String file = dataSnapshot.getKey();
                 Record data = dataSnapshot.getValue(Record.class);
-                int index =0;
+                int index = 0;
                 String url = data.getUrl();
-                String sendername= data.getSender();
+                String sendername = data.getSender();
                 String datesent = data.getDate();
                 Bitmap bmp = data.getBmp();
                 String description = data.getDescription();
                 String type = data.getType();
-                Log.d("aa",file+"++"+url);
-                if(type.equalsIgnoreCase("Notes")) {
+                Log.d("aa", file + "++" + url);
+                if (type.equalsIgnoreCase("Notes")) {
                     DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
                     results.add(index, obj);
                     index++;
@@ -204,6 +197,7 @@ public class NotesDownload extends AppCompatActivity
         });
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -215,9 +209,11 @@ public class NotesDownload extends AppCompatActivity
             }
         });
     }
+
     private ArrayList<DataObject> getDataSet() {
         return results;
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -266,9 +262,8 @@ public class NotesDownload extends AppCompatActivity
             Intent i = new Intent(NotesDownload.this, AboutActivity.class);
             startActivity(i);
             return true;
-        }
-        else if(id==R.id.profile){
-            Intent i=new Intent(NotesDownload.this,ProfileActivity.class);
+        } else if (id == R.id.profile) {
+            Intent i = new Intent(NotesDownload.this, ProfileActivity.class);
             startActivity(i);
             return true;
         }
@@ -283,25 +278,25 @@ public class NotesDownload extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            Intent intent=new Intent(NotesDownload.this,NoticeViewer.class);
+            Intent intent = new Intent(NotesDownload.this, NoticeViewer.class);
             startActivity(intent);
         } else if (id == R.id.nav_announcement) {
-            Intent intent=new Intent(NotesDownload.this,AnnouncementActivity.class);
+            Intent intent = new Intent(NotesDownload.this, AnnouncementActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_notes) {
-            Intent intent=new Intent(NotesDownload.this,NotesDownload.class);
+            Intent intent = new Intent(NotesDownload.this, NotesDownload.class);
             startActivity(intent);
         } else if (id == R.id.nav_logout) {
             signOut();
 
         } else if (id == R.id.nav_share_announcements) {
-            Intent intent=new Intent(NotesDownload.this,UploadActivity.class);
-            intent.putExtra("flag",true);
+            Intent intent = new Intent(NotesDownload.this, UploadActivity.class);
+            intent.putExtra("flag", true);
             startActivity(intent);
         } else if (id == R.id.nav_share_notes) {
-            Intent intent=new Intent(NotesDownload.this,UploadActivity.class);
-            intent.putExtra("flag",false);
+            Intent intent = new Intent(NotesDownload.this, UploadActivity.class);
+            intent.putExtra("flag", false);
             startActivity(intent);
         }
 
@@ -314,13 +309,14 @@ public class NotesDownload extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
+
     private void signOut() {
         mAuth.signOut();
-        Intent i = new Intent(this,LoginActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(i);
-        Toast.makeText(this,"Log In Please",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Log In Please", Toast.LENGTH_SHORT).show();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override

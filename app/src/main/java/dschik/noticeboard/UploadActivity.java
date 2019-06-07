@@ -1,6 +1,7 @@
 package dschik.noticeboard;
-import android.content.Context;
+
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -8,17 +9,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-
-import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.android.material.navigation.NavigationView;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,9 +21,15 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import java.io.IOException;
 
-import com.google.android.gms.auth.api.Auth;;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,10 +39,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
@@ -56,7 +55,7 @@ import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -67,41 +66,39 @@ import java.util.List;
 import java.util.Locale;
 
 
+
+
 public class UploadActivity extends AppCompatActivity implements
         AdapterView.OnItemSelectedListener
-        ,GoogleApiClient.OnConnectionFailedListener
-        ,NavigationView.OnNavigationItemSelectedListener
-        ,View.OnClickListener  {
+        , GoogleApiClient.OnConnectionFailedListener
+        , NavigationView.OnNavigationItemSelectedListener
+        , View.OnClickListener {
 
     private static final int PICK_IMAGE_REQUEST = 123;
-    private StorageReference mStorageRef;
+    private final String type_ext[] = {".jpeg", ".png", ".pdf"};
     FirebaseDatabase db;
     DatabaseReference dbref;
-
-    private final String type_ext[]={".jpeg",".png",".pdf"};
-    private String type_name;
-    private String motto;
-    private int type_pos;
-
-    private Uri filePath;
-
     SharedPreferences sh;
-
-
-    private Button choose;
-    private Button upload;
     ImageView imagePreview;
     EditText file;
     EditText description;
     GoogleApiClient mGoogleApiClient;
+    private StorageReference mStorageRef;
+    private String type_name;
+    private String motto;
+    private int type_pos;
+    private Uri filePath;
+    private Button choose;
+    private Button upload;
     private FirebaseAuth mAuth;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_activity);
 
         //initialization of views and setting ClickListeners
-        TextView usr,motto_view;
+        TextView usr, motto_view;
         file = findViewById(R.id.file_name);
         description = findViewById(R.id.postDescription);
         imagePreview = findViewById(R.id.preview_image);
@@ -111,17 +108,16 @@ public class UploadActivity extends AppCompatActivity implements
         choose.setOnClickListener(this);
         upload.setOnClickListener(this);
 
-        sh = getSharedPreferences("shared",Context.MODE_PRIVATE);
+        sh = getSharedPreferences("shared", Context.MODE_PRIVATE);
 
 
         //getting intent and setting the motto
         Intent i = this.getIntent();
 
         boolean flag = i.getBooleanExtra("flag", false);
-        if(flag)
-        {
+        if (flag) {
             motto = "Announcement";
-        }else {
+        } else {
             motto = "Notes";
         }
 
@@ -159,8 +155,7 @@ public class UploadActivity extends AppCompatActivity implements
         View header = navigationView.getHeaderView(0);
         usr = header.findViewById(R.id.userText);
 
-        usr.setText(sh.getString("dis_name","user"));
-
+        usr.setText(sh.getString("dis_name", "user"));
 
 
         // setting up the spinner.
@@ -184,12 +179,10 @@ public class UploadActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
-        if(mAuth.getCurrentUser() ==  null)
-        {
-            Intent intent= new Intent(UploadActivity.this, LoginActivity.class);
+        if (mAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(UploadActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -223,9 +216,8 @@ public class UploadActivity extends AppCompatActivity implements
             Intent i = new Intent(UploadActivity.this, AboutActivity.class);
             startActivity(i);
             return true;
-        }
-        else if(id==R.id.profile){
-            Intent i=new Intent(UploadActivity.this,ProfileActivity.class);
+        } else if (id == R.id.profile) {
+            Intent i = new Intent(UploadActivity.this, ProfileActivity.class);
             startActivity(i);
             return true;
         }
@@ -241,27 +233,26 @@ public class UploadActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            Intent intent=new Intent(UploadActivity.this,NoticeViewer.class);
+            Intent intent = new Intent(UploadActivity.this, NoticeViewer.class);
             startActivity(intent);
         } else if (id == R.id.nav_announcement) {
-            Intent intent=new Intent(UploadActivity.this,AnnouncementActivity.class);
+            Intent intent = new Intent(UploadActivity.this, AnnouncementActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_notes) {
-            Intent intent=new Intent(UploadActivity.this,NotesDownload.class);
+            Intent intent = new Intent(UploadActivity.this, NotesDownload.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_share_announcements) {
-            Intent intent=new Intent(UploadActivity.this,UploadActivity.class);
-            intent.putExtra("flag",true);
+            Intent intent = new Intent(UploadActivity.this, UploadActivity.class);
+            intent.putExtra("flag", true);
             startActivity(intent);
-            Toast.makeText(this,"you are already in upload page",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "you are already in upload page", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_share_notes) {
-            Intent intent=new Intent(UploadActivity.this,UploadActivity.class);
-            intent.putExtra("flag",false);
+            Intent intent = new Intent(UploadActivity.this, UploadActivity.class);
+            intent.putExtra("flag", false);
             startActivity(intent);
-            Toast.makeText(this,"you are already in upload page",Toast.LENGTH_SHORT).show();
-        }
-        else if (id == R.id.logout){
+            Toast.makeText(this, "you are already in upload page", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.logout) {
 
             signOut();
         }
@@ -273,11 +264,11 @@ public class UploadActivity extends AppCompatActivity implements
 
     private void signOut() {
         mAuth.signOut();
-        Intent i = new Intent(this,LoginActivity.class);
+        Intent i = new Intent(this, LoginActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(i);
-        Toast.makeText(this,"Log In Please",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Log In Please", Toast.LENGTH_SHORT).show();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
@@ -309,13 +300,10 @@ public class UploadActivity extends AppCompatActivity implements
     @Override
     public void onClick(View v) {
 
-        if(v == choose)
-        {
+        if (v == choose) {
             openFileChooser();
-        }
-        else if(v == upload)
-        {
-            if(file.getText().toString().equals(""))
+        } else if (v == upload) {
+            if (file.getText().toString().equals(""))
                 file.setError("Invalid Name!!!");
             else
                 uploadFile();
@@ -323,13 +311,11 @@ public class UploadActivity extends AppCompatActivity implements
 
     }
 
-    private void openFileChooser()
-    {
+    private void openFileChooser() {
         Intent i = new Intent();
-        if(type_pos<=1)
-        {
-            i.setType("image/"+type_name.substring(1));//getting "jpeg" from ".jpeg"
-        }else{
+        if (type_pos <= 1) {
+            i.setType("image/" + type_name.substring(1));//getting "jpeg" from ".jpeg"
+        } else {
             i.setType("application/pdf");
         }
         i.setAction(Intent.ACTION_GET_CONTENT);
@@ -347,13 +333,12 @@ public class UploadActivity extends AppCompatActivity implements
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
-                Toast.makeText(UploadActivity.this,"File ready to Upload!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadActivity.this, "File ready to Upload!", Toast.LENGTH_SHORT).show();
 
 
-                if(type_pos<=1)
-                {
+                if (type_pos <= 1) {
                     imagePreview.setImageBitmap(bitmap);
-                }else {
+                } else {
                     imagePreview.setImageResource(R.drawable.pdf_logo1);
                 }
 
@@ -361,9 +346,8 @@ public class UploadActivity extends AppCompatActivity implements
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
-        else {
-            Toast.makeText(UploadActivity.this,"Error acquiring Uri!!!",Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(UploadActivity.this, "Error acquiring Uri!!!", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -388,21 +372,20 @@ public class UploadActivity extends AppCompatActivity implements
                     .setCustomMetadata("user", fuser.getDisplayName())
                     .setCustomMetadata("date", dateFormat.format(date)).build();
 
-            Context context=UploadActivity.this;
+            /*Context context = UploadActivity.this;
             Uri uri;
-            uri=filePath;
+            uri = filePath;
             FirebaseVisionImage image = null;
-            try{
-                image=FirebaseVisionImage.fromFilePath(context,uri);
-                Log.d("aa","try");
-            }
-            catch (IOException e) {
+            try {
+                image = FirebaseVisionImage.fromFilePath(context, uri);
+                Log.d("aa", "try");
+            } catch (IOException e) {
                 e.printStackTrace();
-                Log.d("aa","catch");
+                Log.d("aa", "catch");
             }
             FirebaseVisionCloudImageLabelerOptions options = new FirebaseVisionCloudImageLabelerOptions.Builder()
-                                                            .setConfidenceThreshold(0.7f).build();
-            FirebaseVisionImageLabeler labeler= FirebaseVision.getInstance()
+                    .setConfidenceThreshold(0.7f).build();
+            FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
                     .getCloudImageLabeler(options);
 
             labeler.processImage(image)
@@ -410,22 +393,22 @@ public class UploadActivity extends AppCompatActivity implements
 
                         @Override
                         public void onSuccess(List<FirebaseVisionImageLabel> labels) {
-                            for (FirebaseVisionImageLabel label: labels) {
+                            for (FirebaseVisionImageLabel label : labels) {
                                 String text = label.getText();
                                 String entityId = label.getEntityId();
                                 float confidence = label.getConfidence();
-                                Log.d("aa",text+" "+entityId+" "+confidence);
+                                Log.d("aa", text + " " + entityId + " " + confidence);
+                            }
+                            Log.d("aa", "for");
                         }
-                        Log.d("aa","for");
-                    }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Log.d("aa","abcd");
+                            Log.d("aa", "abcd");
                         }
-                    });
-            UploadTask uploadTask = rRef.putFile(filePath,storageMetadata);
+                    });*/
+            UploadTask uploadTask = rRef.putFile(filePath, storageMetadata);
 
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -444,7 +427,7 @@ public class UploadActivity extends AppCompatActivity implements
                         @Override
                         public void onComplete(@NonNull Task<Uri> task) {
                             Uri uri = task.getResult();
-                            URL url= null;
+                            URL url = null;
                             try {
                                 url = new URL(uri.toString());
                             } catch (MalformedURLException e) {
@@ -457,7 +440,7 @@ public class UploadActivity extends AppCompatActivity implements
                             Date date = new Date();
                             Bitmap bitmp = null;
                             InputStream is = null;                                  /* creating bitmap from file path uri
-                                                                                        */
+                             */
                             try {
                                 is = getContentResolver().openInputStream(filePath);
                                 bitmp = BitmapFactory.decodeStream(is);
@@ -465,9 +448,9 @@ public class UploadActivity extends AppCompatActivity implements
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                             Record r = null;//initializing the Record class
+                            Record r = null;//initializing the Record class
                             String desc = description.getText().toString();//getting desccription of upload
-                            r = new Record(rl, fuser1.getDisplayName(), dateFormat.format(date),desc,motto,null);//setting values
+                            r = new Record(rl, fuser1.getDisplayName(), dateFormat.format(date), desc, motto, null);//setting values
                             //Log.d("aa",filePath);
                             dbref.child(file_name).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -511,13 +494,14 @@ public class UploadActivity extends AppCompatActivity implements
 
                             //displaying percentage in progress dialog
                             progressDialog.setMessage("Uploaded " + ((int) progress) + "%...");
+                            progressDialog.setProgress((int)progress);
                         }
                     });
         }
         //if there is not any file
         else {
             //you can display an error toast
-            Toast.makeText(UploadActivity.this,"Error in uploading!!!",Toast.LENGTH_LONG).show();
+            Toast.makeText(UploadActivity.this, "Error in uploading!!!", Toast.LENGTH_LONG).show();
         }
     }
 

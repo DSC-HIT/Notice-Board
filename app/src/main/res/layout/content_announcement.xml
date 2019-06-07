@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/side_nav_bar"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".AnnouncementActivity"
-    tools:showIn="@layout/app_bar_announcement"
-    android:background="@drawable/side_nav_bar"
-    android:orientation="vertical">
+    tools:showIn="@layout/app_bar_announcement">
+
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <include layout="@layout/card_view_row"/>
-            <include layout="@layout/card_view_row"/>
-            <include layout="@layout/card_view_row"/>
-            <include layout="@layout/card_view_row"/>
+
+            <include layout="@layout/card_view_row" />
+
+            <include layout="@layout/card_view_row" />
+
+            <include layout="@layout/card_view_row" />
+
+            <include layout="@layout/card_view_row" />
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -29,13 +34,13 @@
         android:id="@+id/swiper"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/my_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical"
-            android:elevation="5dp">
-        </androidx.recyclerview.widget.RecyclerView>
+            android:elevation="5dp"
+            android:scrollbars="vertical"/>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </RelativeLayout>
