@@ -21,6 +21,10 @@
             android:label="@string/title_activity_announcement"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name="."
+            android:label="onboard1"
+            android:theme="@style/AppTheme.AppBarCorner"/>
+        <activity
             android:name=".AboutActivity"
             android:label="About"
             android:theme="@style/AppTheme.AppBarCorner"/>
@@ -73,6 +77,7 @@
             android:name=".UploadActivity"
             android:label="Upload Files Here"
             android:theme="@style/AppTheme.NoActionBar" />
+
 
     </application>
 
