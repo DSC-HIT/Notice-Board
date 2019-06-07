@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="dschik.noticeboard">
 
+    <uses-permission
+        android:name="android.permission.GET_ACCOUNTS"
+        android:maxSdkVersion="22" />
     <application
         android:allowBackup="true"
         android:icon="@drawable/hitcrunch_logo"
@@ -73,4 +76,6 @@
 
     </application>
 
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 </manifest>
