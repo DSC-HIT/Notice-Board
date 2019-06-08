@@ -57,7 +57,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
             android:scaleType="centerInside"
-            android:srcCompat="@drawable/ic_settings_black_24dp"/>
+            android:background="@drawable/ic_settings_black_24dp"/>
 
     </RelativeLayout>
     <LinearLayout

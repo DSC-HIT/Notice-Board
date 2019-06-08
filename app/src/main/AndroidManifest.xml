@@ -25,6 +25,10 @@
             android:label="onboard1"
             android:theme="@style/AppTheme.AppBarCorner"/>
         <activity
+            android:name=".SliderActivity.java"
+            android:label="onboard1"
+            android:theme="@style/AppTheme.AppBarCorner"/>
+        <activity
             android:name=".AboutActivity"
             android:label="About"
             android:theme="@style/AppTheme.AppBarCorner"/>

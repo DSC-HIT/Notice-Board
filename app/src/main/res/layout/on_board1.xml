@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/Background"
+    android:background="@drawable/background"
     android:orientation="vertical">
 
     <androidx.viewpager.widget.ViewPager
@@ -21,4 +21,28 @@
         android:layout_centerHorizontal="true"
         android:orientation="horizontal"
         android:padding="20dp"></LinearLayout>
+
+    <Button
+        android:id="@+id/prevButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorwhite"
+        android:text="PREV"
+        android:background="#00000000"
+        android:visibility="invisible"
+        android:padding="20dp"/>
+
+    <Button
+        android:id="@+id/nextButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorwhite"
+        android:background="#00000000"
+        android:text="NEXT"
+        android:padding="20dp"/>
+
 </RelativeLayout>
