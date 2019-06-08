@@ -1,8 +1,11 @@
 package dschik.noticeboard;
 
 import android.app.Activity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -21,6 +24,7 @@ public class OnBoard1 extends Activity {
     private Button mBackBtn;
     private int mCurrentPage;
 
+    public int j=0;
     private SliderAdapter sliderAdapter;
 
     @Override
@@ -41,7 +45,34 @@ public class OnBoard1 extends Activity {
 
         mSlideViewpager.addOnPageChangeListener(viewListener);
 
+        mBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                mSlideViewpager.setCurrentItem(mCurrentPage-1);
+            }
+        });
+
+        if(j==1) {
+            Log.d("aa","if entry"+j);
+            mNextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(OnBoard1.this, LoginActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+        }
+        else {
+            Log.d("aa","else entry"+j);
+            mNextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mSlideViewpager.setCurrentItem(mCurrentPage+1);
+                }
+            });
+        }
 
     }
 
@@ -81,6 +112,7 @@ public class OnBoard1 extends Activity {
 
                 mNextBtn.setText("NEXT");
                 mBackBtn.setText("");
+                j=0;
             }
             else if(position==mDots.length-1){
                 mBackBtn.setEnabled(true);
@@ -88,21 +120,21 @@ public class OnBoard1 extends Activity {
                 mBackBtn.setVisibility(View.VISIBLE);
                 mNextBtn.setText("LOGIN");
                 mBackBtn.setText("BACK");
-
+                j=1;
 
             }
             else{
                 mBackBtn.setEnabled(true);
-                mNextBtn.setEnabled(false);
+                mNextBtn.setEnabled(true);
                 mBackBtn.setVisibility(View.VISIBLE);
                 mNextBtn.setText("NEXT");
                 mBackBtn.setText("BACK");
+                j=0;
             }
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-
         }
     };
 }

@@ -28,7 +28,7 @@
                 android:src="@drawable/transparent" />
         </RelativeLayout>
         <TextView
-            android:id="@+id/tv_name"
+            android:id="@+id/user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imgUser"
@@ -40,10 +40,10 @@
             android:fontFamily="sans-serif-light"
             android:textColor="#fff"/>
         <TextView
-            android:id="@+id/tv_address"
+            android:id="@+id/user_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_name"
+            android:layout_below="@+id/user_name"
             android:layout_centerHorizontal="true"
             android:text="CSE-2nd-A"
             android:textSize="14sp"
@@ -57,7 +57,7 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_settings_black_24dp"/>
+            android:background="@drawable/ic_settings_black_24dp"/>
 
     </RelativeLayout>
     <LinearLayout
@@ -81,6 +81,7 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
                 <TextView
+                    android:id="@+id/rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5"
@@ -111,6 +112,7 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
                 <TextView
+                    android:id="@+id/progressbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="56%"
@@ -200,6 +202,7 @@
                     android:textSize="13sp"
                     android:textColor="@color/headings"/>
                 <TextView
+                    android:id="@+id/user_fb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="#000000"

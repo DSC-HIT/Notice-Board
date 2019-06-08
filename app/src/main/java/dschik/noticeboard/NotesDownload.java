@@ -47,7 +47,7 @@ public class NotesDownload extends AppCompatActivity
 
     private static String LOG_TAG = "CardViewActivity";
     GoogleApiClient mGoogleApiClient;
-    FirebaseDatabase db;
+    private FirebaseDatabase db;
     DatabaseReference dbref;
 
     SharedPreferences sh;
