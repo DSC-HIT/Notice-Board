@@ -168,7 +168,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
     private void searchContent(String newText) {
 
-        Query myquery = dbref.orderByKey().startAt(newText);
+        Query myquery = dbref.child(newText);
 
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
