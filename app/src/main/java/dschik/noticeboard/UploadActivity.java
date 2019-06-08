@@ -455,9 +455,9 @@ public class UploadActivity extends AppCompatActivity implements
                             Record r = null;//initializing the Record class
                             String desc = description.getText().toString();//getting desccription of upload
                             assert fuser1 != null;
-                            r = new Record(rl, sh.getString("dis_name","name"), dateFormat.format(date), desc, motto, null);//setting values
+                            r = new Record(file_name,rl, sh.getString("dis_name","name"), dateFormat.format(date), desc, motto, null);//setting values
                             //Log.d("aa",filePath);
-                            dbref.child(file_name).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            dbref.child("data").child(motto).child(getTimeStamp()).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
@@ -508,6 +508,12 @@ public class UploadActivity extends AppCompatActivity implements
             //you can display an error toast
             Toast.makeText(UploadActivity.this, "Error in uploading!!!", Toast.LENGTH_LONG).show();
         }
+    }
+
+    String getTimeStamp()
+    {
+        Long tsLong = System.currentTimeMillis()/1000;
+        return tsLong.toString();
     }
 
 

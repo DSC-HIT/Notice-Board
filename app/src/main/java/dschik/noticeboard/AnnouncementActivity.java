@@ -47,6 +47,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class AnnouncementActivity<search> extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
@@ -168,30 +169,30 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
     private void searchContent(String newText) {
 
-        Query myquery = dbref.child(newText);
-
+        Query myquery = dbref.child("data").child("Announcement").orderByChild("lable").startAt(newText);
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Log.d("aa", "added");
                 shimmerFrameLayout.setVisibility(ShimmerFrameLayout.GONE);
                 shimmerFrameLayout.stopShimmer();
-                String file = dataSnapshot.getKey();
+                String timeStamp = dataSnapshot.getKey();
                 Record data = dataSnapshot.getValue(Record.class);
+
                 int index = 0;
+                String file = data.getLable();
                 String url = data.getUrl();
-                String sendername = data.getSender().equals("") ? "sender" : data.getSender();
-                String datesent = data.getDate().equals("") ? "date" : data.getDate();
+                String sendername = data.getSender();
+                String datesent = data.getDate();
                 Bitmap bmp = data.getBmp();
                 String description = data.getDescription();
                 String type = data.getType();
                 Log.d("aa", file + "++" + url);
-                if (type.equalsIgnoreCase("Announcement")) {
-                    DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
-                    results.add(index, obj);
-                    index++;
-                    mRecyclerView.setAdapter(mAdapter);
-                }
+                DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
+                results.add(index, obj);
+                index++;
+                mRecyclerView.setAdapter(mAdapter);
+
             }
 
             @Override
@@ -226,7 +227,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     }
 
     private void getContent() {
-        dbref.addChildEventListener(new ChildEventListener() {
+        dbref.child("data").child("Announcement").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
@@ -235,9 +236,10 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.GONE);
-                String file = dataSnapshot.getKey();
+                String timeStamp = dataSnapshot.getKey();
                 Record data = dataSnapshot.getValue(Record.class);
                 int index = 0;
+                String file = data.getLable();
                 String url = data.getUrl();
                 String sendername = data.getSender();
                 String datesent = data.getDate();
@@ -245,12 +247,11 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                 String description = data.getDescription();
                 String type = data.getType();
                 Log.d("aa", file + "++" + url);
-                if (type.equalsIgnoreCase("Announcement")) {
-                    DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
-                    results.add(index, obj);
-                    index++;
-                    mRecyclerView.setAdapter(mAdapter);
-                }
+                DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
+                results.add(index, obj);
+                index++;
+                mRecyclerView.setAdapter(mAdapter);
+
 
 
             }
