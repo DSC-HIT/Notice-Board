@@ -169,7 +169,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
     private void searchContent(String newText) {
 
-        Query myquery = dbref.child("data").child("Announcement").orderByChild("lable").startAt(newText);
+        Query myquery = dbref.child("data").child("Announcement").orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

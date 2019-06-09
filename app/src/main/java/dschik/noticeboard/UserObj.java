@@ -7,23 +7,23 @@ public class UserObj {
 
     private String name;
     private String email;
-    private String phone;
+    //private String phone;
     private String progress;
     private String dept;
-    private String sec;
+    //private String sec;
     private String yr;
 
     public UserObj() {
     }
 
 
-    public UserObj(String name, String email, String phone, String progress, String dept, String sec, String yr) {
+    public UserObj(String name, String email,  String progress, String dept, String yr) {
         this.name = name;
         this.email = email;
-        this.phone = phone;
+        //this.phone = phone;
         this.progress = progress;
         this.dept = dept;
-        this.sec = sec;
+        //this.sec = sec;
         this.yr = yr;
     }
 
@@ -43,13 +43,13 @@ public class UserObj {
         this.email = email;
     }
 
-    public String getPhone() {
+    /*public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
+    }*/
 
     public String getProgress() {
         return progress;
@@ -67,13 +67,13 @@ public class UserObj {
         this.dept = dept;
     }
 
-    public String getSec() {
+    /*public String getSec() {
         return sec;
     }
 
     public void setSec(String sec) {
         this.sec = sec;
-    }
+    }*/
 
     public String getYr() {
         return yr;

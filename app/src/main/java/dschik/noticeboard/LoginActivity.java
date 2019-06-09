@@ -312,7 +312,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         String name = sh.getString("dis_name","name");
         String email = sh.getString("dis_email","email");
 
-        UserObj user1 = new UserObj(name,email,"","","","","");
+        UserObj user1 = new UserObj(name,email,"","","");
         //insert user info in db here
         dbref.child("user").child(getPath(email)).setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
