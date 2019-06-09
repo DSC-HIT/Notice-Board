@@ -6,6 +6,7 @@ import androidx.annotation.Keep;
 
 @Keep
 public class Record {
+    private String lable;
     private String url;
     private String sender;
     private String date;
@@ -18,8 +19,9 @@ public class Record {
 
     }
 
-    public Record(String ul, String send, String d, String des, String t, Bitmap bm)
+    public Record(String lable,String ul, String send, String d, String des, String t, Bitmap bm)
     {
+        this.lable = lable;
         url = ul;
         sender = send;
         date = d;
@@ -77,5 +79,13 @@ public class Record {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getLable() {
+        return lable;
+    }
+
+    public void setLable(String lable) {
+        this.lable = lable;
     }
 }

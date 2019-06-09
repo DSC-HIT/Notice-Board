@@ -53,6 +53,7 @@ public class OnBoard1 extends Activity {
             }
         });
 
+<<<<<<< HEAD
         /*if(j==1) {
             Log.d("aa","if entry"+j);
             mNextBtn.setOnClickListener(new View.OnClickListener() {
@@ -66,12 +67,25 @@ public class OnBoard1 extends Activity {
         }
         else {
             Log.d("aa","else entry"+mNextBtn.getText().toString());
+=======
+
+
+>>>>>>> 1655afdf2e5445890658a709ab89c7ffcb4016d5
             mNextBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mSlideViewpager.setCurrentItem(mCurrentPage+1);
+                    if(j == 1) {
+                        Log.d("aa","if entry"+j);
+                        Intent intent = new Intent(OnBoard1.this, LoginActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Log.d("aa","else entry"+j);
+                        mSlideViewpager.setCurrentItem(mCurrentPage+1);
+                    }
+
                 }
             });
+<<<<<<< HEAD
         }*/
         mNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +94,9 @@ public class OnBoard1 extends Activity {
                 startActivity(intent);
             }
         });
+=======
+
+>>>>>>> 1655afdf2e5445890658a709ab89c7ffcb4016d5
 
     }
 

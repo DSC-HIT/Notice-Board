@@ -52,11 +52,11 @@ public class ProfileActivity extends AppCompatActivity {
         useremail = findViewById(R.id.email_address);
         usernumber = findViewById(R.id.phone_number);
 
-        mAuth=FirebaseAuth.getInstance();
-        FirebaseUser user=mAuth.getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
         assert user != null;
-        String name = sh.getString("dis_name","name");
-        String email = sh.getString("dis_email","email");
+        String name = sh.getString("dis_name", "name");
+        String email = sh.getString("dis_email", "email");
         //String number = user.getPhoneNumber();
 
         assert name != null;
@@ -75,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity {
         Log.d("aa","number"+number);
         textView.setText("My Phone number is: " + number);*/
 
-    }
+}
     /*private String getMyPhoneNO() {
         TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         @SuppressLint("MissingPermission")

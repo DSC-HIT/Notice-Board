@@ -149,16 +149,17 @@ public class NotesDownload extends AppCompatActivity
     }
 
     private void getContent() {
-        dbref.addChildEventListener(new ChildEventListener() {
+        dbref.child("data").child("Notes").addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                 swiper.setRefreshing(false);
                 shimmerFrameLayout.stopShimmer();
                 shimmerFrameLayout.setVisibility(View.GONE);
-                String file = dataSnapshot.getKey();
+                String timeStamp = dataSnapshot.getKey();
                 Record data = dataSnapshot.getValue(Record.class);
                 int index = 0;
+                String file = data.getLable();
                 String url = data.getUrl();
                 String sendername = data.getSender();
                 String datesent = data.getDate();
@@ -166,12 +167,11 @@ public class NotesDownload extends AppCompatActivity
                 String description = data.getDescription();
                 String type = data.getType();
                 Log.d("aa", file + "++" + url);
-                if (type.equalsIgnoreCase("Notes")) {
-                    DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
-                    results.add(index, obj);
-                    index++;
-                    mRecyclerView.setAdapter(mAdapter);
-                }
+                DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
+                results.add(index, obj);
+                index++;
+                mRecyclerView.setAdapter(mAdapter);
+
 
             }
 
