@@ -53,7 +53,7 @@ public class OnBoard1 extends Activity {
             }
         });
 
-        if(j==1) {
+        /*if(j==1) {
             Log.d("aa","if entry"+j);
             mNextBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -65,14 +65,21 @@ public class OnBoard1 extends Activity {
             });
         }
         else {
-            Log.d("aa","else entry"+j);
+            Log.d("aa","else entry"+mNextBtn.getText().toString());
             mNextBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     mSlideViewpager.setCurrentItem(mCurrentPage+1);
                 }
             });
-        }
+        }*/
+        mNextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(OnBoard1.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -109,8 +116,7 @@ public class OnBoard1 extends Activity {
                 mNextBtn.setEnabled(true);
                 mBackBtn.setEnabled(false);
                 mBackBtn.setVisibility(View.INVISIBLE);
-
-                mNextBtn.setText("NEXT");
+                mNextBtn.setText("SKIP");
                 mBackBtn.setText("");
                 j=0;
             }
@@ -127,7 +133,7 @@ public class OnBoard1 extends Activity {
                 mBackBtn.setEnabled(true);
                 mNextBtn.setEnabled(true);
                 mBackBtn.setVisibility(View.VISIBLE);
-                mNextBtn.setText("NEXT");
+                mNextBtn.setText("SKIP");
                 mBackBtn.setText("BACK");
                 j=0;
             }
