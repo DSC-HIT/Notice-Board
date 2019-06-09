@@ -33,6 +33,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -57,7 +59,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private String PASS_WORD = "password";
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    private FirebaseFirestore firestore;
+    private FirebaseDatabase db;
+    private DatabaseReference dbref;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,7 +71,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         shedit = sh.edit();
 
         mAuth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
+        db = FirebaseDatabase.getInstance();
+        dbref = db.getReference();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken("766540027212-2aprl8n1hp19j29q6olnjijfhn5oca11.apps.googleusercontent.com")
@@ -204,7 +208,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 pass_word = user.getUid();//using ID as password
 
 
-                                createUserAccountInFirestore();
+                                createUserAccountInDB();
 
                                 //sending it to next activity
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
@@ -259,7 +263,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 shedit.apply();
 
 
-                                createUserAccountInFirestore();
+                                createUserAccountInDB();
 
 
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -301,29 +305,34 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 
-    private void createUserAccountInFirestore()
+    private void createUserAccountInDB()
     {
         //creating a user in DB and popullating it.
 
         String name = sh.getString("dis_name","name");
         String email = sh.getString("dis_email","email");
 
-        Map<String,Object> user1 =new HashMap<>();
-        user1.put("name",name);
-        user1.put("email",email);
-        //user1.put("fbuser",user);
-        firestore.collection("userr").add(user1)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(LoginActivity.this,"Successfully siged in!",Toast.LENGTH_LONG).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+        UserObj user1 = new UserObj(name,email,"","","","","");
+        //insert user info in db here
+        dbref.child("user").child(getPath(email)).setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
 
             }
-        });   // DB operation complete
+        });
+        // DB operation complete
     }
+
+    @NonNull
+    private String getPath(String email) {
+
+        return email.replace(".","");
+    }
+
 
 }
