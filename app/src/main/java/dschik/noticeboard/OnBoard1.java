@@ -53,8 +53,24 @@ public class OnBoard1 extends Activity {
             }
         });
 
+<<<<<<< HEAD
+        /*if(j==1) {
+            Log.d("aa","if entry"+j);
+            mNextBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(OnBoard1.this, LoginActivity.class);
+                    startActivity(intent);
+
+                }
+            });
+        }
+        else {
+            Log.d("aa","else entry"+mNextBtn.getText().toString());
+=======
 
 
+>>>>>>> 1655afdf2e5445890658a709ab89c7ffcb4016d5
             mNextBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -69,7 +85,18 @@ public class OnBoard1 extends Activity {
 
                 }
             });
+<<<<<<< HEAD
+        }*/
+        mNextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(OnBoard1.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+=======
 
+>>>>>>> 1655afdf2e5445890658a709ab89c7ffcb4016d5
 
     }
 
@@ -106,8 +133,7 @@ public class OnBoard1 extends Activity {
                 mNextBtn.setEnabled(true);
                 mBackBtn.setEnabled(false);
                 mBackBtn.setVisibility(View.INVISIBLE);
-
-                mNextBtn.setText("NEXT");
+                mNextBtn.setText("SKIP");
                 mBackBtn.setText("");
                 j=0;
             }
@@ -124,7 +150,7 @@ public class OnBoard1 extends Activity {
                 mBackBtn.setEnabled(true);
                 mNextBtn.setEnabled(true);
                 mBackBtn.setVisibility(View.VISIBLE);
-                mNextBtn.setText("NEXT");
+                mNextBtn.setText("SKIP");
                 mBackBtn.setText("BACK");
                 j=0;
             }

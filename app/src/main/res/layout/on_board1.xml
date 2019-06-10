@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/colorwhite"
         android:background="#00000000"
-        android:text="NEXT"
+        android:text="SKIP"
         android:padding="20dp"/>
 
 </RelativeLayout>
