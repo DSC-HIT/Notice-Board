@@ -200,8 +200,6 @@ public class NoticeViewer extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-
-
                 return false;
             }
 

@@ -227,7 +227,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     }
 
     private void getContent() {
-        dbref.child("data").child("Announcement").addChildEventListener(new ChildEventListener() {
+        dbref.child("data").child("Announcement").limitToFirst(10).addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
@@ -251,7 +251,6 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                 results.add(index, obj);
                 index++;
                 mRecyclerView.setAdapter(mAdapter);
-
 
 
             }

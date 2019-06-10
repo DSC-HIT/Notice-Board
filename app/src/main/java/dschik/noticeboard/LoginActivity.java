@@ -211,7 +211,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 createUserAccountInDB();
 
                                 //sending it to next activity
-                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                //Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                Intent i=new Intent(LoginActivity.this,OnBoard1.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(i);
