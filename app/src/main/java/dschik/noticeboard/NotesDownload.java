@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -38,6 +39,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
@@ -148,6 +150,57 @@ public class NotesDownload extends AppCompatActivity
         getContent();
     }
 
+    private void searchContent(String newText) {
+
+        Query myquery = dbref.child("data").child("Announcement").orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
+        myquery.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.d("aa", "added");
+                shimmerFrameLayout.setVisibility(ShimmerFrameLayout.GONE);
+                shimmerFrameLayout.stopShimmer();
+                String timeStamp = dataSnapshot.getKey();
+                Record data = dataSnapshot.getValue(Record.class);
+
+                int index = 0;
+                String file = data.getLable();
+                String url = data.getUrl();
+                String sendername = data.getSender();
+                String datesent = data.getDate();
+                Bitmap bmp = data.getBmp();
+                String description = data.getDescription();
+                String type = data.getType();
+                Log.d("aa", file + "++" + url);
+                DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
+                results.add(index, obj);
+                index++;
+                mRecyclerView.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
     private void getContent() {
         dbref.child("data").child("Notes").addChildEventListener(new ChildEventListener() {
 
@@ -237,13 +290,32 @@ public class NotesDownload extends AppCompatActivity
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+                shimmerFrameLayout.startShimmer();
+                shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);//starting the animation will be stoping when child arrives.
+
+                results = new ArrayList<DataObject>();
+                mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, NotesDownload.this);
+                mRecyclerView.setAdapter(mAdapter);
+
+
+                if (!query.equals(""))//if query string is empty DON'T query
+                    searchContent(query);
+
+                return true;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String query) {
                 //mAdapter.getFilter().filter(newText);
-                return false;
+                results = new ArrayList<DataObject>();
+                mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, NotesDownload.this);
+                mRecyclerView.setAdapter(mAdapter);
+
+
+                if (!query.equals(""))//if query string is empty DON'T query
+                    searchContent(query);
+
+                return true;
             }
         });
         getMenuInflater().inflate(R.menu.notes_download, menu);

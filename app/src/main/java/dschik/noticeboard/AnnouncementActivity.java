@@ -338,7 +338,15 @@ public class AnnouncementActivity<search> extends AppCompatActivity
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String query) {
+
+                results = new ArrayList<DataObject>();
+                mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
+                mRecyclerView.setAdapter(mAdapter);
+
+
+                if (!query.equals(""))//if query string is empty DON'T query
+                    searchContent(query);
 
                 return true;
             }
