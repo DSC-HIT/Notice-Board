@@ -26,12 +26,16 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String> {
     MyRecyclerViewAdapter myRecyclerViewAdapter;
     ShimmerFrameLayout sh;
     SwipeRefreshLayout swip;
+    String head;
+    String link;
 
     NoticeAsyncTask(Context context, RecyclerView recyclerView, ShimmerFrameLayout sh1, SwipeRefreshLayout ss) {
         mrecyler = recyclerView;
         c = context;
         sh = sh1;
         swip = ss;
+        head = "";
+        link = "";
     }
 
     @Override
@@ -69,24 +73,29 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String> {
         sh.stopShimmer();
         swip.setRefreshing(false);
         sh.setVisibility(View.GONE);
-        Log.d("aa", "called");
+        Log.d("aa", s);
         try {
-            int i = 0;
+            int i = 0,k = 0;
             dt = new ArrayList<>();
             //jobj = new JSONObject(s);
             JSONArray jarray = new JSONArray(s);
             int size = jarray.length();
             //Log.d("aa","test"+size);
             for (i = 0; i < size; i++) {
+                if(i == 1)
+                {
+                    i++;//skipping the 2nd index
+                }
                 JSONObject j = jarray.getJSONObject(i);
-                String head = j.getString(q1);
-                String link = q3 + j.getString(q2);
+                head = j.getString(q1);
+                link = q3 + j.getString(q2);
                 if (link.contains(".pdf") && c instanceof MainActivity) {
                     link = "http://heritageit.edu/" + link;
                 }
                 DataObject obj = new DataObject(head, link, "Heritage Institute of Technology", "01/01/19", null, "");
-                dt.add(i, obj);
-                //Log.d("aa","*--");
+                dt.add(k, obj);
+                k++;
+                //Log.d("aa",link+"size:"+size);
                 myRecyclerViewAdapter = new MyRecyclerViewAdapter(dt, c);
                 mrecyler.setAdapter(myRecyclerViewAdapter);
             }

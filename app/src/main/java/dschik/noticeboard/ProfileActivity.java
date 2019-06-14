@@ -3,8 +3,11 @@ package dschik.noticeboard;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -16,6 +19,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView useremail;
     private TextView usernumber;
     private SharedPreferences sh;
+    private ImageView settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
         username = findViewById(R.id.user_name);
         useremail = findViewById(R.id.email_address);
         usernumber = findViewById(R.id.phone_number);
+        settings = findViewById(R.id.settings);
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -40,6 +45,13 @@ public class ProfileActivity extends AppCompatActivity {
         username.setText(name.toUpperCase());
         useremail.setText(email);
         //usernumber.setText(number);
+
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
