@@ -27,6 +27,27 @@
         <item>PNG</item>
         <item>PDF</item>
     </string-array>
+
+    <string-array name="deptName">
+        <item>Select your Department</item>
+        <item>Computer Science and Engg</item>
+        <item>Electronics and Communications Engg</item>
+        <item>Information Technology</item>
+        <item>Applied Electronic and Instrumentation Engg</item>
+        <item>Biotechnology</item>
+        <item>Electrical Engg</item>
+        <item>Chemical Engg</item>
+        <item>Mechanical Engg</item>
+        <item>Civil Engg</item>
+    </string-array>
+
+    <string-array name="yearName">
+        <item>Select your Year</item>
+        <item>First</item>
+        <item>Second</item>
+        <item>Third</item>
+        <item>Fourth</item>
+    </string-array>
     <string name="title_activity_notes_download">Notes</string>
     <string name="title_activity_notice_viewer">Notice Board</string>
     <string name="title_activity_announcement">Announcements</string>

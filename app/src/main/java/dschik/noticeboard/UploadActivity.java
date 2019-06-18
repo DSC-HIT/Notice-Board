@@ -75,7 +75,7 @@ public class UploadActivity extends AppCompatActivity implements
         , View.OnClickListener {
 
     private static final int PICK_IMAGE_REQUEST = 123;
-    private final String type_ext[] = {".jpeg", ".png", ".pdf"};
+    private final String[] type_ext = {".jpeg", ".png", ".pdf"};
     FirebaseDatabase db;
     DatabaseReference dbref;
     SharedPreferences sh;
@@ -279,7 +279,7 @@ public class UploadActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {//for the spinner
 
         type_name = type_ext[position];
         type_pos = position;
