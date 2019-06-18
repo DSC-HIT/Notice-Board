@@ -91,7 +91,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -126,7 +125,6 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/progressbar"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -201,7 +199,6 @@
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/phone_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
@@ -230,7 +227,6 @@
                     android:textSize="13sp" />
 
                 <TextView
-                    android:id="@+id/user_fb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"

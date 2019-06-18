@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/side_nav_bar">
 
     <ScrollView
@@ -16,6 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
                 <ImageView
+                    android:id="@+id/image"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_alignParentTop="true"
@@ -27,11 +28,12 @@
                     android:id="@+id/reg_google"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="221dp"
+                    android:layout_below="@+id/image"
+                    android:layout_marginTop="5dp"
                     android:background="#fff"
                     android:clickable="true"
                     android:orientation="horizontal"
+                    android:padding="5dp"
                     android:layout_centerHorizontal="true">
 
                     <ImageView
@@ -50,10 +52,11 @@
                         android:textSize="15sp" />
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/or"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="267dp"
+                    android:layout_below="@+id/reg_google"
+                    android:layout_marginTop="5dp"
                     android:text="OR"
                     android:textColor="#fff"
                     android:textSize="25sp"
@@ -63,87 +66,36 @@
                     android:layout_width="135dp"
                     android:layout_height="1dp"
                     android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_below="@+id/reg_google"
+                    android:layout_marginTop="20dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginTop="285dp"
-                    android:background="#fff" />
+                    android:background="#fff"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginStart="15dp" />
 
                 <View
                     android:layout_width="135dp"
                     android:layout_height="1dp"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_below="@+id/reg_google"
+                    android:layout_marginTop="20dp"
                     android:layout_marginRight="15dp"
-                    android:layout_marginTop="285dp"
-                    android:background="#fff" />
-                <EditText
-                    android:id="@+id/signin_username"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="320dp"
-                    android:layout_centerHorizontal="true"
                     android:background="#fff"
-                    android:hint="Heritage ID"
-                    android:inputType="textEmailAddress"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textSize="30sp" />
-
-                <EditText
-                    android:id="@+id/signin_password"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="383dp"
-                    android:background="#fff"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    android:shadowRadius="50"
-                    android:textAlignment="center"
-                    android:textColor="#000000"
-                    android:textSize="30dp" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="15dp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/signin_button"
-                    style="@style/Widget.MaterialComponents.Button"
+                    android:id="@+id/sign_in_button"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
+                    android:layout_below="@+id/or"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="456dp"
-                    android:background="@drawable/my_button_bg"
-                    android:text="@string/register"
-                    android:textColor="#ffff"
-                    android:textSize="20sp" />
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="560dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="-614dp"
-                        android:text="Already have an account? "
-                        android:textColor="#fff"
-                        android:textSize="20sp" />
-
-                    <TextView
-                        android:id="@+id/register"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/login"
-                        android:textColor="#fff"
-                        android:textSize="25sp"
-                        android:clickable="true"/>
-                </LinearLayout>
+                    android:backgroundTint="#ffffff"
+                    android:text="@string/register_with_email"
+                    android:textColor="@color/primaryText"
+                    android:textSize="15sp"
+                    app:icon="@drawable/mail" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

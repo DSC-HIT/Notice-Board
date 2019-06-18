@@ -3,7 +3,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Developers Student Club, HITK</string>
-    <string name="searchwithdot">Search...</string>
     <string name="nav_header_subtitle">We Build We Innovate.</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">About</string>
@@ -11,13 +10,8 @@
     <string name="about">A Student friendly application that gives you all the resources that you will need in your college. This includes
     notes announcements notices and much more. This application is made under the Developers Student Club - HITK program. Join the
     society to learn and built more such applications and solutions.</string>
-    <string name="sign_in"><u>SIGN IN</u></string>
 
-    <string name="sh_username">USERNAME</string>
-    <string name="sh_pass">PASSWORD</string>
-    <string name="sh_default">DEFAULT</string>
-
-    <string name="login"><u>LOGIN</u></string>
+    <string name="login"><u>LOGIN with Email</u></string>
     <string name="register"><u>REGISTER</u></string>
     <string name="forgot_password"><u>Forgot Password?</u></string>
     <!--<string name="default_web_client_id" translatable="false">123.googleusercontent.com</string>-->
@@ -51,6 +45,10 @@
     <string name="title_activity_notes_download">Notes</string>
     <string name="title_activity_notice_viewer">Notice Board</string>
     <string name="title_activity_announcement">Announcements</string>
-    <string name="profile">Profile</string>
-    <string name="about_name">About</string>
+    <string name="college_logo">College Logo</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="email_id">Email id</string>
+    <string name="password">Password</string>
+    <string name="login1">LOGIN</string>
+    <string name="register_with_email">Register With Email</string>
 </resources>

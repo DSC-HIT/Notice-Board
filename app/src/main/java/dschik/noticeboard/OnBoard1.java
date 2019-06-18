@@ -57,7 +57,7 @@ public class OnBoard1 extends Activity {
                 public void onClick(View view) {
                     if(j == 1) {
                         Log.d("aa","if entry"+j);
-                        Intent intent = new Intent(OnBoard1.this, MainActivity.class);
+                        Intent intent = new Intent(OnBoard1.this, LoginActivity.class);
                         startActivity(intent);
                     } else {
                         Log.d("aa","else entry"+j);

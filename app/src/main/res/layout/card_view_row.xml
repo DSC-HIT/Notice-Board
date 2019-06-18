@@ -18,8 +18,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:background="@drawable/carder">
+            android:layout_marginBottom="15dp">
 
             <android.widget.RatingBar
                 android:id="@+id/myRatingBar"
@@ -44,7 +43,6 @@
                 app:iconTint="@color/colorAccent" />
 
             <LinearLayout
-                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/carder_button2"

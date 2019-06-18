@@ -1,13 +1,9 @@
 package dschik.noticeboard;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.InputType;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -36,7 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, DialogLoginActivity.DialogLoginListener {
 
     private static final int RC_SIGN_IN = 9001;
     MaterialButton register;
@@ -85,75 +81,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                user_name = username.getText().toString();
-                pass_word = password.getText().toString();
-
-                if (TextUtils.isEmpty(pass_word)) {
-                    password.setError("Invalid password");
-                } else {
-                    signin(user_name, pass_word);
-                }
-
+            public void onClick(View v) {
+                DialogLoginActivity dialogLoginActivity = new DialogLoginActivity();
+                dialogLoginActivity.show(getSupportFragmentManager(), "login frag");
             }
         });
 
 
-        signin = (TextView) findViewById(R.id.sign_in);
-        signin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(intent);
-            }
-        });
+
 
         findViewById(R.id.g_login).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(intent, RC_SIGN_IN);
-            }
-        });
-
-        findViewById(R.id.forget).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
-                alert.setTitle("Enter your Email");
-                final EditText input = new EditText(LoginActivity.this);
-                input.setInputType(InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS);
-                input.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-
-
-                alert.setView(input);
-                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        String email = input.getText().toString();
-                        if (!TextUtils.isEmpty(email)) {
-                            FirebaseAuth auth = FirebaseAuth.getInstance();
-                            auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(LoginActivity.this, "Password Reset Email Sent!", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        } else {
-                            Toast.makeText(LoginActivity.this, "Email Required!", Toast.LENGTH_LONG).show();
-
-                        }
-                    }
-                });
-
-                alert.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                alert.show();
             }
         });
 
@@ -206,7 +147,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                                 //sending it to next activity
                                 //Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                Intent i=new Intent(LoginActivity.this,OnBoard1.class);
+                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                                 startActivity(i);
@@ -306,8 +247,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         String name = sh.getString("dis_name","name");
         String email = sh.getString("dis_email","email");
+        String dept = sh.getString("dis_dept", "dept");
+        String year = sh.getString("dis_year", "year");
 
-        UserObj user1 = new UserObj(name,email,"","","");
+        UserObj user1 = new UserObj(name, email, "", dept, year);
         //insert user info in db here
         dbref.child("user").child(getPath(email)).setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -332,4 +275,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 
+    @Override
+    public void applyData(String username, String password) {
+        signin(username, password);
+    }
 }
