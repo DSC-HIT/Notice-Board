@@ -123,38 +123,22 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginRight="50dp"
                     android:layout_marginTop="90dp"/>
-
-                <LinearLayout
-                    android:id="@+id/linear"
-                    android:layout_width="match_parent"
+                <EditText
+                    android:id="@+id/file_name"
+                    android:layout_weight="1"
+                    android:layout_below="@id/uploadtext"
+                    android:layout_marginRight="25dp"
+                    android:layout_marginLeft="25dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="144dp"
-                    android:orientation="horizontal">
-                    <Button
-                        android:layout_weight="1"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:layout_marginLeft="25dp"
-                        android:id="@+id/choose_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/upload_button"
-                        android:text="BROWSE FILES"
-                        android:textColor="@color/colorAccent"/>
-                    <EditText
-                        android:id="@+id/file_name"
-                        android:layout_weight="1"
-                        android:layout_marginRight="25dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter the name of the file."
-                        android:textColorHint="@color/colorAccent"/>
-                </LinearLayout>
+                    android:hint="Enter the name of the file."
+                    android:textColorHint="@color/colorAccent"/>
+
                 <EditText
                     android:id="@+id/postDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/linear"
+                    android:layout_below="@+id/file_name"
                     android:hint="Description(optional)"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
@@ -163,7 +147,7 @@
                 <ImageView
                     android:id="@+id/preview_image"
                     android:layout_width="wrap_content"
-                    android:layout_height="229dp"
+                    android:layout_height="230dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
@@ -171,6 +155,18 @@
                     android:layout_marginRight="40dp"
                     android:layout_marginTop="250dp"
                     android:background="@drawable/upload_image" />
+                <Button
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"
+                    android:layout_below="@+id/preview_image"
+                    android:paddingRight="10dp"
+                    android:layout_marginLeft="25dp"
+                    android:id="@+id/choose_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/upload_button"
+                    android:text="BROWSE FILES"
+                    android:textColor="#fff"/>
 
             </RelativeLayout>
         </LinearLayout>
