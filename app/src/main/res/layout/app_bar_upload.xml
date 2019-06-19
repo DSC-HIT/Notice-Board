@@ -27,8 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        android:background="@drawable/ic_add_black_24dp"
         app:borderWidth="0dp"
-        android:elevation="5dp"/>
+        android:elevation="5dp"
+        android:src="@drawable/ic_cloud_upload_black_24dp">
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
