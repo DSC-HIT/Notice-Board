@@ -65,7 +65,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         dbref = db.getReference();
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("766540027212-2aprl8n1hp19j29q6olnjijfhn5oca11.apps.googleusercontent.com")
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
