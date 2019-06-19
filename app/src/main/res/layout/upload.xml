@@ -110,23 +110,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="90dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="60dp"
                     android:textColor="#fff"
                     android:textSize="25dp" />
 
                 <Spinner
+                    android:layout_below="@+id/uploadtext"
                     android:id="@+id/spinner1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:layout_marginRight="50dp"
-                    android:layout_marginTop="90dp"/>
+                    android:layout_marginRight="25dp"
+                    android:background="@drawable/spinner_back"
+                    android:layout_marginTop="90dp" />
                 <EditText
                     android:id="@+id/file_name"
                     android:layout_weight="1"
-                    android:layout_below="@id/uploadtext"
+                    android:layout_below="@id/spinner1"
                     android:layout_marginRight="25dp"
                     android:layout_marginLeft="25dp"
                     android:layout_width="wrap_content"
@@ -148,6 +150,7 @@
                     android:id="@+id/preview_image"
                     android:layout_width="wrap_content"
                     android:layout_height="230dp"
+                    android:layout_below="@+id/postDescription"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
