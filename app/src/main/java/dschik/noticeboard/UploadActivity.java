@@ -9,14 +9,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,35 +33,30 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
-import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
-import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 
@@ -81,17 +74,17 @@ public class UploadActivity extends AppCompatActivity implements
     DatabaseReference dbref;
     SharedPreferences sh;
     ImageView imagePreview;
-    EditText file;
-    EditText description;
+    TextInputEditText file;
+    TextInputEditText description;
     GoogleApiClient mGoogleApiClient;
     private StorageReference mStorageRef;
     private String type_name;
     private String motto;
     private int type_pos;
     private Uri filePath;
-    private Button choose;
+    private FloatingActionButton choose;
     //private Button upload;
-    private FloatingActionButton upload;
+    private Button upload;
     private FirebaseAuth mAuth;
 
     @Override
@@ -235,14 +228,11 @@ public class UploadActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            Intent intent = new Intent(UploadActivity.this, NoticeViewer.class);
-            startActivity(intent);
+            goToDrawerPage(getApplicationContext(),NoticeViewer.class);
         } else if (id == R.id.nav_announcement) {
-            Intent intent = new Intent(UploadActivity.this, AnnouncementActivity.class);
-            startActivity(intent);
+            goToDrawerPage(getApplicationContext(),AnnouncementActivity.class);
         } else if (id == R.id.nav_notes) {
-            Intent intent = new Intent(UploadActivity.this, NotesDownload.class);
-            startActivity(intent);
+            goToDrawerPage(getApplicationContext(),NotesDownload.class);
 
         } else if (id == R.id.nav_share_announcements) {
             Intent intent = new Intent(UploadActivity.this, UploadActivity.class);
@@ -266,16 +256,16 @@ public class UploadActivity extends AppCompatActivity implements
 
     private void signOut() {
         mAuth.signOut();
-        Intent i = new Intent(this, LoginActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(i);
+
         Toast.makeText(this, "Log In Please", Toast.LENGTH_SHORT).show();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
                 Toast.makeText(UploadActivity.this, "Signed Out", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(UploadActivity.this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
             }
         });
     }
@@ -375,42 +365,6 @@ public class UploadActivity extends AppCompatActivity implements
                     .setCustomMetadata("user", sh.getString("dis_name","name"))
                     .setCustomMetadata("date", dateFormat.format(date)).build();
 
-            /*Context context = UploadActivity.this;
-            Uri uri;
-            uri = filePath;
-            FirebaseVisionImage image = null;
-            try {
-                image = FirebaseVisionImage.fromFilePath(context, uri);
-                Log.d("aa", "try");
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.d("aa", "catch");
-            }
-            FirebaseVisionCloudImageLabelerOptions options = new FirebaseVisionCloudImageLabelerOptions.Builder()
-                    .setConfidenceThreshold(0.7f).build();
-            FirebaseVisionImageLabeler labeler = FirebaseVision.getInstance()
-                    .getCloudImageLabeler(options);
-
-            labeler.processImage(image)
-                    .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
-
-                        @Override
-                        public void onSuccess(List<FirebaseVisionImageLabel> labels) {
-                            for (FirebaseVisionImageLabel label : labels) {
-                                String text = label.getText();
-                                String entityId = label.getEntityId();
-                                float confidence = label.getConfidence();
-                                Log.d("aa", text + " " + entityId + " " + confidence);
-                            }
-                            Log.d("aa", "for");
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Log.d("aa", "abcd");
-                        }
-                    });*/
             UploadTask uploadTask = rRef.putFile(filePath, storageMetadata);
 
             uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -516,6 +470,13 @@ public class UploadActivity extends AppCompatActivity implements
     {
         Long tsLong = System.currentTimeMillis()/1000;
         return tsLong.toString();
+    }
+
+    private void goToDrawerPage(Context present, Class toPage)
+    {
+        Intent intent = new Intent(present, toPage);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 
 

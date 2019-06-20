@@ -239,21 +239,19 @@ public class NoticeViewer extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            Intent intent=new Intent(NoticeViewer.this,NoticeViewer.class);
-            startActivity(intent);
+            showToast("Already in Notice");
         } else if (id == R.id.nav_announcement) {
-            Intent intent=new Intent(NoticeViewer.this,AnnouncementActivity.class);
-            startActivity(intent);
+            goToDrawerPage(getApplicationContext(),AnnouncementActivity.class);
 
         } else if (id == R.id.nav_notes) {
-            Intent intent=new Intent(NoticeViewer.this,NotesDownload.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_logout) {
+            goToDrawerPage(getApplicationContext(),NotesDownload.class);
+
+        } else if (id == R.id.logout) {
             signOut();
 
         } else if (id == R.id.nav_share_announcements) {
@@ -273,16 +271,15 @@ public class NoticeViewer extends AppCompatActivity
 
     private void signOut() {
         mAuth.signOut();
-        Intent i = new Intent(this,LoginActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(i);
-        Toast.makeText(this,"Log In Please",Toast.LENGTH_SHORT).show();
+        showToast("Log In Please");
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
-                Toast.makeText(NoticeViewer.this, "Signed Out", Toast.LENGTH_LONG).show();
+                showToast("Signed Out");
+                Intent i = new Intent(NoticeViewer.this,LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
             }
         });
     }
@@ -290,5 +287,15 @@ public class NoticeViewer extends AppCompatActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+    private void goToDrawerPage(Context present, Class toPage)
+    {
+        Intent intent = new Intent(present, toPage);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+    private void showToast(String message)
+    {
+        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
     }
 }

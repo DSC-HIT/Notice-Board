@@ -152,7 +152,7 @@ public class NotesDownload extends AppCompatActivity
 
     private void searchContent(String newText) {
 
-        Query myquery = dbref.child("data").child("Announcement").orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
+        Query myquery = dbref.child("data").child("Notes").orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -350,16 +350,14 @@ public class NotesDownload extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            Intent intent = new Intent(NotesDownload.this, NoticeViewer.class);
-            startActivity(intent);
+            goToDrawerPage(getApplicationContext(),NoticeViewer.class);
         } else if (id == R.id.nav_announcement) {
-            Intent intent = new Intent(NotesDownload.this, AnnouncementActivity.class);
-            startActivity(intent);
+            goToDrawerPage(getApplicationContext(),AnnouncementActivity.class);
 
         } else if (id == R.id.nav_notes) {
-            Intent intent = new Intent(NotesDownload.this, NotesDownload.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_logout) {
+            showToast("Already in Notes");
+
+        } else if (id == R.id.logout) {
             signOut();
 
         } else if (id == R.id.nav_share_announcements) {
@@ -384,17 +382,27 @@ public class NotesDownload extends AppCompatActivity
 
     private void signOut() {
         mAuth.signOut();
-        Intent i = new Intent(this, LoginActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(i);
-        Toast.makeText(this, "Log In Please", Toast.LENGTH_SHORT).show();
+
+        showToast("Log in Please");
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
-                Toast.makeText(NotesDownload.this, "Signed Out", Toast.LENGTH_LONG).show();
+                showToast("Signed Out");
+                Intent i = new Intent(NotesDownload.this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
             }
         });
+    }
+    private void goToDrawerPage(Context present, Class toPage)
+    {
+        Intent intent = new Intent(present, toPage);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+    private void showToast(String message)
+    {
+        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
     }
 }

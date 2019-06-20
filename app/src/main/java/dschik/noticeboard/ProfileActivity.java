@@ -24,7 +24,8 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
     TextView detail;
     private SharedPreferences.Editor shedit;
     private DatabaseReference dbref;
-
+    TextView dept_1;
+    TextView year_1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +40,8 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
 
         TextView username = findViewById(R.id.user_name);
         TextView useremail = findViewById(R.id.email_address);
+        dept_1 = findViewById(R.id.dept_1);
+        year_1 = findViewById(R.id.year_1);
         ImageView settings = findViewById(R.id.settings);
         detail = findViewById(R.id.user_detail);
 
@@ -50,10 +53,11 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
         String dept = sh.getString("dis_dept", "dept");
         String year = sh.getString("dis_year", "year");
         String details = dept + "-" + getYear(year);
-
+        dept_1.setText(dept);
+        year_1.setText(year);
         username.setText(name.toUpperCase());
         useremail.setText(email);
-        detail.setText(details);
+        //detail.setText(details);
         //usernumber.setText(number);
 
         settings.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +78,9 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
     public void applyData(String department, String year) {
 
         String s = department + "-" + getYear(year);
-        detail.setText(s);
+        dept_1.setText(department);
+        year_1.setText(year);
+        //detail.setText(s);
         updateProfile(department, year);
     }
 
@@ -110,7 +116,7 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
-                Toast.makeText(ProfileActivity.this, "Authentication Passed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Changes Saved", Toast.LENGTH_SHORT).show();
 
             }
         }).addOnFailureListener(new OnFailureListener() {

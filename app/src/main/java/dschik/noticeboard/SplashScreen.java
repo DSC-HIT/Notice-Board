@@ -38,6 +38,7 @@ public class SplashScreen extends Activity {
                 if( fb != null)
                 {
                     Intent mainIntent =new Intent(SplashScreen.this,MainActivity.class);
+                    //mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     SplashScreen.this.startActivity(mainIntent);
                     SplashScreen.this.finish();
                 }

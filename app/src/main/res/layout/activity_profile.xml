@@ -50,7 +50,7 @@
             android:layout_below="@+id/user_name"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
-            android:text="CSE-2nd-A"
+            android:text=""
             android:textColor="@color/address"
             android:textSize="14sp" />
 
@@ -91,10 +91,10 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/dept_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="5"
                     android:textColor="#fff"
                     android:textSize="25sp" />
 
@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="RATING"
+                    android:text="DEPARTMENT"
                     android:textColor="#fff"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -125,10 +125,10 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/year_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="56%"
                     android:textColor="#fff"
                     android:textSize="25sp" />
 
@@ -136,7 +136,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-light"
-                    android:text="PROGRESS"
+                    android:text="YEAR"
                     android:textColor="#fff"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -185,7 +185,7 @@
                     android:background="@color/grey" />
             </LinearLayout>
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -239,7 +239,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="15dp"
                     android:background="@color/grey" />
-            </LinearLayout>
+            </LinearLayout>-->
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

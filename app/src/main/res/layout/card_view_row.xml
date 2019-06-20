@@ -20,13 +20,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp">
 
-            <android.widget.RatingBar
+            <!--<android.widget.RatingBar
                 android:id="@+id/myRatingBar"
                 style="@style/Widget.AppCompat.RatingBar.Indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:isIndicator="false"
-                android:numStars="5" />
+                android:numStars="5" />-->
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/carder_button2"
@@ -36,11 +36,14 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="-25dp"
-                android:backgroundTint="#0000"
+                android:text="Share"
                 android:textColor="@color/colorAccent"
                 app:icon="@drawable/ic_share_black_24dp"
-                app:iconTint="@color/colorAccent" />
+                app:iconTint="@color/colorAccent"
+                android:textSize="13sp"
+                app:cornerRadius="5dp"
+                android:layout_marginRight="15dp"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
