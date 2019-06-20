@@ -253,7 +253,7 @@ public class NoticeViewer extends AppCompatActivity
         } else if (id == R.id.nav_notes) {
             Intent intent=new Intent(NoticeViewer.this,NotesDownload.class);
             startActivity(intent);
-        } else if (id == R.id.nav_logout) {
+        } else if (id == R.id.logout) {
             signOut();
 
         } else if (id == R.id.nav_share_announcements) {
@@ -273,16 +273,15 @@ public class NoticeViewer extends AppCompatActivity
 
     private void signOut() {
         mAuth.signOut();
-        Intent i = new Intent(this,LoginActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(i);
         Toast.makeText(this,"Log In Please",Toast.LENGTH_SHORT).show();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
                 Toast.makeText(NoticeViewer.this, "Signed Out", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(NoticeViewer.this,LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
             }
         });
     }

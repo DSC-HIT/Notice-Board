@@ -1,106 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/side_nav_bar">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/grad">
 
-    <!--<ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/uploadtext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="90dp"
-                    android:textColor="#fff"
-                    android:textSize="25dp" />
-
-                <Spinner
-                    android:id="@+id/spinner1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="50dp"
-                    android:layout_marginTop="90dp"/>
-
-                <LinearLayout
-                    android:id="@+id/linear"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="144dp"
-                    android:orientation="horizontal">
-                    <Button
-                        android:layout_weight="1"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:layout_marginLeft="25dp"
-                        android:id="@+id/choose_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/upload_button"
-                        android:text="BROWSE FILES"
-                        android:textColor="@color/colorAccent"/>
-                    <EditText
-                        android:id="@+id/file_name"
-                        android:layout_weight="1"
-                        android:layout_marginRight="25dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:hint="Enter the name of the file."
-                        android:textColorHint="@color/colorAccent"/>
-                </LinearLayout>
-                <EditText
-                    android:id="@+id/postDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linear"
-                    android:hint="Description(optional)"
-                    android:layout_marginLeft="25dp"
-                    android:layout_marginRight="25dp"
-                    android:textColorHint="@color/colorAccent"/>
-
-
-                <ImageView
-                    android:id="@+id/preview_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="269dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginTop="250dp"
-                    android:background="@drawable/upload_image" />
-
-                <Button
-                    android:id="@+id/upload_button"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_below="@id/preview_image"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/cloud_upload"/>
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -113,63 +23,86 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="60dp"
                     android:textColor="#fff"
-                    android:textSize="25dp" />
+                    android:textSize="25sp" />
 
                 <Spinner
-                    android:layout_below="@+id/uploadtext"
                     android:id="@+id/spinner1"
+                    style="@style/Widget.AppCompat.Spinner.Underlined"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginRight="25dp"
-                    android:background="@drawable/spinner_back"
-                    android:layout_marginTop="90dp" />
-                <EditText
-                    android:id="@+id/file_name"
-                    android:layout_weight="1"
-                    android:layout_below="@id/spinner1"
-                    android:layout_marginRight="25dp"
-                    android:layout_marginLeft="25dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="Enter the name of the file."
-                    android:textColorHint="@color/colorAccent"/>
+                    android:layout_below="@+id/uploadtext"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginRight="25dp" />
 
-                <EditText
-                    android:id="@+id/postDescription"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/file_name_holder"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/file_name"
-                    android:hint="Description(optional)"
+                    android:layout_below="@id/spinner1"
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="25dp"
-                    android:textColorHint="@color/colorAccent"/>
+                    app:endIconMode="clear_text">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/file_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter the name of the file."
+                        android:inputType="text"
+                        android:textColorHint="@color/colorAccent" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/postDescription_holder"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="25dp"
+                    android:layout_below="@+id/file_name_holder"
+                    app:endIconMode="clear_text">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/postDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Description(optional)"
+                        android:inputType="textMultiLine"
+                        android:textColorHint="@color/colorAccent" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <ImageView
                     android:id="@+id/preview_image"
                     android:layout_width="wrap_content"
                     android:layout_height="230dp"
-                    android:layout_below="@+id/postDescription"
+                    android:layout_below="@+id/postDescription_holder"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
+                    android:layout_alignParentStart="true"
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
-                    android:layout_marginTop="250dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="25dp"
                     android:background="@drawable/upload_image" />
+
                 <Button
-                    android:layout_weight="1"
-                    android:paddingLeft="10dp"
-                    android:layout_below="@+id/preview_image"
-                    android:paddingRight="10dp"
-                    android:layout_marginLeft="25dp"
-                    android:id="@+id/choose_button"
+                    android:id="@+id/upload_button"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/preview_image"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="0dp"
                     android:background="@drawable/upload_button"
-                    android:text="BROWSE FILES"
-                    android:textColor="#fff"/>
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="Upload"
+                    android:textColor="#fff" />
 
             </RelativeLayout>
         </LinearLayout>

@@ -36,11 +36,14 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="-25dp"
-                android:backgroundTint="#0000"
+                android:text="Share"
                 android:textColor="@color/colorAccent"
                 app:icon="@drawable/ic_share_black_24dp"
-                app:iconTint="@color/colorAccent" />
+                app:iconTint="@color/colorAccent"
+                android:textSize="13sp"
+                app:cornerRadius="5dp"
+                android:layout_marginRight="15dp"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"

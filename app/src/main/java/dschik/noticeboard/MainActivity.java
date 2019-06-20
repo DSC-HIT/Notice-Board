@@ -213,16 +213,16 @@ public class MainActivity extends AppCompatActivity implements
     }
     private void signOut() {
         mAuth.signOut();
-        Intent i = new Intent(this,LoginActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        startActivity(i);
+
         Toast.makeText(this,"Log In Please",Toast.LENGTH_SHORT).show();
 
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
             @Override
             public void onResult(@NonNull Status status) {
                 Toast.makeText(MainActivity.this, "Signed Out", Toast.LENGTH_LONG).show();
+                Intent i = new Intent(MainActivity.this,LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
             }
         });
     }
