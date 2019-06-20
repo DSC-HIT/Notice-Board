@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements
         final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(MainActivity.this,mRecyclerView,shimmerFrameLayout,swiper);
         URL[] url = new URL[1];
         try {
-            //url[0]= new URL("https://raw.githubusercontent.com/DSCHeritage/Notice-Board/master/app/src/main/assets/heridata.json");
             url[0]= new URL("https://scraping-noticeboard.herokuapp.com/links");
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -183,15 +182,12 @@ public class MainActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            Intent intent=new Intent(MainActivity.this,NoticeViewer.class);
-            startActivity(intent);
+           goToDrawerPage(getApplicationContext(),NoticeViewer.class);
         } else if (id == R.id.nav_announcement) {
-            Intent intent=new Intent(MainActivity.this,AnnouncementActivity.class);
-            startActivity(intent);
+            goToDrawerPage(getApplicationContext(),AnnouncementActivity.class);
 
         } else if (id == R.id.nav_notes) {
-            Intent intent=new Intent(MainActivity.this,NotesDownload.class);
-            startActivity(intent);
+           goToDrawerPage(getApplicationContext(),NotesDownload.class);
 
         } else if (id == R.id.nav_share_announcements) {
             Intent intent=new Intent(MainActivity.this,UploadActivity.class);
@@ -221,7 +217,7 @@ public class MainActivity extends AppCompatActivity implements
             public void onResult(@NonNull Status status) {
                 Toast.makeText(MainActivity.this, "Signed Out", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(MainActivity.this,LoginActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
             }
         });
@@ -231,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onDestroy()
     {
         super.onDestroy();
-        if(mAuth.getCurrentUser() != null)
+        /*if(mAuth.getCurrentUser() != null)
         {
             Intent intent = new Intent(Intent.ACTION_MAIN);
             intent.addCategory(Intent.CATEGORY_HOME);
@@ -244,7 +240,7 @@ public class MainActivity extends AppCompatActivity implements
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }
+        }*/
 
     }
 
@@ -252,19 +248,26 @@ public class MainActivity extends AppCompatActivity implements
     public void onStart()
     {
         super.onStart();
-        if(mAuth.getCurrentUser() ==  null)
+        /*if(mAuth.getCurrentUser() ==  null)
         {
             Intent intent= new Intent(MainActivity.this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }
+        }*/
     }
 
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    private void goToDrawerPage(Context present, Class toPage)
+    {
+        Intent intent = new Intent(present, toPage);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 }
 

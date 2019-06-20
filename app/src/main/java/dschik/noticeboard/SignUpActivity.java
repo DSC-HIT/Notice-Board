@@ -117,7 +117,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                             createUserAccountInDB();
 
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
 
                             Toast.makeText(SignUpActivity.this, "Authentication success. Now Login Using these Credentials",
@@ -185,7 +185,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
 
                                 Intent i = new Intent(SignUpActivity.this, MainActivity.class);
-                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
 
 
@@ -248,10 +248,6 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     @Override

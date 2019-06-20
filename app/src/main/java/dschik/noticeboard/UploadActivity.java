@@ -33,6 +33,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.common.internal.safeparcel.SafeParcelable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -227,14 +228,11 @@ public class UploadActivity extends AppCompatActivity implements
         int id = item.getItemId();
 
         if (id == R.id.nav_notice) {
-            Intent intent = new Intent(UploadActivity.this, NoticeViewer.class);
-            startActivity(intent);
+            goToDrawerPage(getApplicationContext(),NoticeViewer.class);
         } else if (id == R.id.nav_announcement) {
-            Intent intent = new Intent(UploadActivity.this, AnnouncementActivity.class);
-            startActivity(intent);
+            goToDrawerPage(getApplicationContext(),AnnouncementActivity.class);
         } else if (id == R.id.nav_notes) {
-            Intent intent = new Intent(UploadActivity.this, NotesDownload.class);
-            startActivity(intent);
+            goToDrawerPage(getApplicationContext(),NotesDownload.class);
 
         } else if (id == R.id.nav_share_announcements) {
             Intent intent = new Intent(UploadActivity.this, UploadActivity.class);
@@ -266,7 +264,7 @@ public class UploadActivity extends AppCompatActivity implements
             public void onResult(@NonNull Status status) {
                 Toast.makeText(UploadActivity.this, "Signed Out", Toast.LENGTH_LONG).show();
                 Intent i = new Intent(UploadActivity.this, LoginActivity.class);
-                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
             }
         });
@@ -472,6 +470,13 @@ public class UploadActivity extends AppCompatActivity implements
     {
         Long tsLong = System.currentTimeMillis()/1000;
         return tsLong.toString();
+    }
+
+    private void goToDrawerPage(Context present, Class toPage)
+    {
+        Intent intent = new Intent(present, toPage);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
     }
 
 

@@ -57,7 +57,7 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
         year_1.setText(year);
         username.setText(name.toUpperCase());
         useremail.setText(email);
-        detail.setText(details);
+        //detail.setText(details);
         //usernumber.setText(number);
 
         settings.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,7 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
-                Toast.makeText(ProfileActivity.this, "Authentication Passed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Changes Saved", Toast.LENGTH_SHORT).show();
 
             }
         }).addOnFailureListener(new OnFailureListener() {

@@ -58,6 +58,7 @@ public class OnBoard1 extends Activity {
                     if(j == 1) {
                         Log.d("aa","if entry"+j);
                         Intent intent = new Intent(OnBoard1.this, LoginActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
                     } else {
                         Log.d("aa","else entry"+j);

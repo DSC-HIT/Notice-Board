@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -118,7 +117,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         ImageView preview;
         MaterialButton b;
         View card;
-        RatingBar ratingBar;
+        //RatingBar ratingBar;
         FirebaseAuth mAuth;
         FirebaseUser mUser;
 
@@ -132,18 +131,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             preview = (ImageView) itemView.findViewById(R.id.imageView);
             desc = (TextView) itemView.findViewById(R.id.postDescription);
             card = itemView.findViewById(R.id.card_view);
-            ratingBar = (RatingBar) itemView.findViewById(R.id.myRatingBar);
+            //ratingBar = (RatingBar) itemView.findViewById(R.id.myRatingBar);
 
             mAuth = FirebaseAuth.getInstance();
             mUser = mAuth.getCurrentUser();
 
-            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            /*ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
 
 
                 }
-            });
+            });*/
 
             Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
