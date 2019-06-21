@@ -7,5 +7,11 @@
         android:title="Search"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
+    <android:item
+        android:id="@+id/checkDept"
+        android:checkable="true"
+        android:title="Dept"
+        app:actionViewClass="android.widget.CheckBox"
+        app:showAsAction="ifRoom|withText" />
 
 </menu>

@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -74,6 +76,9 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     private TabLayout tabLayout;
     private Toolbar searchToolBar;
     //private RatingBar ratingBar;
+    private static final String[] dept = {"CSE", "ECE", "IT", "AEIE", "BT", "EE", "ChE", "ME", "CE"};
+    private boolean flag = true;
+    private String currentDept;
     private ImageView search;
 
     @Override
@@ -82,6 +87,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         setContentView(R.layout.activity_announcement);
 
         sh = getSharedPreferences("shared", Context.MODE_PRIVATE);
+        currentDept = sh.getString("dis_dept","CSE");
 
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -94,7 +100,8 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         db = FirebaseDatabase.getInstance();
         dbref = db.getReference();
 
-        getContent();
+        for (String d : dept)
+            getContent(d);
 
         shimmerFrameLayout = findViewById(R.id.shimmer);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
@@ -167,9 +174,9 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
     }
 
-    private void searchContent(String newText) {
+    private void searchContent(String newText, String dept) {
 
-        Query myquery = dbref.child("data").child("Announcement").orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
+        Query myquery = dbref.child("data").child("Announcement").child(dept).orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -218,16 +225,30 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     }
 
     private void refreshContent() {
+
         shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
         shimmerFrameLayout.startShimmer();
         results = new ArrayList<DataObject>();
         mAdapter = new MyRecyclerViewAdapter(getDataSet(), AnnouncementActivity.this);
         mRecyclerView.setAdapter(mAdapter);
-        getContent();
+        if(flag)
+        {
+            for (String d : dept)
+                getContent(d);
+        } else {
+            getContent(currentDept);
+        }
     }
-
-    private void getContent() {
-        dbref.child("data").child("Announcement").limitToFirst(10).addChildEventListener(new ChildEventListener() {
+    private void deptBasedContent(String dept) {
+        shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        results = new ArrayList<DataObject>();
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), AnnouncementActivity.this);
+        mRecyclerView.setAdapter(mAdapter);
+        getContent(dept);
+    }
+    private void getContent(String dept) {
+        dbref.child("data").child("Announcement").child(dept).limitToFirst(10).addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
@@ -281,6 +302,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        currentDept = sh.getString("dis_dept","CSE");
         ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter
                 .MyClickListener() {
             @Override
@@ -310,6 +332,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.action_bar_item, menu);
 
         MenuItem mSearch = menu.findItem(R.id.action_search);
@@ -322,32 +345,64 @@ public class AnnouncementActivity<search> extends AppCompatActivity
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                shimmerFrameLayout.startShimmer();
-                shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);//starting the animation will be stoping when child arrives.
+                if (!query.equals("") && flag)//if query string is empty DON'T query
+                {
+                    shimmerFrameLayout.startShimmer();
+                    shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);//starting the animation will be stoping when child arrives.
 
-                results = new ArrayList<DataObject>();
-                mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
-                mRecyclerView.setAdapter(mAdapter);
+                    results = new ArrayList<DataObject>();
+                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                    for (String d : dept)
+                        searchContent(query,d);
+                } else if(!query.equals("") && !flag){
+                    shimmerFrameLayout.startShimmer();
+                    shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);//starting the animation will be stoping when child arrives.
 
-
-                if (!query.equals(""))//if query string is empty DON'T query
-                    searchContent(query);
-
-                return true;
+                    results = new ArrayList<DataObject>();
+                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                    //String d = sh.getString("dis_dept","CSE");
+                    searchContent(query,currentDept);
+                }
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
 
-                results = new ArrayList<DataObject>();
-                mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
-                mRecyclerView.setAdapter(mAdapter);
+                if (!query.equals("") && flag)//if query string is empty DON'T query
+                {
+                    results = new ArrayList<DataObject>();
+                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                    for (String d : dept)
+                        searchContent(query,d);
+                } else if(!query.equals("") && !flag){
+                    results = new ArrayList<DataObject>();
+                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                    //String d = sh.getString("dis_dept","CSE");
+                    searchContent(query,currentDept);
+                }
 
-
-                if (!query.equals(""))//if query string is empty DON'T query
-                    searchContent(query);
-
-                return true;
+                return false;
+            }
+        });
+        //final String dept1 = sh.getString("dis_dept","CSE");
+        CheckBox check = (CheckBox) menu.findItem(R.id.checkDept).getActionView();
+        check.setText("Dept Wise");
+        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    showToast(currentDept);
+                    flag = false;
+                    deptBasedContent(currentDept);
+                } else {
+                    flag = true;
+                    refreshContent();
+                }
             }
         });
         getMenuInflater().inflate(R.menu.announcement, menu);

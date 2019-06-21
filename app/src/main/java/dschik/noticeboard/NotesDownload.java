@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,12 +62,16 @@ public class NotesDownload extends AppCompatActivity
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private static final String[] dept = {"CSE", "ECE", "IT", "AEIE", "BT", "EE", "ChE", "ME", "CE"};
+    private boolean flag = true;
+    private String currentDept;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_download);
         sh = getSharedPreferences("shared", Context.MODE_PRIVATE);
+        currentDept = sh.getString("dis_dept","CSE");
 
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -77,7 +83,8 @@ public class NotesDownload extends AppCompatActivity
 
         db = FirebaseDatabase.getInstance();
         dbref = db.getReference();
-        getContent();
+        for (String d : dept)
+            getContent(d);
 
         shimmerFrameLayout = findViewById(R.id.shimmer);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
@@ -147,12 +154,27 @@ public class NotesDownload extends AppCompatActivity
         results = new ArrayList<DataObject>();
         mAdapter = new MyRecyclerViewAdapter(getDataSet(), NotesDownload.this);
         mRecyclerView.setAdapter(mAdapter);
-        getContent();
+        if (flag)
+        {
+            for (String d : dept)
+                getContent(d);
+        } else {
+            getContent(currentDept);
+        }
     }
 
-    private void searchContent(String newText) {
+    private void deptBasedContent(String dept) {
+        shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
+        shimmerFrameLayout.startShimmer();
+        results = new ArrayList<DataObject>();
+        mAdapter = new MyRecyclerViewAdapter(getDataSet(), NotesDownload.this);
+        mRecyclerView.setAdapter(mAdapter);
+        getContent(dept);
+    }
 
-        Query myquery = dbref.child("data").child("Notes").orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
+    private void searchContent(String newText,String dept) {
+
+        Query myquery = dbref.child("data").child("Notes").child(dept).orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -201,8 +223,8 @@ public class NotesDownload extends AppCompatActivity
     }
 
 
-    private void getContent() {
-        dbref.child("data").child("Notes").addChildEventListener(new ChildEventListener() {
+    private void getContent(String dept) {
+        dbref.child("data").child("Notes").child(dept).addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
@@ -254,6 +276,7 @@ public class NotesDownload extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        currentDept = sh.getString("dis_dept","CSE");
         ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter
                 .MyClickListener() {
             @Override
@@ -280,6 +303,7 @@ public class NotesDownload extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        //final String dept1 = sh.getString("dis_dept","CSE");
         getMenuInflater().inflate(R.menu.action_bar_item, menu);
 
         MenuItem mSearch = menu.findItem(R.id.action_search);
@@ -290,32 +314,64 @@ public class NotesDownload extends AppCompatActivity
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                shimmerFrameLayout.startShimmer();
-                shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);//starting the animation will be stoping when child arrives.
+                if (!query.equals("") && flag)//if query string is empty DON'T query
+                {
+                    shimmerFrameLayout.startShimmer();
+                    shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);//starting the animation will be stoping when child arrives.
 
-                results = new ArrayList<DataObject>();
-                mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, NotesDownload.this);
-                mRecyclerView.setAdapter(mAdapter);
+                    results = new ArrayList<DataObject>();
+                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, NotesDownload.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                    for (String d : dept)
+                        searchContent(query,d);
+                } else if(!query.equals("") && !flag){
+                    shimmerFrameLayout.startShimmer();
+                    shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);//starting the animation will be stoping when child arrives.
 
+                    results = new ArrayList<DataObject>();
+                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, NotesDownload.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                    //String d = sh.getString("dis_dept","CSE");
+                    searchContent(query,currentDept);
+                }
 
-                if (!query.equals(""))//if query string is empty DON'T query
-                    searchContent(query);
-
-                return true;
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
-                //mAdapter.getFilter().filter(newText);
-                results = new ArrayList<DataObject>();
-                mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, NotesDownload.this);
-                mRecyclerView.setAdapter(mAdapter);
+                if (!query.equals("") && flag)//if query string is empty DON'T query
+                {
+                    results = new ArrayList<DataObject>();
+                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, NotesDownload.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                    for (String d : dept)
+                        searchContent(query,d);
+                } else if(!query.equals("") && !flag){
+                    results = new ArrayList<DataObject>();
+                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, NotesDownload.this);
+                    mRecyclerView.setAdapter(mAdapter);
+                    //String d = sh.getString("dis_dept","CSE");
+                    searchContent(query,currentDept);
+                }
 
+                return false;
+            }
+        });
 
-                if (!query.equals(""))//if query string is empty DON'T query
-                    searchContent(query);
-
-                return true;
+        CheckBox check = (CheckBox) menu.findItem(R.id.checkDept).getActionView();
+        check.setText("Dept Wise");
+        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    showToast(currentDept);
+                    flag = false;
+                    deptBasedContent(currentDept);
+                } else {
+                    flag = true;
+                    refreshContent();
+                }
             }
         });
         getMenuInflater().inflate(R.menu.notes_download, menu);
