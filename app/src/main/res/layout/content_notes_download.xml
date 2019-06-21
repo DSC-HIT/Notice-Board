@@ -10,6 +10,16 @@
     tools:showIn="@layout/app_bar_notes_download"
     android:background="@drawable/grad"
     android:orientation="vertical">
+    <TextView
+        android:id="@+id/default_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No Data to show. Please refresh to get more Content."
+        android:textSize="25dp"
+        android:textAlignment="center"
+        android:textColor="@color/primaryText"
+        android:visibility="invisible"/>
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer"
         android:layout_height="match_parent"

@@ -410,10 +410,12 @@ public class UploadActivity extends AppCompatActivity implements
                             }
                             Record r = null;//initializing the Record class
                             String desc = description.getText().toString();//getting desccription of upload
+                            String dept = sh.getString("dis_dept","CSE");
+                            String user = sh.getString("dis_name","name");
                             assert fuser1 != null;
-                            r = new Record(file_name,rl, sh.getString("dis_name","name"), dateFormat.format(date), desc, motto, null);//setting values
-                            //Log.d("aa",filePath);
-                            dbref.child("data").child(motto).child(getTimeStamp()).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            r = new Record(file_name,rl, user, dateFormat.format(date), desc, motto, null);//setting values
+
+                            dbref.child("data").child(motto).child(dept).child(getTimeStamp()).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {
