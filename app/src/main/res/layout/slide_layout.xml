@@ -8,8 +8,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        app:srcCompat="@drawable/group10" />
+        android:layout_marginTop="50dp" />
 
     <TextView
         android:id="@+id/slider_heading"
