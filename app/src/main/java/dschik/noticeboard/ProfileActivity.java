@@ -3,12 +3,14 @@ package dschik.noticeboard;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,8 +18,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Iterator;
 
 public class ProfileActivity extends AppCompatActivity implements DialogProfileActivity.DialogListerner {
     private SharedPreferences sh;
@@ -26,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
     private DatabaseReference dbref;
     TextView dept_1;
     TextView year_1;
+    String email, name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +56,8 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         assert user != null;
-        String name = sh.getString("dis_name", "name");
-        String email = sh.getString("dis_email", "email");
+        name = sh.getString("dis_name", "name");
+        email = sh.getString("dis_email", "email");
         String dept = sh.getString("dis_dept", "dept");
         String year = sh.getString("dis_year", "year");
         String details = dept + "-" + getYear(year);
@@ -59,6 +67,7 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
         useremail.setText(email);
         //detail.setText(details);
         //usernumber.setText(number);
+        //getData();
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,21 +142,12 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
         return email.replace(".", "");
     }
 
+    private void showLog(String s)
+    {
+        Log.d("aa",s);
+    }
 
-
-        /*String number = getMyPhoneNO();
-        Toast.makeText(getApplicationContext(), "My Phone Number is: "
-                + number, Toast.LENGTH_SHORT).show();
-
-        TextView textView = (TextView) findViewById(R.id.phone_number);
-        Log.d("aa","number"+number);
-        textView.setText("My Phone number is: " + number);*/
 
 }
-    /*private String getMyPhoneNO() {
-        TelephonyManager tMgr = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        @SuppressLint("MissingPermission")
-        String mPhoneNumber = tMgr.getLine1Number();
-        return mPhoneNumber;
-    }*/
+
 

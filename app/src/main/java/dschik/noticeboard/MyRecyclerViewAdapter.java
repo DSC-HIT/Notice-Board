@@ -4,6 +4,9 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.PowerManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,13 +15,21 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.DataObjectHolder> {
@@ -39,18 +50,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     }
 
-    public void setOnItemClickListener(MyClickListener myClickListener) {
-        this.myClickListener = myClickListener;
+    void setOnItemClickListener(MyClickListener myClickListener) {
+        MyRecyclerViewAdapter.myClickListener = myClickListener;
     }
 
+    @NonNull
     @Override
-    public DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DataObjectHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_view_row, parent, false);
 
-        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
-        return dataObjectHolder;
+        return new DataObjectHolder(view,context);
     }
 
     @Override
@@ -120,9 +131,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         //RatingBar ratingBar;
         FirebaseAuth mAuth;
         FirebaseUser mUser;
+        Context contextActivity;
 
-        DataObjectHolder(final View itemView) {
+        DataObjectHolder(final View itemView,Context contextActivity) {
             super(itemView);
+            this.contextActivity = contextActivity;
             final Context context = itemView.getContext();
             label = (TextView) itemView.findViewById(R.id.textView);
             dateTime = (TextView) itemView.findViewById(R.id.dateTime);
@@ -180,15 +193,37 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 @Override
                 public void onClick(View v) {
                     String link = urldata.getText().toString();
+                    String title = label.getText().toString();
+                    String ext = getExtension(link);
+                    //downloadfile(link,title);
                     DownloadManager d = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
                     Uri uri = Uri.parse(link);
                     DownloadManager.Request request = new DownloadManager.Request(uri);
-                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION);
+                    request.setTitle(title);
+                    if(ext.equals(".pdf"))
+                        request.setMimeType("application/pdf");
+                    else
+                        request.setMimeType("image/"+ext.substring(1));
+                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title+ext);
+                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                     assert d != null;
                     Long referrence = d.enqueue(request);
-                    Log.d("aa", "down clicked");
+
+                    Log.d("aa", "down clicked"+link);
                 }
             });
+
+        }
+        private String getExtension(String url)
+        {
+            if(url.contains(".jpeg") || url.contains("jpg"))
+            {
+                return ".jpeg";
+            } else if (url.contains("png"))
+            {
+                return ".png";
+            } else
+                return ".pdf";
         }
 
         @Override
@@ -205,3 +240,5 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
 }
+
+
