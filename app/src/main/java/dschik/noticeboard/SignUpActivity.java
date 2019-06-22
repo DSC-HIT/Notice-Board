@@ -1,5 +1,6 @@
 package dschik.noticeboard;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,6 +48,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     private FirebaseAuth mAuth;
     private FirebaseDatabase db;
     private DatabaseReference dbref;
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedinstances) {
@@ -56,6 +58,11 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         db = FirebaseDatabase.getInstance();
         dbref = db.getReference();
         mAuth = FirebaseAuth.getInstance();
+
+        progressDialog =new ProgressDialog(this);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setMessage("Signing In...");
+        progressDialog.setIndeterminate(true);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -73,7 +80,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogRegisterActivity dialogRegisterActivity = new DialogRegisterActivity();
+                DialogRegisterActivity dialogRegisterActivity = new DialogRegisterActivity(progressDialog);
                 dialogRegisterActivity.show(getSupportFragmentManager(), "register info");
             }
         });
@@ -115,6 +122,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                             shedit.apply();
 
                             createUserAccountInDB();
+                            progressDialog.cancel();
 
                             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -125,6 +133,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d("aa", "createUserWithEmail:failure" + task.getException().getMessage());
+                            progressDialog.cancel();
                             Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
                             //updateUI(null);
@@ -146,12 +155,13 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                 GoogleSignInAccount account = result.getSignInAccount();
                 String name = "";
                 try {
+                    progressDialog.show();
                     firebaseAuthWithGoogle(account);
                 } catch (NullPointerException n) {
                     n.printStackTrace();
                     Log.d("aa", "packman");
                 }
-                Toast.makeText(this, name, Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, name, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -183,7 +193,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
                                 createUserAccountInDB();
 
-
+                                progressDialog.cancel();
                                 Intent i = new Intent(SignUpActivity.this, MainActivity.class);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
@@ -197,6 +207,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d("aa", "signInWithCredential:failure" + task.getException());
+                            progressDialog.cancel();
                             Toast.makeText(SignUpActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
 
                         }

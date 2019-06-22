@@ -62,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         sh = getSharedPreferences("shared", Context.MODE_PRIVATE);
         shedit = sh.edit();
+
         progressDialog =  new ProgressDialog(this);
         progressDialog.setMessage("Signing In... ");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -89,7 +90,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogLoginActivity dialogLoginActivity = new DialogLoginActivity();
+                DialogLoginActivity dialogLoginActivity = new DialogLoginActivity(progressDialog);
                 dialogLoginActivity.show(getSupportFragmentManager(), "login frag");
             }
         });
@@ -169,6 +170,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                         } else {
                             // If sign in fails, display a message to the user.
+                            progressDialog.cancel();
                             Log.w("aa", "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
 
@@ -209,7 +211,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
                                 createUserAccountInDB();
 
-
+                                progressDialog.cancel();
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
@@ -220,6 +222,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.d("aa", "signInWithEmail:failure" + task.getException().getMessage());
+                            progressDialog.cancel();
                             Toast.makeText(LoginActivity.this, task.getException().getMessage(),
 
                                     Toast.LENGTH_SHORT).show();
