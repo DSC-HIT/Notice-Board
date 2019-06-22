@@ -2,12 +2,14 @@ package dschik.noticeboard;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,11 +20,17 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class DialogRegisterActivity extends DialogFragment {
+    private ProgressDialog progressDialog;
 
-    DialogRegisterActivity.DialogRegisterListener listener;
+    private DialogRegisterActivity.DialogRegisterListener listener;
+
+    DialogRegisterActivity(ProgressDialog progressDialog) {
+        super();
+        this.progressDialog = progressDialog;
+    }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             listener = (DialogRegisterActivity.DialogRegisterListener) context;
@@ -45,7 +53,7 @@ public class DialogRegisterActivity extends DialogFragment {
         userpass = view.findViewById(R.id.login_password);
 
         TextView dont = view.findViewById(R.id.dont_have);
-        dont.setText("Already have an Account");
+        dont.setText("Already have an Account!!! ");
         TextView signin = view.findViewById(R.id.sign_in);
         signin.setText(R.string.login1);
 
@@ -69,6 +77,7 @@ public class DialogRegisterActivity extends DialogFragment {
                 } else if (TextUtils.isEmpty(pass)) {
                     userpass.setError("Required");
                 } else {
+                    progressDialog.show();
                     listener.applyData(user, pass);
                 }
             }
@@ -78,7 +87,7 @@ public class DialogRegisterActivity extends DialogFragment {
         signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, SignUpActivity.class);
+                Intent intent = new Intent(context, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
             }

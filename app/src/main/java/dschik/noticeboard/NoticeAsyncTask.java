@@ -20,14 +20,14 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class NoticeAsyncTask extends AsyncTask<URL, String, String> {
-    ArrayList<DataObject> dt;
+    private ArrayList<DataObject> dt;
     Context c;
     RecyclerView mrecyler;
-    MyRecyclerViewAdapter myRecyclerViewAdapter;
+    private MyRecyclerViewAdapter myRecyclerViewAdapter;
     ShimmerFrameLayout sh;
     SwipeRefreshLayout swip;
-    String head;
-    String link;
+    private String head;
+    private String link;
 
     NoticeAsyncTask(Context context, RecyclerView recyclerView, ShimmerFrameLayout sh1, SwipeRefreshLayout ss) {
         mrecyler = recyclerView;

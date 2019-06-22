@@ -10,7 +10,6 @@
     tools:context=".AnnouncementActivity"
     tools:showIn="@layout/app_bar_announcement">
     <TextView
-        android:id="@+id/default_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

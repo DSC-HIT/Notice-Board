@@ -2,6 +2,7 @@ package dschik.noticeboard;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,10 +25,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class DialogLoginActivity extends DialogFragment {
-    DialogLoginListener listener;
+    private final ProgressDialog progressDialog;
+    private DialogLoginListener listener;
+
+    DialogLoginActivity(ProgressDialog progressDialog) {
+        super();
+        this.progressDialog = progressDialog;
+    }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             listener = (DialogLoginListener) context;
@@ -62,6 +69,7 @@ public class DialogLoginActivity extends DialogFragment {
                 } else if (TextUtils.isEmpty(pass)) {
                     userpass.setError("Required");
                 } else {
+                    progressDialog.show();
                     listener.applyData(user, pass);
                 }
             }
