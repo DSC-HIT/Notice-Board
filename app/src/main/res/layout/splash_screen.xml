@@ -8,10 +8,10 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:src="@drawable/group12" />
+        android:src="@drawable/new_icon" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="WELCOME TO HERITAGE GUIDE"
+        android:text="WELCOME TO HERITAGE CRUNCH"
         android:textAlignment="center"/>
 </LinearLayout>

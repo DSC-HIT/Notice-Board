@@ -188,7 +188,7 @@ public class NoticeViewer extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.notice_viewer, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 

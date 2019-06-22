@@ -20,14 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp">
 
-            <!--<android.widget.RatingBar
-                android:id="@+id/myRatingBar"
-                style="@style/Widget.AppCompat.RatingBar.Indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:isIndicator="false"
-                android:numStars="5" />-->
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/carder_button2"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"

@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="false"
         android:layout_centerHorizontal="true"
+        app:boxStrokeColor="@color/colorPrimaryDark"
+        app:hintTextColor="@color/colorAccent"
         app:endIconMode="clear_text">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -34,6 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/user"
+        app:boxStrokeColor="@color/colorPrimaryDark"
+        app:hintTextColor="@color/colorAccent"
         app:endIconMode="password_toggle">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -58,8 +62,8 @@
         android:layout_below="@+id/pass"
         android:layout_alignParentTop="false"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/my_button_bg"
         android:text="@string/login1"
+        app:backgroundTint="@color/colorPrimaryDark"
         android:textColor="@color/primaryText"
         android:textSize="12sp" />
 

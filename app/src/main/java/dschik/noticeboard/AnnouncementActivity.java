@@ -49,7 +49,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class AnnouncementActivity<search> extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener
@@ -405,7 +404,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                 }
             }
         });
-        getMenuInflater().inflate(R.menu.announcement, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 

@@ -1,5 +1,6 @@
 package dschik.noticeboard;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +53,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private FirebaseUser user;
     private FirebaseDatabase db;
     private DatabaseReference dbref;
+    private ProgressDialog progressDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         sh = getSharedPreferences("shared", Context.MODE_PRIVATE);
         shedit = sh.edit();
+        progressDialog =  new ProgressDialog(this);
+        progressDialog.setMessage("Signing In... ");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.setIndeterminate(true);
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseDatabase.getInstance();
@@ -110,7 +117,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 Log.d("aa", "pp");
                 GoogleSignInAccount account = result.getSignInAccount();
                 if (account != null)
+                {
+                    progressDialog.show();
                     firebaseAuthWithGoogle(account);
+                }
             } else {
                 Log.d("aa", "qq");
             }
@@ -144,7 +154,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
                                 createUserAccountInDB();
-
+                                progressDialog.cancel();
                                 //sending it to next activity
                                 //Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);

@@ -374,7 +374,7 @@ public class NotesDownload extends AppCompatActivity
                 }
             }
         });
-        getMenuInflater().inflate(R.menu.notes_download, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
