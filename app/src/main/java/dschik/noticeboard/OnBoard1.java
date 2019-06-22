@@ -104,7 +104,7 @@ public class OnBoard1 extends Activity {
                 mNextBtn.setEnabled(true);
                 mBackBtn.setEnabled(false);
                 mBackBtn.setVisibility(View.INVISIBLE);
-                mNextBtn.setText("SKIP");
+                mNextBtn.setText("NEXT");
                 mBackBtn.setText("");
                 j=0;
             }
@@ -121,7 +121,7 @@ public class OnBoard1 extends Activity {
                 mBackBtn.setEnabled(true);
                 mNextBtn.setEnabled(true);
                 mBackBtn.setVisibility(View.VISIBLE);
-                mNextBtn.setText("SKIP");
+                mNextBtn.setText("NEXT");
                 mBackBtn.setText("BACK");
                 j=0;
             }
