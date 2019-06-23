@@ -1,59 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/grad">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
+    android:background="#fff">
                 <ImageView
                     android:id="@+id/image"
-                    android:layout_width="400dp"
-                    android:layout_height="400dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:src="@drawable/signup_page_asset"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:contentDescription="@string/college_logo"
-                    android:src="@drawable/new_icon" />
-
-                <TextView
-                    android:id="@+id/tag"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Heritage Crunch"
-                    android:layout_below="@id/image"
-                    android:textAlignment="center"
-                    android:textSize="25dp"
-                    android:textStyle="bold"
-                    android:fontFamily="monospace"/>
-
+                    android:layout_marginTop="11dp" />
                 <LinearLayout
                     android:id="@+id/g_login"
-                    android:layout_width="wrap_content"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tag"
+                    android:layout_below="@+id/image"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="25dp"
-                    android:background="#fff"
+                    android:background="@drawable/login_button"
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="5sp"
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
                         android:layout_margin="3dp"
                         android:src="@drawable/google_app_logo" />
 
@@ -61,12 +34,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="40dp"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="8dp"
+                        android:paddingLeft="55dp"
+                        android:textStyle="normal"
+                        android:paddingTop="4dp"
                         android:text="LOGIN WITH GOOGLE"
+                        android:fontFamily="sans-serif-black"
+                        android:textColor="#000000"
                         android:textSize="15sp" />
                 </LinearLayout>
-
                 <TextView
                     android:id="@+id/or"
                     android:layout_width="wrap_content"
@@ -75,7 +50,7 @@
                     android:layout_below="@+id/g_login"
                     android:text="OR"
                     android:layout_marginTop="5dp"
-                    android:textColor="#fff"
+                    android:textColor="#D8D8D8"
                     android:textSize="25sp" />
 
                 <View
@@ -84,7 +59,7 @@
                     android:layout_below="@+id/g_login"
                     android:layout_marginTop="20dp"
                     android:layout_marginLeft="15dp"
-                    android:background="#fff" />
+                    android:background="#D8D8D8" />
 
                 <View
                     android:layout_width="135dp"
@@ -93,7 +68,7 @@
                     android:layout_marginTop="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="15dp"
-                    android:background="#fff" />
+                    android:background="#D8D8D8" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/register_button"
@@ -104,30 +79,8 @@
                     android:layout_centerHorizontal="true"
                     android:layout_below="@+id/or"
                     android:backgroundTint="#ffffff"
-                    app:iconTint="@color/colorAccent"
                     android:text="@string/login"
                     app:icon="@drawable/mail"
                     android:textColor="@color/primaryText"
                     android:textSize="15sp" />
-                <ImageView
-                    android:id="@+id/image1"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/register_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:src="@drawable/dsc_logo"
-                    />
-                <TextView
-                    android:layout_below="@+id/image1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Developer Student Club HIT"
-                    android:textAlignment="center"
-                    android:textColor="@color/primaryText"/>
-
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
-
-
 </RelativeLayout>
