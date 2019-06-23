@@ -20,7 +20,7 @@ public class AboutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         setView(R.drawable.daw,R.id.daw_pic, "Suranjan Daw","Android Full Stack Dev","https://www.linkedin.com/in/suranjan-daw-07901b15b/");
-        setView(R.drawable.daw,R.id.adhi_pic,"Souhardya Adhikary","Android Dev","https://www.linkedin.com/in/souhardya-adhikary-a10a10156/");
+        setView(R.drawable.adhikary,R.id.adhi_pic,"Souhardya Adhikary","Android Dev","https://www.linkedin.com/in/souhardya-adhikary-a10a10156/");
         setView(R.drawable.das,R.id.das_pic,"Subhasis Das", "Server Backend Dev" ,"https://www.linkedin.com/in/subhasis-das-6a00aa172/");
 
     }
