@@ -92,7 +92,7 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String> {
                 if (link.contains(".pdf") && c instanceof MainActivity) {
                     link = "http://heritageit.edu/" + link;
                 }
-                DataObject obj = new DataObject(head, link, "Heritage Institute of Technology", "01/01/19", null, "");
+                DataObject obj = new DataObject(head, link, "Heritage Institute of Technology", "", null, "");
                 dt.add(k, obj);
                 k++;
                 //Log.d("aa",link+"size:"+size);

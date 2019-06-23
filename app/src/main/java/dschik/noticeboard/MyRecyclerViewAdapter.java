@@ -68,7 +68,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void onBindViewHolder(DataObjectHolder holder, int position) {
         setAnimation(holder.card, position);//setting animation
         String sendername = "Sender: " + mDataset.get(position).getmText3();
-        String datetime = "Date: " + mDataset.get(position).getmText4();
+        String datetime = "";
+        if(context instanceof NotesDownload || context instanceof AnnouncementActivity) {
+            datetime = "Date: " + mDataset.get(position).getmText4();
+
+        } else if( context instanceof MainActivity)
+        {
+            holder.md.setClickable(false);
+            holder.md.setVisibility(View.GONE);
+        }
         String url = mDataset.get(position).getmText2();
         holder.label.setText(mDataset.get(position).getmText1());
         holder.sendername.setText(sendername);
@@ -127,6 +135,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         TextView desc;
         ImageView preview;
         MaterialButton b;
+        MaterialButton md;
         View card;
         //RatingBar ratingBar;
         FirebaseAuth mAuth;
@@ -188,8 +197,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                     itemView.getContext().startActivity(Intent.createChooser(intent, "Share text via"));
                 }
             });
-
-            itemView.findViewById(R.id.carder_button3).setOnClickListener(new View.OnClickListener() {
+            md = itemView.findViewById(R.id.carder_button3);
+            md.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     String link = urldata.getText().toString();
