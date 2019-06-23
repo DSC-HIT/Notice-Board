@@ -35,18 +35,13 @@ public class SplashScreen extends Activity {
             @Override
             public void run() {
                 FirebaseUser fb = mAuth.getCurrentUser();
-                if( fb != null)
+                if( fb != null && fb.isEmailVerified())
                 {
                     Intent mainIntent =new Intent(SplashScreen.this,MainActivity.class);
                     //mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     SplashScreen.this.startActivity(mainIntent);
                     SplashScreen.this.finish();
                 }
-                /*else {
-                    Intent mainIntent = new Intent(SplashScreen.this, LoginActivity.class);
-                    SplashScreen.this.startActivity(mainIntent);
-                    SplashScreen.this.finish();
-                }*/
                 else{
                     Intent mainIntent=new Intent(SplashScreen.this,OnBoard1.class);
                     SplashScreen.this.startActivity(mainIntent);

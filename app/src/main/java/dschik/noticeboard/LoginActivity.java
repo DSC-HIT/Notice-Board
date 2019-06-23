@@ -184,12 +184,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        /*FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
-        }
+        }*/
 
     }
 
@@ -199,34 +199,27 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("aa", "signInWithEmail:success");
                             user = mAuth.getCurrentUser();
+
+                            //sending email verification
                             if (user != null) {
-
-                                shedit.putString("dis_email",username);
-                                shedit.putString("dis_name", username.substring(0, username.indexOf('@')));
-                                shedit.apply();
-
-
-                                createUserAccountInDB();
-
-                                progressDialog.cancel();
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-
+                                if(user.isEmailVerified())
+                                {
+                                    dologin(username);
+                                } else {
+                                    showToast("Verify Email First!!!");
+                                }
                             }
 
-                            //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d("aa", "signInWithEmail:failure" + task.getException().getMessage());
-                            progressDialog.cancel();
-                            Toast.makeText(LoginActivity.this, task.getException().getMessage(),
 
-                                    Toast.LENGTH_SHORT).show();
-                            Log.d("aa", task.getException() + "");
+                            progressDialog.cancel();
+                            showToast(task.getException().getMessage());
+
                             //updateUI(null);
                         }
 
@@ -284,5 +277,27 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void applyData(String username, String password) {
         signin(username, password);
+    }
+
+    private void dologin(String username)
+    {
+        if (user != null) {
+
+            shedit.putString("dis_email",username);
+            shedit.putString("dis_name", username.substring(0, username.indexOf('@')));
+            shedit.apply();
+            createUserAccountInDB();
+
+            progressDialog.cancel();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+
+        }
+    }
+
+    private void showToast(String s)
+    {
+        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
     }
 }

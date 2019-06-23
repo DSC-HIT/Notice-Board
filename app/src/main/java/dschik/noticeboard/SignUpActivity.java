@@ -24,6 +24,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -99,12 +100,12 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     @Override
     public void onStart() {
         super.onStart();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        /*FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
-        }
+        }*/
 
     }
 
@@ -116,27 +117,17 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("aa", "createUserWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                sendVerificationEmail(user);
+                                doSignup(username);
+                            }
 
-                            shedit.putString("dis_email",username);
-                            shedit.putString("dis_name", username.substring(0, username.indexOf('@')));
-                            shedit.apply();
-
-                            createUserAccountInDB();
-                            progressDialog.cancel();
-
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-
-                            Toast.makeText(SignUpActivity.this, "Authentication success. Now Login Using these Credentials",
-                                    Toast.LENGTH_LONG).show();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d("aa", "createUserWithEmail:failure" + task.getException().getMessage());
+
                             progressDialog.cancel();
-                            Toast.makeText(SignUpActivity.this, "Authentication failed." + task.getException().getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                            //updateUI(null);
+                            showToast("Authentication failed." + task.getException().getMessage());
                         }
                     }
                 });
@@ -156,7 +147,9 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                 String name = "";
                 try {
                     progressDialog.show();
-                    firebaseAuthWithGoogle(account);
+                    if (account != null) {
+                        firebaseAuthWithGoogle(account);
+                    }
                 } catch (NullPointerException n) {
                     n.printStackTrace();
                     Log.d("aa", "packman");
@@ -232,7 +225,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
-                Toast.makeText(SignUpActivity.this, "Authentication Passed", Toast.LENGTH_SHORT).show();
+                showToast("Authentication Passed");
 
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -263,6 +256,40 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
     @Override
     public void applyData(String username, String password) {
+
         createAccount(username, password);
+
+    }
+
+    private void doSignup(String username)
+    {
+        shedit.putString("dis_email",username);
+        shedit.putString("dis_name", username.substring(0, username.indexOf('@')));
+        shedit.apply();
+        //createUserAccountInDB();
+        progressDialog.cancel();
+
+        showToast("Authentication success. Now Login Using these Credentials");
+    }
+
+    private void sendVerificationEmail(final FirebaseUser user)
+    {
+        user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful())
+                    showToast("Verification mail sent! Verify your account and come back");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                showToast("Sorry could not send Verification mail!!!");
+            }
+        });
+    }
+
+    private void showToast(String s)
+    {
+        Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
     }
 }
