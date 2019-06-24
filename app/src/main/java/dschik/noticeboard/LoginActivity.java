@@ -210,6 +210,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 {
                                     dologin(username);
                                 } else {
+                                    progressDialog.cancel();
                                     showToast("Verify Email First!!!");
                                 }
                             }
