@@ -1,130 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/grad">
+    android:background="#fff">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-            <RelativeLayout
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="300dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/new_icon" />
+
+            <TextView
+                android:id="@+id/tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Heritage Crunch"
+                android:textColor="#989595" />
+
+            <LinearLayout
+                android:id="@+id/reg_google"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tag"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/login_button"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="horizontal"
+                android:padding="5sp">
+
                 <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="400dp"
-                    android:layout_height="400dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:contentDescription="@string/college_logo"
-                    android:src="@drawable/new_icon" />
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginBottom="3dp"
+                    android:src="@drawable/google_app_logo" />
 
                 <TextView
-                    android:id="@+id/tag"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Heritage Crunch"
-                    android:layout_below="@id/image"
-                    android:textAlignment="center"
-                    android:textSize="25dp"
-                    android:textStyle="bold"
-                    android:fontFamily="monospace"/>
-
-                <LinearLayout
-                    android:id="@+id/reg_google"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tag"
-                    android:layout_marginTop="5dp"
-                    android:background="#fff"
-                    android:clickable="true"
-                    android:orientation="horizontal"
-                    android:padding="5dp"
-                    android:layout_centerHorizontal="true">
-
-                    <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:layout_margin="3dp"
-                        android:src="@drawable/google_app_logo" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="40dp"
-                        android:paddingLeft="15dp"
-                        android:paddingTop="8dp"
-                        android:text="REGISTER WITH GOOGLE"
-                        android:textSize="15sp" />
-                </LinearLayout>
-                <TextView
-                    android:id="@+id/or"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/reg_google"
-                    android:layout_marginTop="5dp"
-                    android:text="OR"
-                    android:textColor="#fff"
-                    android:textSize="25sp"
-                    android:layout_centerHorizontal="true"/>
-
-                <View
-                    android:layout_width="135dp"
-                    android:layout_height="1dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/reg_google"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="#fff"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="15dp" />
-
-                <View
-                    android:layout_width="135dp"
-                    android:layout_height="1dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@+id/reg_google"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginRight="15dp"
-                    android:background="#fff"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="15dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/sign_in_button"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/or"
-                    android:layout_centerHorizontal="true"
-                    android:backgroundTint="#ffffff"
-                    android:text="@string/register_with_email"
+                    android:layout_marginRight="40dp"
+                    android:paddingLeft="36dp"
+                    android:paddingTop="4dp"
+                    android:text="REGISTER WITH GOOGLE"
                     android:textColor="@color/primaryText"
-                    app:iconTint="@color/colorAccent"
                     android:textSize="15sp"
-                    app:icon="@drawable/mail" />
-                <ImageView
-                    android:id="@+id/image1"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/sign_in_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:src="@drawable/dsc_logo"
-                    />
-                <TextView
-                    android:layout_below="@+id/image1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Developer Student Club HIT"
-                    android:textAlignment="center"
-                    android:textColor="@color/primaryText"/>
-            </RelativeLayout>
-        </LinearLayout>
-    </ScrollView>
+                    android:textStyle="normal" />
+            </LinearLayout>
 
+            <TextView
+                android:id="@+id/or"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/reg_google"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:text="OR"
+                android:textColor="#D8D8D8"
+                android:textSize="25sp" />
+
+            <View
+                android:layout_width="135dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/reg_google"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="20dp"
+                android:background="#D8D8D8" />
+
+            <View
+                android:layout_width="135dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/reg_google"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="15dp"
+                android:background="#D8D8D8" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sign_in_button"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/or"
+                android:layout_alignParentTop="false"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="#ffffff"
+                android:fontFamily="sans-serif"
+                android:text="@string/register_with_email"
+                android:textColor="@color/primaryText"
+                android:textSize="15sp"
+                app:icon="@drawable/mail" />
+
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="24dp"
+                android:layout_height="12dp"
+                android:layout_below="@+id/sign_in_button"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/dsc_logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="Developed by DSC HIT"
+                android:textColor="#989595" />
+        </RelativeLayout>
+    </ScrollView>
 </RelativeLayout>
