@@ -47,8 +47,10 @@
                 <ImageView
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:layout_margin="3dp"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_marginLeft="12dp"
                     android:src="@drawable/google_app_logo" />
 
                 <TextView
@@ -56,7 +58,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="40dp"
                     android:fontFamily="sans-serif"
-                    android:paddingLeft="55dp"
+                    android:paddingLeft="48dp"
                     android:paddingTop="4dp"
                     android:text="LOGIN WITH GOOGLE"
                     android:textColor="@color/primaryText"
