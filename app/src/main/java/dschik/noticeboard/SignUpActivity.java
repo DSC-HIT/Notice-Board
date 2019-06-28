@@ -24,7 +24,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     @Override
     public void onCreate(Bundle savedinstances) {
         super.onCreate(savedinstances);
-        setContentView(R.layout.sign_up);
+        setContentView(R.layout.activity_sign_up);
         signin = (Button) findViewById(R.id.sign_in_button);
         db = FirebaseDatabase.getInstance();
         dbref = db.getReference();

@@ -1,66 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="10dp"
-        app:cardElevation="8dp"
-        card_view:cardCornerRadius="10dp"
-        card_view:contentPadding="16dp">
-
-        <RelativeLayout
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_margin="10dp"
+    app:cardElevation="8dp"
+    card_view:cardCornerRadius="10dp"
+    card_view:contentPadding="16dp">
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp">
+            android:orientation="horizontal"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/carder_button2"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:text="Share"
-                android:textColor="@color/colorAccent"
-                app:icon="@drawable/ic_share_black_24dp"
-                app:iconTint="@color/colorAccent"
-                android:textSize="13sp"
-                app:cornerRadius="5dp"
-                android:layout_marginRight="15dp"
-                />
-
-            <LinearLayout
+            <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/carder_button2"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="5dp"
+                android:layout_marginTop="-35dp"
+                android:layout_weight="2" />
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_margin="5dp"
-                    android:layout_marginTop="-35dp"
-                    android:layout_weight="2" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
 
-                    <RelativeLayout
+                <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.8">
 
                         <TextView
                             android:id="@+id/textView"
@@ -79,7 +50,7 @@
                             android:layout_below="@+id/textView"
                             android:maxLines="1"
                             android:textColor="#585858"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"/>
 
                         <TextView
                             android:id="@+id/urldata"
@@ -93,7 +64,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/postDescription"
                             android:textColor="#8C8C8C"
-                            android:textStyle="bold" />
+                            android:textStyle="normal" />
 
                         <TextView
                             android:id="@+id/dateTime"
@@ -101,7 +72,24 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/sendername"
                             android:textColor="#9C9C9C"
-                            android:textStyle="bold" />
+                            android:textStyle="normal" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/carder_button2"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/dateTime"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Share"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="13sp"
+                            app:cornerRadius="5dp"
+                            app:icon="@drawable/ic_share_black_24dp"
+                            app:iconTint="@color/colorAccent" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/carder_button3"
@@ -109,18 +97,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/dateTime"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentBottom="false"
-                            android:layout_marginTop="0dp"
-                            android:layout_marginRight="15dp"
                             android:text="DOWNLOAD"
                             android:textColor="@color/colorAccent"
                             android:textSize="13sp"
+                            android:layout_alignParentStart="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginRight="5dp"
                             app:cornerRadius="5dp" />
                     </RelativeLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-        </RelativeLayout>
-    </androidx.cardview.widget.CardView>
-</LinearLayout>
+        </LinearLayout>
+</androidx.cardview.widget.CardView>

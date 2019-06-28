@@ -33,7 +33,7 @@ public class AboutActivity extends AppCompatActivity {
         v1.findViewById(R.id.dateTime).setVisibility(View.GONE);
         v1.findViewById(R.id.sendername).setVisibility(View.GONE);
 
-        v1.findViewById(R.id.card_view).setOnClickListener(new View.OnClickListener() {
+        v1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
