@@ -3,6 +3,7 @@ package dschik.noticeboard;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -141,6 +142,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         FirebaseAuth mAuth;
         FirebaseUser mUser;
         Context contextActivity;
+        SharedPreferences sh;
 
         DataObjectHolder(final View itemView,Context contextActivity) {
             super(itemView);
@@ -153,6 +155,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             preview = (ImageView) itemView.findViewById(R.id.imageView);
             desc = (TextView) itemView.findViewById(R.id.postDescription);
             card = itemView.findViewById(R.id.card_view);
+            sh = context.getSharedPreferences("shared",Context.MODE_PRIVATE);
             //ratingBar = (RatingBar) itemView.findViewById(R.id.myRatingBar);
 
             mAuth = FirebaseAuth.getInstance();
@@ -201,6 +204,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             md.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     String link = urldata.getText().toString();
                     String title = label.getText().toString();
                     String ext = getExtension(link);
@@ -213,10 +217,15 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                         request.setMimeType("application/pdf");
                     else
                         request.setMimeType("image/"+ext.substring(1));
-                    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title+ext);
-                    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                    assert d != null;
-                    Long referrence = d.enqueue(request);
+                    if(sh.getBoolean("storage_permission",false))
+                    {
+                        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, title+ext);
+                        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE | DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                        assert d != null;
+                        Long referrence = d.enqueue(request);
+                    } else {
+                        Toast.makeText(context,"Storage permission not provided. Cannot Download!!!",Toast.LENGTH_LONG).show();
+                    }
 
                     Log.d("aa", "down clicked"+link);
                 }

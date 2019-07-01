@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
         ,NavigationView.OnNavigationItemSelectedListener {
     SharedPreferences sh;
+    SharedPreferences.Editor shedit;
 
 
     GoogleApiClient mGoogleApiClient;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
 
         sh = getSharedPreferences("shared",Context.MODE_PRIVATE);
+        shedit = sh.edit();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -137,7 +139,15 @@ public class MainActivity extends AppCompatActivity implements
         FirebaseUser user= mAuth.getCurrentUser();
 
         usr.setText(sh.getString("dis_name","user"));
-        haveStoragePermission();
+        if(haveStoragePermission())
+        {
+            shedit.putBoolean("storage_permission",true);
+            shedit.apply();
+        } else {
+            shedit.putBoolean("storage_permission",false);
+            shedit.apply();
+        }
+        shedit.apply();
 
     }
 
