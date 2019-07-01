@@ -1,7 +1,9 @@
 package dschik.noticeboard;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -51,6 +53,11 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
         dept_1 = findViewById(R.id.dept_1);
         year_1 = findViewById(R.id.year_1);
         ImageView settings = findViewById(R.id.settings);
+        TextView terms=findViewById(R.id.terms_and_condition);
+        TextView policy=findViewById(R.id.privacy_policy);
+        TextView agreement=findViewById(R.id.eula);
+
+
         detail = findViewById(R.id.user_detail);
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -75,7 +82,27 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
                 showdialog();
             }
         });
-
+        terms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(Intent.ACTION_VIEW, Uri.parse("https://docs.google.com/document/d/1nLbMQEdHOs7zEMTrHH5Pwat3RB1riAkq15gB1yT1Cuc/edit"));
+                startActivity(intent);
+            }
+        });
+        policy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(Intent.ACTION_VIEW,Uri.parse("https://docs.google.com/document/d/1p2h-ZmMXZopi24iDz9FlWNR_OEFRuWfz-sETteuVxic/edit"));
+                startActivity(intent);
+            }
+        });
+        agreement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(Intent.ACTION_VIEW,Uri.parse("https://docs.google.com/document/d/1CbfOfpFXVAQZvd-iyqiyjJlMr60jclAXrs1kVOb0_zM/edit?usp=sharing"));
+                startActivity(intent);
+            }
+        });
     }
 
     private void showdialog() {
