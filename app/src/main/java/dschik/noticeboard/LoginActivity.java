@@ -112,9 +112,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         super.onActivityResult(req, resultCode, data);
         if (req == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            Log.d("aa", result.getStatus().getStatusCode() + "**");
+            //Log.d("aa", result.getStatus().getStatusCode() + "**");
             if (result.isSuccess()) {
-                Log.d("aa", "pp");
+                //Log.d("aa", "pp");
                 GoogleSignInAccount account = result.getSignInAccount();
                 if (account != null)
                 {
@@ -122,13 +122,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     firebaseAuthWithGoogle(account);
                 }
             } else {
-                Log.d("aa", "qq");
+                //Log.d("aa", "qq");
             }
         }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d("aa", "firebaseAuthWithGoogle:" + acct.getIdToken());
+        //Log.d("aa", "firebaseAuthWithGoogle:" + acct.getIdToken());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("aa", "signInWithCredential:success");
+                            //Log.d("aa", "signInWithCredential:success");
                             user = mAuth.getCurrentUser();
 
                             String name = "";
@@ -170,7 +170,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         } else {
                             // If sign in fails, display a message to the user.
                             progressDialog.cancel();
-                            Log.w("aa", "signInWithCredential:failure", task.getException());
+                            //Log.w("aa", "signInWithCredential:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
 
                         }
@@ -200,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                         if (task.isSuccessful()) {
 
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("aa", "signInWithEmail:success");
+                            //Log.d("aa", "signInWithEmail:success");
                             user = mAuth.getCurrentUser();
 
                             //sending email verification

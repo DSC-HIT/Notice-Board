@@ -169,7 +169,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 }
             });*/
 
-            Log.i(LOG_TAG, "Adding Listener");
+            //Log.i(LOG_TAG, "Adding Listener");
             itemView.setOnClickListener(this);
 
 
@@ -177,7 +177,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                 @Override
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
-                    Log.d("aa", pos + "");
+                    //Log.d("aa", pos + "");
                     String ull = urldata.getText().toString();
                     //String ull = url[pos];
                     Uri uri = Uri.parse(ull);
@@ -227,7 +227,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
                         Toast.makeText(context,"Storage permission not provided. Cannot Download!!!",Toast.LENGTH_LONG).show();
                     }
 
-                    Log.d("aa", "down clicked"+link);
+                    //Log.d("aa", "down clicked"+link);
                 }
             });
 
@@ -247,7 +247,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         @Override
         public void onClick(View v) {
             try {
-                Log.d("aa", "clicked");
+                //Log.d("aa", "clicked");
                 label.setMaxLines(3);
                 desc.setMaxLines(10);
                 myClickListener.onItemClick(getAdapterPosition(), v);

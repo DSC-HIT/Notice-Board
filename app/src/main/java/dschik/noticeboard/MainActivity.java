@@ -290,17 +290,17 @@ public class MainActivity extends AppCompatActivity implements
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
-                Log.e("Permission error","You have permission");
+                //Log.e("Permission error","You have permission");
                 return true;
             } else {
 
-                Log.e("Permission error","You have asked for permission");
+                //Log.e("Permission error","You have asked for permission");
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return false;
             }
         }
         else { //you dont need to worry about these stuff below api level 23
-            Log.e("Permission error","You already have the permission");
+            //Log.e("Permission error","You already have the permission");
             return true;
         }
     }

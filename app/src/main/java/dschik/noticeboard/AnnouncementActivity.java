@@ -179,7 +179,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.d("aa", "added");
+                //Log.d("aa", "added");
                 shimmerFrameLayout.setVisibility(ShimmerFrameLayout.GONE);
                 shimmerFrameLayout.stopShimmer();
                 String timeStamp = dataSnapshot.getKey();
@@ -193,7 +193,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                 Bitmap bmp = data.getBmp();
                 String description = data.getDescription();
                 String type = data.getType();
-                Log.d("aa", file + "++" + url);
+                //Log.d("aa", file + "++" + url);
                 DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
                 results.add(index, obj);
                 index++;
@@ -266,7 +266,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                 Bitmap bmp = data.getBmp();
                 String description = data.getDescription();
                 String type = data.getType();
-                Log.d("aa", file + "++" + url);
+                //Log.d("aa", file + "++" + url);
                 DataObject obj = new DataObject(file, url, sendername, datesent, bmp, description);
                 results.add(index, obj);
                 index++;
@@ -306,7 +306,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                 .MyClickListener() {
             @Override
             public void onItemClick(int position, View v) {
-                Log.i(LOG_TAG, " Clicked on Item " + position);
+                //Log.i(LOG_TAG, " Clicked on Item " + position);
             }
         });
     }
