@@ -136,12 +136,12 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     @Override
     public void onActivityResult(int req, int resultCode, Intent data) {
         super.onActivityResult(req, resultCode, data);
-        Log.d("aa", "test");
+        //Log.d("aa", "test");
         if (req == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            Log.d("aa", "hell");
+            //Log.d("aa", "hell");
             if (result.isSuccess()) {
-                Log.d("aa", "hello");
+                //Log.d("aa", "hello");
                 GoogleSignInAccount account = result.getSignInAccount();
                 String name = "";
                 try {
@@ -151,7 +151,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                     }
                 } catch (NullPointerException n) {
                     n.printStackTrace();
-                    Log.d("aa", "packman");
+                    //Log.d("aa", "packman");
                 }
                 //Toast.makeText(this, name, Toast.LENGTH_LONG).show();
             }
@@ -159,7 +159,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        Log.d("aa", "firebaseAuthWithGoogle:" + acct.getIdToken());
+        //Log.d("aa", "firebaseAuthWithGoogle:" + acct.getIdToken());
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
@@ -168,7 +168,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.d("aa", "signInWithCredential:success");
+                            //Log.d("aa", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
 
                             String name = "";
@@ -181,7 +181,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
                                 user_name = user.getEmail();
                                 pass_word = user.getUid();
-                                Log.d("aa", name + "==" + user_name + "==" + pass_word);
+                                //Log.d("aa", name + "==" + user_name + "==" + pass_word);
 
                                 createUserAccountInDB();
 
@@ -198,7 +198,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Log.d("aa", "signInWithCredential:failure" + task.getException());
+                            //Log.d("aa", "signInWithCredential:failure" + task.getException());
                             progressDialog.cancel();
                             Toast.makeText(SignUpActivity.this, "Authentication Failed.", Toast.LENGTH_SHORT).show();
 

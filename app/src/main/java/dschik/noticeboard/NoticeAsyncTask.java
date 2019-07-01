@@ -73,7 +73,7 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String> {
         sh.stopShimmer();
         swip.setRefreshing(false);
         sh.setVisibility(View.GONE);
-        Log.d("aa", s);
+        //Log.d("aa", s);
         try {
             int i = 0,k = 0;
             dt = new ArrayList<>();
