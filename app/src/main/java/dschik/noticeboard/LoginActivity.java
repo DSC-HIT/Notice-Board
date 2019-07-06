@@ -120,7 +120,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 if (account != null) {
                     progressDialog.show();
-                    showToast("ikl");
                     firebaseAuthWithGoogle(account);
                 }else {
                     showToast("auth problem");
