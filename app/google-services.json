@@ -15,15 +15,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "766540027212-26otpa1io0l3hggu60k6r0o323djc1s9.apps.googleusercontent.com",
+          "client_id": "766540027212-numf7flbs8e28obvrkb54va3btpu4c2a.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "dschik.noticeboard",
-            "certificate_hash": "07a65700c5ed117212163996d75ae96c0cf542db"
+            "certificate_hash": "b94cfdbbe5c7e5692a452d9237157e7c89350ab3"
           }
         },
         {
-          "client_id": "766540027212-bhi293a09qqgr2knbgp9l3sfdqj9a33b.apps.googleusercontent.com",
+          "client_id": "766540027212-b5m758lo8iq0aj3upue4ds3kcauoe3id.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dschik.noticeboard",
+            "certificate_hash": "7476f55ebf2e526046d7e02cde7960aa3e0a2758"
+          }
+        },
+        {
+          "client_id": "766540027212-f484vsq7llr1al6c5a1cdpqh5qjt8h2n.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "dschik.noticeboard",
