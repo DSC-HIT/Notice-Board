@@ -53,6 +53,7 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-storage:18.0.0'
     implementation 'com.google.firebase:firebase-database:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:19.0.1'
 
 
     testImplementation 'junit:junit:4.12'

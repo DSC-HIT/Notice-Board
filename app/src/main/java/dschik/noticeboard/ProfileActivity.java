@@ -111,13 +111,13 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
     }
 
     @Override
-    public void applyData(String department, String year) {
+    public void applyData(String department, String year, String userType) {
 
         String s = department + "-" + getYear(year);
         dept_1.setText(department);
         year_1.setText(year);
         //detail.setText(s);
-        updateProfile(department, year);
+        updateProfile(department, year,userType);
     }
 
     String getYear(String year) {
@@ -139,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
         return yr;
     }
 
-    private void updateProfile(String department, String year) {
+    private void updateProfile(String department, String year,String utype) {
         String name = sh.getString("dis_name", "name");
         String email = sh.getString("dis_email", "email");
         shedit.putString("dis_dept", department);
@@ -148,7 +148,7 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
 
         UserObj user1 = new UserObj(name, email, "", department, year);
         //insert user info in db here
-        dbref.child("user").child(getPath(email)).setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
+        dbref.child("user").child(utype).child(getPath(email)).setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 

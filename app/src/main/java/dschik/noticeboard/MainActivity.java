@@ -32,16 +32,22 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
-        ,NavigationView.OnNavigationItemSelectedListener {
+        ,NavigationView.OnNavigationItemSelectedListener, DialogProfileActivity.DialogListerner {
     SharedPreferences sh;
     SharedPreferences.Editor shedit;
 
@@ -55,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private DatabaseReference dbref;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements
 
         sh = getSharedPreferences("shared",Context.MODE_PRIVATE);
         shedit = sh.edit();
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        dbref = db.getReference();
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -148,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements
             shedit.apply();
         }
         shedit.apply();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications");
 
     }
 
@@ -310,7 +323,68 @@ public class MainActivity extends AppCompatActivity implements
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
             Toast.makeText(getApplicationContext(),"Permission Granted",Toast.LENGTH_LONG).show();
+            showdialog();
         }
+    }
+    private void showdialog() {
+        DialogProfileActivity dialog_profile_activity = new DialogProfileActivity();
+        dialog_profile_activity.show(getSupportFragmentManager(), "info_dialog");
+    }
+
+    @Override
+    public void applyData(String department, String year, String userType) {
+
+        //detail.setText(s);
+        updateProfile(department, year, userType);
+    }
+
+    private void updateProfile(String department, String year, String utype) {
+        String name = sh.getString("dis_name", "name");
+        String email = sh.getString("dis_email", "email");
+        shedit.putString("dis_dept", department);
+        shedit.putString("dis_year", year);
+        shedit.apply();
+
+        UserObj user1 = new UserObj(name, email, "", department, year);
+        //insert user info in db here
+        dbref.child("user").child(utype).child(getPath(email)).setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                Toast.makeText(MainActivity.this, "Changes Saved", Toast.LENGTH_SHORT).show();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    @NonNull
+    private String getPath(String email) {
+
+        return email.replace(".", "");
+    }
+
+    String getYear(String year) {
+        String yr = "";
+        switch (year) {
+            case "1":
+                yr = year + "st";
+                break;
+            case "2":
+                yr = year + "nd";
+                break;
+            case "3":
+                yr = year + "rd";
+                break;
+            default:
+                yr = year + "th";
+                break;
+        }
+        return yr;
     }
 }
 
