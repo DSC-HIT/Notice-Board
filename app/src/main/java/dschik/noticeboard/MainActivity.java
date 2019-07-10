@@ -159,7 +159,6 @@ public class MainActivity extends AppCompatActivity implements
             shedit.apply();
         }
         shedit.apply();
-
         FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications");
 
     }
@@ -323,6 +322,8 @@ public class MainActivity extends AppCompatActivity implements
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
             Toast.makeText(getApplicationContext(),"Permission Granted",Toast.LENGTH_LONG).show();
+            shedit.putBoolean("storage_permission",true);
+            shedit.apply();
             showdialog();
         }
     }
