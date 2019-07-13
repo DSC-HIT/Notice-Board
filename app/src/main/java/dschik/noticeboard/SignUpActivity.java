@@ -185,6 +185,7 @@ public class SignUpActivity extends AppCompatActivity implements GoogleApiClient
 
                                 progressDialog.cancel();
                                 Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+                                i.putExtra("login",true);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
 

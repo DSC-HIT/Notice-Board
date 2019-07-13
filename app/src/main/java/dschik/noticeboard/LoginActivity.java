@@ -161,6 +161,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 //sending it to next activity
                                 //Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                i.putExtra("login",true);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
 
@@ -294,6 +295,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             progressDialog.cancel();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("login",true);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
 

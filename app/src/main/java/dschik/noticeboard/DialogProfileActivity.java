@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ public class DialogProfileActivity extends DialogFragment {
     private int flag1 = 0;
     private int flag2 = 0;
     private DialogListerner listerner;
+    SharedPreferences sh;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -46,10 +48,10 @@ public class DialogProfileActivity extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_profile, null);
-
+        sh = getContext().getSharedPreferences("shared",Context.MODE_PRIVATE);
         deptStr = "dept";
         yrStr = "year";
-        typeStr = "type";
+        typeStr = sh.getString("utype","type");
 
         final Spinner deptSpin = view.findViewById(R.id.dept);
         final Spinner yearSpin = view.findViewById(R.id.yr);
@@ -58,6 +60,7 @@ public class DialogProfileActivity extends DialogFragment {
         if(getContext() instanceof ProfileActivity)
         {
             user_type.setVisibility(View.GONE);
+            flag2 = 1;
         }
         ArrayAdapter<CharSequence> adapter_utype = ArrayAdapter.createFromResource(
                 getActivity(),
@@ -124,6 +127,7 @@ public class DialogProfileActivity extends DialogFragment {
                     flag2 = 1;
                     if (typeStr.equals("Faculty")) {
                         yearSpin.setVisibility(View.GONE);
+                        flag1 = 1;
                     } else {
                         yearSpin.setVisibility(View.VISIBLE);
                     }
@@ -143,7 +147,8 @@ public class DialogProfileActivity extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (flag0 == 1 && flag1 == 1 && flag2 == 1) {
                             listerner.applyData(deptStr, yrStr, typeStr);
-                        } else {
+                        }
+                        else {
                             Toast.makeText(getActivity(), "Enter Proper Department and Year", Toast.LENGTH_LONG).show();
                         }
                     }

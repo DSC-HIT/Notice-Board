@@ -116,11 +116,14 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
         String s = department + "-" + getYear(year);
         dept_1.setText(department);
         year_1.setText(year);
+        shedit.putString("dis_dept", department);
+        shedit.putString("dis_year", year);
+        shedit.apply();
         //detail.setText(s);
         updateProfile(department, year,userType);
     }
 
-    String getYear(String year) {
+    public String getYear(String year) {
         String yr = "";
         switch (year) {
             case "1":
@@ -142,9 +145,7 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
     private void updateProfile(String department, String year,String utype) {
         String name = sh.getString("dis_name", "name");
         String email = sh.getString("dis_email", "email");
-        shedit.putString("dis_dept", department);
-        shedit.putString("dis_year", year);
-        shedit.apply();
+
 
         UserObj user1 = new UserObj(name, email, "", department, year);
         //insert user info in db here
