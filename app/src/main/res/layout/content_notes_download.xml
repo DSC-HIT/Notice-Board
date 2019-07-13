@@ -21,11 +21,13 @@
         android:visibility="invisible"/>
 
     <LinearLayout
+        android:padding="5dp"
         android:id="@+id/filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <CheckBox
+            android:paddingStart="5dp"
             android:layout_weight="1"
             android:id="@+id/checkDept"
             android:layout_width="match_parent"
@@ -33,9 +35,12 @@
             android:checkable="true"
             android:text="Dept wise"
             app:actionViewClass="android.widget.CheckBox"
-            app:showAsAction="ifRoom|withText" />
+            app:showAsAction="ifRoom|withText"
+            android:paddingLeft="5dp" />
 
         <CheckBox
+            android:paddingLeft="5dp"
+            android:paddingStart="5dp"
             android:layout_weight="1"
             android:id="@+id/checkYear"
             android:layout_width="match_parent"
