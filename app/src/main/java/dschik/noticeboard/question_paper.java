@@ -1,18 +1,28 @@
 package dschik.noticeboard;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
 import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -20,9 +30,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.Toast;
 
 public class question_paper extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        GoogleApiClient.OnConnectionFailedListener {
+
+
+    GoogleApiClient mGoogleApiClient;
+    private FirebaseAuth mAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +62,13 @@ public class question_paper extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
     }
 
     @Override
@@ -60,7 +84,7 @@ public class question_paper extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.question_paper, menu);
+        getMenuInflater().inflate(R.menu.action_bar_item, menu);
         return true;
     }
 
@@ -72,7 +96,7 @@ public class question_paper extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_about) {
             return true;
         }
 
@@ -85,22 +109,61 @@ public class question_paper extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home) {
+        if (id == R.id.nav_notice) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+            goToDrawerPage(getApplicationContext(),NoticeViewer.class);
+        } else if (id == R.id.nav_announcement) {
+            goToDrawerPage(getApplicationContext(),AnnouncementActivity.class);
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_notes) {
+            goToDrawerPage(getApplicationContext(),NotesDownload.class);
 
-        } else if (id == R.id.nav_tools) {
+        } else if (id == R.id.logout) {
+            signOut();
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_share_announcements) {
+            Intent intent = new Intent(question_paper.this, UploadActivity.class);
+            intent.putExtra("flag", true);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_share_notes) {
+            Intent intent = new Intent(question_paper.this, UploadActivity.class);
+            intent.putExtra("flag", false);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    private void goToDrawerPage(Context present, Class toPage)
+    {
+        Intent intent = new Intent(present, toPage);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+    }
+    private void signOut() {
+        mAuth.signOut();
+        showToast("Sign In Please");
+
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+            @Override
+            public void onResult(@NonNull Status status) {
+                showToast("Signed Out");
+                Intent i = new Intent(question_paper.this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(i);
+            }
+        });
+    }
+    private void showToast(String message)
+    {
+        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
 }
+

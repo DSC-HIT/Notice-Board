@@ -23,6 +23,9 @@
                     android:id="@+id/logout"
                     android:icon="@drawable/logout"
                     android:title="Log Out" />
+                <item
+                    android:id="@+id/question"
+                    android:title="Question Papers"/>
             </menu>
         </item>
     </group>
