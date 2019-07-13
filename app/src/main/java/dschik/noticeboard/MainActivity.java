@@ -169,7 +169,13 @@ public class MainActivity extends AppCompatActivity implements
             showdialog();
 
         }
+        String currentDept = sh.getString("dis_dept", "CSE");
+        String currentYear = sh.getString("dis_year", "1");
         FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications");
+        String topic0 = "Announcement";
+        FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications_"+ topic0 +"_"+ currentDept +"_"+ currentYear);
+        String topic1 = "Notes";
+        FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications_"+ topic1 +"_"+ currentDept +"_"+ currentYear);
 
 
     }

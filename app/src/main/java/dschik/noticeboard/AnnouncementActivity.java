@@ -47,6 +47,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
@@ -77,6 +78,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     //private RatingBar ratingBar;
     private static final String[] dept = {"CSE", "ECE", "IT", "AEIE", "BT", "EE", "ChE", "ME", "CE"};
     private static final String[] year = {"1","2","3","4"};
+    private static final String topic = "Announcement";
     private boolean flag0 = false;
     private boolean flag1 = false;
     private String currentDept;
@@ -92,6 +94,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
         sh = getSharedPreferences("shared", Context.MODE_PRIVATE);
         currentDept = sh.getString("dis_dept","CSE");
+        currentYear = sh.getString("dis_year","1");
 
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -205,11 +208,12 @@ public class AnnouncementActivity<search> extends AppCompatActivity
 
         refreshContent();// get the content from db according to present state
 
+
     }
 
     private void searchContent(String newText, String dept, String year) {
 
-        Query myquery = dbref.child("test_data").child("Announcement").child(dept).child(year).orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
+        Query myquery = dbref.child("test_data").child(topic).child(dept).child(year).orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -298,7 +302,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     }
 
     private void getContent(String dept, String year) {
-        dbref.child("test_data").child("Announcement").child(dept).child(year).addChildEventListener(new ChildEventListener() {
+        dbref.child("test_data").child(topic).child(dept).child(year).addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
