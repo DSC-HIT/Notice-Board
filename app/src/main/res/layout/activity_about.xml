@@ -166,7 +166,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="MD Fazal"
+                    android:text="MD Fazal Mustafa"
                     android:textAlignment="center"
                     android:textColor="@color/primaryText"
                     android:textSize="15sp" />
@@ -174,7 +174,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Aniket Das"
+                    android:text="Aniket Kumar Singh"
                     android:textAlignment="center"
                     android:textColor="@color/primaryText"
                     android:textSize="15sp" />
