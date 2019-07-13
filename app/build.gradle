@@ -9,10 +9,14 @@ android {
         versionCode 2
         versionName "1.0.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary=true
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
+<<<<<<< HEAD
+        lintOptions {
+=======
         lintOptions{
+>>>>>>> 4a67287759854d17b95e2897536c8a80c65a09bf
             checkReleaseBuilds false
         }
         release {
