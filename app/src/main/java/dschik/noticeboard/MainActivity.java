@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,16 +31,22 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener
-        ,NavigationView.OnNavigationItemSelectedListener {
+        ,NavigationView.OnNavigationItemSelectedListener, DialogProfileActivity.DialogListerner {
     SharedPreferences sh;
     SharedPreferences.Editor shedit;
 
@@ -55,20 +60,36 @@ public class MainActivity extends AppCompatActivity implements
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private DatabaseReference dbref;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        GoogleSignInOptions gso;
+        final ShimmerFrameLayout shimmerFrameLayout = findViewById(R.id.shimmer);
+        final SwipeRefreshLayout swiper = findViewById(R.id.swiper);
+
+        URL[] url = new URL[1];
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        FirebaseUser user;
+
 
         sh = getSharedPreferences("shared",Context.MODE_PRIVATE);
         shedit = sh.edit();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        dbref = db.getReference();
+
+
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -81,17 +102,17 @@ public class MainActivity extends AppCompatActivity implements
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        final ShimmerFrameLayout shimmerFrameLayout = findViewById(R.id.shimmer);
+
         shimmerFrameLayout.setVisibility(View.VISIBLE);
         shimmerFrameLayout.startShimmer();
-        final SwipeRefreshLayout swiper = findViewById(R.id.swiper);
-        final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(MainActivity.this,mRecyclerView,shimmerFrameLayout,swiper);
-        URL[] url = new URL[1];
+
+
         try {
             url[0]= new URL("https://scraping-noticeboard.herokuapp.com/links");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
+        final NoticeAsyncTask noticeAsyncTask = new NoticeAsyncTask(MainActivity.this, mRecyclerView, shimmerFrameLayout, swiper);
         noticeAsyncTask.execute(url);
 
         swiper.setColorSchemeColors(getResources().getColor(R.color.colorPrimary)
@@ -121,12 +142,6 @@ public class MainActivity extends AppCompatActivity implements
         });
 
 
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -136,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements
         View header = navigationView.getHeaderView(0);
         TextView usr = header.findViewById(R.id.userText);
 
-        FirebaseUser user= mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
 
         usr.setText(sh.getString("dis_name","user"));
         if(haveStoragePermission())
@@ -148,6 +163,14 @@ public class MainActivity extends AppCompatActivity implements
             shedit.apply();
         }
         shedit.apply();
+        Intent intent = getIntent();
+        boolean flag = intent.getBooleanExtra("login", false);
+        if (flag) {
+            showdialog();
+
+        }
+        FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications");
+
 
     }
 
@@ -243,20 +266,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onDestroy()
     {
         super.onDestroy();
-        /*if(mAuth.getCurrentUser() != null)
-        {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-        }
-        else
-        {
-            Intent intent= new Intent(MainActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }*/
 
     }
 
@@ -264,13 +273,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onStart()
     {
         super.onStart();
-        /*if(mAuth.getCurrentUser() ==  null)
-        {
-            Intent intent= new Intent(MainActivity.this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }*/
+
     }
 
 
@@ -310,7 +313,72 @@ public class MainActivity extends AppCompatActivity implements
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
             Toast.makeText(getApplicationContext(),"Permission Granted",Toast.LENGTH_LONG).show();
+            shedit.putBoolean("storage_permission",true);
+            shedit.apply();
         }
+    }
+    private void showdialog() {
+        DialogProfileActivity dialog_profile_activity = new DialogProfileActivity();
+        dialog_profile_activity.show(getSupportFragmentManager(), "info_dialog");
+    }
+
+    @Override
+    public void applyData(String department, String year, String userType) {
+
+        //detail.setText(s);
+        updateProfile(department, year, userType);
+
+        shedit.putString("utype", userType);
+        shedit.apply();
+    }
+
+    private void updateProfile(String department, String year, String utype) {
+        String name = sh.getString("dis_name", "name");
+        String email = sh.getString("dis_email", "email");
+        shedit.putString("dis_dept", department);
+        shedit.putString("dis_year", year);
+        shedit.apply();
+
+        UserObj user1 = new UserObj(name, email, "", department, year);
+        //insert user info in db here
+        dbref.child("user").child(utype).child(getPath(email)).setValue(user1).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                Toast.makeText(MainActivity.this, "Changes Saved", Toast.LENGTH_SHORT).show();
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
+    }
+
+    @NonNull
+    private String getPath(String email) {
+
+        return email.replace(".", "");
+    }
+
+    String getYear(String year) {
+        String yr = "";
+        switch (year) {
+            case "1":
+                yr = year + "st";
+                break;
+            case "2":
+                yr = year + "nd";
+                break;
+            case "3":
+                yr = year + "rd";
+                break;
+            default:
+                yr = year + "th";
+                break;
+        }
+        return yr;
     }
 }
 

@@ -21,14 +21,18 @@ public class DialogProfileActivity extends DialogFragment {
 
     private static final String[] dept = {"CSE", "ECE", "IT", "AEIE", "BT", "EE", "ChE", "ME", "CE"};
     private static final String[] year = {"1", "2", "3", "4"};
+    private static final String[] utype = {"Student", "Faculty"};
     private String deptStr;
+    private String typeStr;
     private String yrStr;
     private int flag0 = 0;
     private int flag1 = 0;
+    private int flag2 = 0;
     private DialogListerner listerner;
+    SharedPreferences sh;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         try {
             listerner = (DialogListerner) context;
@@ -44,9 +48,26 @@ public class DialogProfileActivity extends DialogFragment {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_profile, null);
+        sh = getContext().getSharedPreferences("shared",Context.MODE_PRIVATE);
+        deptStr = "dept";
+        yrStr = "year";
+        typeStr = sh.getString("utype","type");
 
-        Spinner deptSpin = view.findViewById(R.id.dept);
-        Spinner yearSpin = view.findViewById(R.id.yr);
+        final Spinner deptSpin = view.findViewById(R.id.dept);
+        final Spinner yearSpin = view.findViewById(R.id.yr);
+        final Spinner user_type = view.findViewById(R.id.user_type_spin);
+
+        if(getContext() instanceof ProfileActivity)
+        {
+            user_type.setVisibility(View.GONE);
+            flag2 = 1;
+        }
+        ArrayAdapter<CharSequence> adapter_utype = ArrayAdapter.createFromResource(
+                getActivity(),
+                R.array.userType,
+                R.layout.spinner_custom_dialog);
+
+        adapter_utype.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 
         ArrayAdapter<CharSequence> adapterdept = ArrayAdapter
@@ -63,8 +84,10 @@ public class DialogProfileActivity extends DialogFragment {
 
         deptSpin.setPrompt("Select your Department");
         yearSpin.setPrompt("Select your Year");
+        user_type.setPrompt("Select user type");
         deptSpin.setAdapter(adapterdept);
         yearSpin.setAdapter(adapteryr);
+        user_type.setAdapter(adapter_utype);
 
         deptSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -96,14 +119,36 @@ public class DialogProfileActivity extends DialogFragment {
             }
         });
 
+        user_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    typeStr = utype[position - 1];
+                    flag2 = 1;
+                    if (typeStr.equals("Faculty")) {
+                        yearSpin.setVisibility(View.GONE);
+                        flag1 = 1;
+                    } else {
+                        yearSpin.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                flag2 = 0;
+            }
+        });
+
 
         alert.setView(view).setTitle("Personal Information")
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (flag0 == 1 && flag1 == 1) {
-                            listerner.applyData(deptStr, yrStr);
-                        } else {
+                        if (flag0 == 1 && flag1 == 1 && flag2 == 1) {
+                            listerner.applyData(deptStr, yrStr, typeStr);
+                        }
+                        else {
                             Toast.makeText(getActivity(), "Enter Proper Department and Year", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -120,7 +165,7 @@ public class DialogProfileActivity extends DialogFragment {
 
     public interface DialogListerner {
 
-        public void applyData(String department, String Year);
+        public void applyData(String department, String Year, String userType);
     }
 }
 

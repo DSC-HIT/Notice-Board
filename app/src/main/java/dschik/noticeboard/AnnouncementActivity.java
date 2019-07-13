@@ -76,14 +76,19 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     private Toolbar searchToolBar;
     //private RatingBar ratingBar;
     private static final String[] dept = {"CSE", "ECE", "IT", "AEIE", "BT", "EE", "ChE", "ME", "CE"};
-    private boolean flag = true;
+    private static final String[] year = {"1","2","3","4"};
+    private boolean flag0 = false;
+    private boolean flag1 = false;
     private String currentDept;
+    private String currentYear;
     private ImageView search;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_announcement);
+        CheckBox check = (CheckBox) findViewById(R.id.checkDept);
+        CheckBox check1 = (CheckBox) findViewById(R.id.checkYear);
 
         sh = getSharedPreferences("shared", Context.MODE_PRIVATE);
         currentDept = sh.getString("dis_dept","CSE");
@@ -99,8 +104,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         db = FirebaseDatabase.getInstance();
         dbref = db.getReference();
 
-        for (String d : dept)
-            getContent(d);
+
 
         shimmerFrameLayout = findViewById(R.id.shimmer);
         shimmerFrameLayout.setVisibility(View.VISIBLE);
@@ -169,13 +173,43 @@ public class AnnouncementActivity<search> extends AppCompatActivity
                 }, 1000);
             }
         });
+        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    showToast(currentDept);
+                    flag0 = true;
+                    refreshContent();
+                } else {
+                    flag0 = false;
+                    refreshContent();
+                }
+            }
+        });
 
+
+        //check1.setText("Year");
+        check1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    showToast(currentYear);
+                    flag1 = true;
+                    refreshContent();
+                } else {
+                    flag1 = false;
+                    refreshContent();
+                }
+            }
+        });
+
+        refreshContent();// get the content from db according to present state
 
     }
 
-    private void searchContent(String newText, String dept) {
+    private void searchContent(String newText, String dept, String year) {
 
-        Query myquery = dbref.child("data").child("Announcement").child(dept).orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
+        Query myquery = dbref.child("test_data").child("Announcement").child(dept).child(year).orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -224,30 +258,47 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     }
 
     private void refreshContent() {
-
         shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
         shimmerFrameLayout.startShimmer();
         results = new ArrayList<DataObject>();
         mAdapter = new MyRecyclerViewAdapter(getDataSet(), AnnouncementActivity.this);
         mRecyclerView.setAdapter(mAdapter);
-        if(flag)
+        if(flag0 && flag1)
         {
-            for (String d : dept)
-                getContent(d);
+            dept1_yr1();
+        } else if( !flag0 && flag1)
+        {
+            dept0_yr1();
+        } else if( flag0 && !flag1)
+        {
+            dept1_yr0();
         } else {
-            getContent(currentDept);
+            dept0_yr0();
         }
     }
-    private void deptBasedContent(String dept) {
+    private void refreshSearchContent(String q) {
         shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);
         shimmerFrameLayout.startShimmer();
         results = new ArrayList<DataObject>();
         mAdapter = new MyRecyclerViewAdapter(getDataSet(), AnnouncementActivity.this);
         mRecyclerView.setAdapter(mAdapter);
-        getContent(dept);
+
+        if(flag0 && flag1)
+        {
+            dept1_yr1S(q);
+        } else if( !flag0 && flag1)
+        {
+            dept0_yr1S(q);
+        } else if( flag0 && !flag1)
+        {
+            dept1_yr0S(q);
+        } else {
+            dept0_yr0S(q);
+        }
     }
-    private void getContent(String dept) {
-        dbref.child("data").child("Announcement").child(dept).limitToFirst(10).addChildEventListener(new ChildEventListener() {
+
+    private void getContent(String dept, String year) {
+        dbref.child("test_data").child("Announcement").child(dept).child(year).addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
@@ -302,6 +353,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         currentDept = sh.getString("dis_dept","CSE");
+        currentYear = sh.getString("dis_year","1");
         ((MyRecyclerViewAdapter) mAdapter).setOnItemClickListener(new MyRecyclerViewAdapter
                 .MyClickListener() {
             @Override
@@ -340,70 +392,29 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         mSearchView.setQueryHint("Search");
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                if (!query.equals("") && flag)//if query string is empty DON'T query
+                if (!query.equals(""))//if query string is empty DON'T query
                 {
-                    shimmerFrameLayout.startShimmer();
-                    shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);//starting the animation will be stoping when child arrives.
-
-                    results = new ArrayList<DataObject>();
-                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
-                    mRecyclerView.setAdapter(mAdapter);
-                    for (String d : dept)
-                        searchContent(query,d);
-                } else if(!query.equals("") && !flag){
-                    shimmerFrameLayout.startShimmer();
-                    shimmerFrameLayout.setVisibility(ShimmerFrameLayout.VISIBLE);//starting the animation will be stoping when child arrives.
-
-                    results = new ArrayList<DataObject>();
-                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
-                    mRecyclerView.setAdapter(mAdapter);
-                    //String d = sh.getString("dis_dept","CSE");
-                    searchContent(query,currentDept);
+                    refreshSearchContent(query);
                 }
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
-
-                if (!query.equals("") && flag)//if query string is empty DON'T query
+                if (!query.equals(""))//if query string is empty DON'T query
                 {
-                    results = new ArrayList<DataObject>();
-                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
-                    mRecyclerView.setAdapter(mAdapter);
-                    for (String d : dept)
-                        searchContent(query,d);
-                } else if(!query.equals("") && !flag){
-                    results = new ArrayList<DataObject>();
-                    mAdapter = new MyRecyclerViewAdapter(getDataSet()/*returns value of result<ArrayList>*/, AnnouncementActivity.this);
-                    mRecyclerView.setAdapter(mAdapter);
-                    //String d = sh.getString("dis_dept","CSE");
-                    searchContent(query,currentDept);
+
+                    refreshSearchContent(query);
+
                 }
 
                 return false;
             }
         });
-        //final String dept1 = sh.getString("dis_dept","CSE");
-        CheckBox check = (CheckBox) menu.findItem(R.id.checkDept).getActionView();
-        check.setText("Dept Wise");
-        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    showToast(currentDept);
-                    flag = false;
-                    deptBasedContent(currentDept);
-                } else {
-                    flag = true;
-                    refreshContent();
-                }
-            }
-        });
+
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -492,5 +503,68 @@ public class AnnouncementActivity<search> extends AppCompatActivity
         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
     }
 
+    public void dept0_yr0S(String q)
+    {
+        for(String d: dept)
+        {
+            for (String y : year)
+            {
+                searchContent(q,d,y);
+            }
+        }
+    }
+    public void dept0_yr1S(String q)
+    {
+        for (String d: dept)
+        {
+            searchContent(q,d,currentYear);
+        }
+    }
+    public void dept1_yr0S(String q)
+    {
+        for (String y : year)
+        {
+            searchContent(q,currentDept,y);
+        }
+    }
+    public void dept1_yr1S(String q)
+    {
+        searchContent(q,currentDept,currentYear);
+    }
 
+
+
+
+    public void dept0_yr0()
+    {
+        for(String d: dept)
+        {
+            for (String y : year)
+            {
+                getContent(d,y);
+            }
+        }
+    }
+    public void dept0_yr1()
+    {
+        for (String d: dept)
+        {
+            getContent(d,currentYear);
+        }
+    }
+    public void dept1_yr0()
+    {
+        for (String y : year)
+        {
+            getContent(currentDept,y);
+        }
+    }
+    public void dept1_yr1()
+    {
+        getContent(currentDept,currentYear);
+    }
 }
+
+
+
+

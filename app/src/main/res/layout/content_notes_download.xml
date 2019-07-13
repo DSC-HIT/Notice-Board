@@ -19,8 +19,35 @@
         android:textAlignment="center"
         android:textColor="@color/primaryText"
         android:visibility="invisible"/>
+
+    <LinearLayout
+        android:id="@+id/filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:layout_weight="1"
+            android:id="@+id/checkDept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Dept wise"
+            app:actionViewClass="android.widget.CheckBox"
+            app:showAsAction="ifRoom|withText" />
+
+        <CheckBox
+            android:layout_weight="1"
+            android:id="@+id/checkYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Year wise"
+            app:actionViewClass="android.widget.CheckBox"
+            app:showAsAction="ifRoom|withText" />
+    </LinearLayout>
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer"
+        android:layout_below="@id/filter"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
         <LinearLayout
@@ -35,6 +62,7 @@
     </com.facebook.shimmer.ShimmerFrameLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiper1"
+        android:layout_below="@id/filter"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView

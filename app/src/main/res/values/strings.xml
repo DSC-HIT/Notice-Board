@@ -41,6 +41,11 @@
         <item>Third</item>
         <item>Fourth</item>
     </string-array>
+    <string-array name="userType">
+        <item>Select user type</item>
+        <item>Student</item>
+        <item>Faculty</item>
+    </string-array>
     <string name="title_activity_notes_download">Notes</string>
     <string name="title_activity_notice_viewer">Notice Board</string>
     <string name="title_activity_announcement">Announcements</string>
@@ -49,4 +54,13 @@
     <string name="password">Password</string>
     <string name="login1">LOGIN</string>
     <string name="register_with_email">Register With Email</string>
+    <string name="title_activity_question_paper">question_paper</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
 </resources>

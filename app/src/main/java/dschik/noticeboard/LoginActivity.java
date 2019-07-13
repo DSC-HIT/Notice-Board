@@ -15,10 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -111,18 +113,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     public void onActivityResult(int req, int resultCode, Intent data) {
         super.onActivityResult(req, resultCode, data);
         if (req == RC_SIGN_IN) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-            //Log.d("aa", result.getStatus().getStatusCode() + "**");
-            if (result.isSuccess()) {
-                //Log.d("aa", "pp");
-                GoogleSignInAccount account = result.getSignInAccount();
-                if (account != null)
-                {
+
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                if (account != null) {
                     progressDialog.show();
                     firebaseAuthWithGoogle(account);
+                }else {
+                    showToast("auth problem");
                 }
-            } else {
-                //Log.d("aa", "qq");
+            } catch (ApiException e) {
+                showToast("auth problem");
             }
         }
     }
@@ -158,11 +161,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 //sending it to next activity
                                 //Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                i.putExtra("login",true);
                                 i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(i);
 
 
                             } catch (NullPointerException n) {
+                                showToast("fail");
                                 n.printStackTrace();
                             }
                             Toast.makeText(LoginActivity.this, name, Toast.LENGTH_LONG).show();
@@ -290,6 +295,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             progressDialog.cancel();
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("login",true);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
 

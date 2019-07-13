@@ -5,11 +5,19 @@
     android:padding="16dp">
 
     <Spinner
+        android:id="@+id/user_type_spin"
+        style="@style/Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center" />
+
+    <Spinner
         android:id="@+id/dept"
         style="@style/Widget.AppCompat.Spinner.Underlined"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_below="@+id/user_type_spin"
+        android:layout_marginTop="20dp"
         android:textAlignment="center" />
 
     <Spinner
@@ -18,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dept"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:textAlignment="center" />
 
 </RelativeLayout>
