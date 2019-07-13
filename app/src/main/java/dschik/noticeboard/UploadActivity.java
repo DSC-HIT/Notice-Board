@@ -246,6 +246,8 @@ public class UploadActivity extends AppCompatActivity implements
         } else if (id == R.id.logout) {
 
             signOut();
+        }else if(id == R.id.question){
+            goToDrawerPage(getApplicationContext(),question_paper.class);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

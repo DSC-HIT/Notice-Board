@@ -20,13 +20,14 @@
                     android:iconTint="@color/primarylight"
                     android:title="Notes" />
                 <item
-                    android:id="@+id/logout"
-                    android:icon="@drawable/logout"
-                    android:title="Log Out" />
-                <item
                     android:id="@+id/question"
                     android:icon="@drawable/ic_question_answer_black_24dp"
                     android:title="Question Papers" />
+                <item
+                    android:id="@+id/logout"
+                    android:icon="@drawable/logout"
+                    android:title="Log Out" />
+
             </menu>
         </item>
     </group>

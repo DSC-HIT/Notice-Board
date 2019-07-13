@@ -10,7 +10,40 @@
     tools:showIn="@layout/app_bar_question_paper"
     android:background="@color/colorwhite"
     android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="No Data to show. Please refresh to get more Content."
+        android:textSize="25dp"
+        android:textAlignment="center"
+        android:textColor="@color/primaryText"
+        android:visibility="invisible"/>
+    <LinearLayout
+        android:id="@+id/filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <CheckBox
+            android:layout_weight="1"
+            android:id="@+id/checkDept"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Dept wise"
+            app:actionViewClass="android.widget.CheckBox"
+            app:showAsAction="ifRoom|withText" />
+
+        <CheckBox
+            android:layout_weight="1"
+            android:id="@+id/checkYear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="true"
+            android:text="Year wise"
+            app:actionViewClass="android.widget.CheckBox"
+            app:showAsAction="ifRoom|withText" />
+    </LinearLayout>
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer"
         android:layout_height="match_parent"

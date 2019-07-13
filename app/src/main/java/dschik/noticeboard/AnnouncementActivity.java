@@ -468,6 +468,9 @@ public class AnnouncementActivity<search> extends AppCompatActivity
             Intent intent = new Intent(AnnouncementActivity.this, UploadActivity.class);
             intent.putExtra("flag", false);
             startActivity(intent);
+        }else if(id ==R.id.question){
+            goToDrawerPage(getApplicationContext(),question_paper.class);
+
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

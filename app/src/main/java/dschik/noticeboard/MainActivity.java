@@ -247,6 +247,9 @@ public class MainActivity extends AppCompatActivity implements
 
             signOut();
         }
+        else if(id == R.id.question){
+            goToDrawerPage(getApplicationContext(),question_paper.class);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

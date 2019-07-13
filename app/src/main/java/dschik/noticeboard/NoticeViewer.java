@@ -239,6 +239,8 @@ public class NoticeViewer extends AppCompatActivity
             Intent intent=new Intent(NoticeViewer.this,UploadActivity.class);
             intent.putExtra("flag",false);
             startActivity(intent);
+        }else if(id == R.id.question){
+            goToDrawerPage(getApplicationContext(),question_paper.class);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

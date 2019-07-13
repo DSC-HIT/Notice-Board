@@ -47,14 +47,8 @@ public class question_paper extends AppCompatActivity
         setContentView(R.layout.activity_question_paper);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -69,6 +63,16 @@ public class question_paper extends AppCompatActivity
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso).build();
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(question_paper.this, UploadActivity.class);
+                i.putExtra("flag", true);
+                startActivity(i);
+            }
+
+        });
     }
 
     @Override
@@ -84,7 +88,7 @@ public class question_paper extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.action_bar_item, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
@@ -97,6 +101,12 @@ public class question_paper extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_about) {
+            Intent i = new Intent(question_paper.this, AboutActivity.class);
+            startActivity(i);
+            return true;
+        }else if (id == R.id.profile) {
+            Intent i = new Intent(question_paper.this, ProfileActivity.class);
+            startActivity(i);
             return true;
         }
 
@@ -130,6 +140,8 @@ public class question_paper extends AppCompatActivity
             Intent intent = new Intent(question_paper.this, UploadActivity.class);
             intent.putExtra("flag", false);
             startActivity(intent);
+        }else if(id == R.id.question){
+            showToast("Already in Question paper ");
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
