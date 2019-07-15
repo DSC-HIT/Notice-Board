@@ -166,7 +166,8 @@ public class MainActivity extends AppCompatActivity implements
         shedit.apply();
         Intent intent = getIntent();
         boolean flag = intent.getBooleanExtra("login", false);
-        if (flag) {
+        String userType = sh.getString("utype","001");
+        if (flag || (!userType.equals("Faculty") && !userType.equals("Student"))) {
             showdialog();
 
         }
@@ -240,11 +241,11 @@ public class MainActivity extends AppCompatActivity implements
 
         } else if (id == R.id.nav_share_announcements) {
             Intent intent=new Intent(MainActivity.this,UploadActivity.class);
-            intent.putExtra("flag",true);
+            intent.putExtra("flag",1);
             startActivity(intent);
         } else if (id == R.id.nav_share_notes) {
             Intent intent=new Intent(MainActivity.this,UploadActivity.class);
-            intent.putExtra("flag",false);
+            intent.putExtra("flag",2);
             startActivity(intent);
         }
         else if (id == R.id.logout){

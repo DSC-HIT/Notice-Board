@@ -94,6 +94,7 @@ public class UploadActivity extends AppCompatActivity implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload);
+        type_name = ".jpeg";
 
         //initialization of views and setting ClickListeners
         TextView usr, motto_view;
@@ -328,12 +329,12 @@ public class UploadActivity extends AppCompatActivity implements
 
         } else if (id == R.id.nav_share_announcements) {
             Intent intent = new Intent(UploadActivity.this, UploadActivity.class);
-            intent.putExtra("flag", true);
+            intent.putExtra("flag", 1);
             startActivity(intent);
             Toast.makeText(this, "you are already in upload page", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_share_notes) {
             Intent intent = new Intent(UploadActivity.this, UploadActivity.class);
-            intent.putExtra("flag", false);
+            intent.putExtra("flag", 2);
             startActivity(intent);
             Toast.makeText(this, "you are already in upload page", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.logout) {
@@ -506,7 +507,7 @@ public class UploadActivity extends AppCompatActivity implements
                             }
                             r = new Record(file_name,rl, user, dateFormat.format(date), desc, motto, null);//setting values
 
-                            dbref.child("test_data").child(motto).child(dept).child(year).child(getTimeStamp()).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            dbref.child("data1").child(motto).child(dept).child(year).child(getTimeStamp()).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()) {

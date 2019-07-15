@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,11 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class DialogProfileActivity extends DialogFragment {
 
@@ -31,8 +38,10 @@ public class DialogProfileActivity extends DialogFragment {
     private int flag0 = 0;
     private int flag1 = 0;
     private int flag2 = 0;
+    private boolean superFlag = false;
     private DialogListerner listerner;
     SharedPreferences sh;
+    private String secret_db_key = "";
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -44,14 +53,31 @@ public class DialogProfileActivity extends DialogFragment {
         }
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        if(!superFlag)
+            listerner.error("Some error/ Faculty Authentication Failed. Please Sign in again");
+    }
+
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setCancelable(false);
 
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        DatabaseReference dbref = db.getReference();
+         dbref.child("faculty_auth").addValueEventListener(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                secret_db_key = dataSnapshot.getValue(String.class);
+             }
 
+             @Override
+             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+             }
+         });
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_profile, null);
@@ -65,12 +91,14 @@ public class DialogProfileActivity extends DialogFragment {
         final Spinner user_type = view.findViewById(R.id.user_type_spin);
         final TextInputEditText s_key = view.findViewById(R.id.secret_key);
         final TextInputLayout s_lay = view.findViewById(R.id.faculty_pass);
+        final TextView dialog_warning = view.findViewById(R.id.profile_diaplog_warning);
         s_lay.setVisibility(View.GONE);
         s_key.setVisibility(View.GONE);
 
 
         if(getContext() instanceof ProfileActivity)
         {
+            dialog_warning.setVisibility(View.GONE);
             user_type.setVisibility(View.GONE);
             flag2 = 1;
         }
@@ -144,6 +172,8 @@ public class DialogProfileActivity extends DialogFragment {
                         flag1 = 1;
                     } else {
                         yearSpin.setVisibility(View.VISIBLE);
+                        s_key.setVisibility(View.GONE);
+                        s_lay.setVisibility(View.GONE);
 
                     }
                 }
@@ -156,6 +186,14 @@ public class DialogProfileActivity extends DialogFragment {
         });
 
 
+        return getDialog(view,s_key);
+
+    }
+
+    private Dialog getDialog(View view, final TextInputEditText s_key )
+    {
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setCancelable(false);
         alert.setView(view).setTitle("Personal Information")
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
@@ -170,12 +208,14 @@ public class DialogProfileActivity extends DialogFragment {
                                 secret_key = s_key.getText().toString();
                             }
                             if (flag0 == 1 && flag1 == 1 && flag2 == 1) {
-                                if(!secret_key.equals("hit_7856"))
+                                if(!secret_key.equals(secret_db_key))
                                 {
                                     listerner.error("Some error/ Faculty Authentication Failed. Please Sign in again");
                                     dialog.cancel();
+                                } else {
+                                    listerner.applyData(deptStr, yrStr, typeStr);
+                                    superFlag = true;
                                 }
-                                listerner.applyData(deptStr, yrStr, typeStr);
                             } else {
                                 Toast.makeText(getActivity(), "Enter Proper Department and Secret Key", Toast.LENGTH_LONG).show();
                             }
@@ -183,6 +223,7 @@ public class DialogProfileActivity extends DialogFragment {
 
                             if (flag0 == 1 && flag1 == 1 && flag2 == 1) {
                                 listerner.applyData(deptStr, yrStr, typeStr);
+                                superFlag = true;
                             } else {
                                 Toast.makeText(getActivity(), "Enter Proper Department and Year", Toast.LENGTH_LONG).show();
                             }
@@ -199,8 +240,8 @@ public class DialogProfileActivity extends DialogFragment {
         dialog.setCanceledOnTouchOutside(false);
 
         return dialog;
-
     }
+
 
 
     public interface DialogListerner {

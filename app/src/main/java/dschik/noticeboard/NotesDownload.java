@@ -228,7 +228,7 @@ public class NotesDownload extends AppCompatActivity
 
     private void searchContent(String newText,String dept, String year) {
 
-        Query myquery = dbref.child("test_data").child(topic).child(dept).child(year).orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
+        Query myquery = dbref.child("data1").child(topic).child(dept).child(year).orderByChild("lable").startAt(newText).endAt(newText+"\uf8ff");
         myquery.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
@@ -278,7 +278,7 @@ public class NotesDownload extends AppCompatActivity
 
 
     private void getContent(String dept, String year) {
-        dbref.child("test_data").child(topic).child(dept).child(year).addChildEventListener(new ChildEventListener() {
+        dbref.child("data1").child(topic).child(dept).child(year).addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
@@ -435,11 +435,11 @@ public class NotesDownload extends AppCompatActivity
 
         } else if (id == R.id.nav_share_announcements) {
             Intent intent = new Intent(NotesDownload.this, UploadActivity.class);
-            intent.putExtra("flag", true);
+            intent.putExtra("flag", 1);
             startActivity(intent);
         } else if (id == R.id.nav_share_notes) {
             Intent intent = new Intent(NotesDownload.this, UploadActivity.class);
-            intent.putExtra("flag", false);
+            intent.putExtra("flag", 2);
             startActivity(intent);
         }else if(id == R.id.questions){
             goToDrawerPage(getApplicationContext(),QuestionPaperActivity.class);

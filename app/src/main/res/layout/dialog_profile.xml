@@ -47,5 +47,11 @@
             android:inputType="textPassword"
             android:textColorHint="@color/colorAccent" />
     </com.google.android.material.textfield.TextInputLayout>
+    <TextView
+        android:id="@+id/profile_diaplog_warning"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Warning: You will be logged out if you dont set your details(For Students) or your password is wrong.(For faculty)"
+        android:layout_below="@id/faculty_pass"/>
 
 </RelativeLayout>

@@ -32,7 +32,7 @@ public class Notification extends FirebaseMessagingService {
             notificationBody = remoteMessage.getNotification().getBody();
         }
 
-        showLog("yes");
+        //showLog("yes");
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
         sendNotification(notificationTitle, notificationBody);
@@ -41,7 +41,7 @@ public class Notification extends FirebaseMessagingService {
 
     private void sendNotification(String notificationTitle, String notificationBody) {
         createNotificationChannel();
-        showLog("in");
+        //showLog("in");
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
@@ -61,9 +61,8 @@ public class Notification extends FirebaseMessagingService {
 
         if (notificationManager != null) {
             notificationManager.notify(0, notificationBuilder.build());
-        } else {
-            showLog("notify manage not null");
-        }
+        }  //showLog("notify manage not null");
+
     }
 
     private void createNotificationChannel() {
@@ -71,7 +70,7 @@ public class Notification extends FirebaseMessagingService {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            showLog("channel in");
+            //showLog("channel in");
             CharSequence name = "Cloud Channel";
             String description = "Cloud Notification Channel";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
@@ -82,16 +81,14 @@ public class Notification extends FirebaseMessagingService {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             if (notificationManager != null) {
                 notificationManager.createNotificationChannel(channel);
-            } else {
-                showLog("not in ");
-            }
-        } else {
-            showLog("not in outer");
-        }
+            }  //showLog("not in ");
+
+        }  //showLog("not in outer");
+
     }
 
-    void showLog(String s)
+    /*void showLog(String s)
     {
         Log.d("aa",s);
-    }
+    }*/
 }
