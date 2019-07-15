@@ -28,7 +28,7 @@
                 android:background="#0000"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
                 android:animateLayoutChanges="true"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="parallax"/>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
 

@@ -62,13 +62,14 @@ import java.util.Locale;
 
 
 public class UploadActivity extends AppCompatActivity implements
-        AdapterView.OnItemSelectedListener
-        , GoogleApiClient.OnConnectionFailedListener
+        GoogleApiClient.OnConnectionFailedListener
         , NavigationView.OnNavigationItemSelectedListener
         , View.OnClickListener {
 
     private static final int PICK_IMAGE_REQUEST = 123;
     private final String[] type_ext = {".jpeg", ".png", ".pdf"};
+    private static final String[] dept = {"CSE", "ECE", "IT", "AEIE", "BT", "EE", "ChE", "ME", "CE"};
+    private static final String[] year = {"1","2","3","4"};
     FirebaseDatabase db;
     DatabaseReference dbref;
     SharedPreferences sh;
@@ -85,6 +86,9 @@ public class UploadActivity extends AppCompatActivity implements
     //private Button upload;
     private Button upload;
     private FirebaseAuth mAuth;
+    private String currentType;
+    private String currentYear;
+    private String currentDept;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -108,11 +112,13 @@ public class UploadActivity extends AppCompatActivity implements
         //getting intent and setting the motto
         Intent i = this.getIntent();
 
-        boolean flag = i.getBooleanExtra("flag", false);
-        if (flag) {
+        int flag = i.getIntExtra("flag", 1);
+        if (flag == 1) {
             motto = "Announcement";
-        } else {
+        } else if(flag == 2){
             motto = "Notes";
+        } else if (flag == 3){
+            motto = "Questions";
         }
 
         motto_view = findViewById(R.id.uploadtext);
@@ -155,19 +161,106 @@ public class UploadActivity extends AppCompatActivity implements
         // setting up the spinner.
         Spinner spinner = (Spinner) findViewById(R.id.spinner1);
 
-        spinner.setOnItemSelectedListener(this);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                type_pos = position-1;
+                if(position <= 0)
+                {
+                    showToast("Choose a proper type");
+                }else {
+                    type_name = type_ext[position-1];
+                    showToast(type_name);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.file_type, R.layout.spinner_custom);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinner.setAdapter(adapter);
+        // setting spinner of dept
+        Spinner spinner_dept = (Spinner) findViewById(R.id.spinner_dept);
+
+        spinner_dept.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                if (position <= 0)
+                {
+                    showToast("Choose a proper Department");
+                } else {
+                    currentDept = dept[position-1];
+
+                    showToast(currentDept);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayAdapter<CharSequence> adapter_dept = ArrayAdapter.createFromResource(this, R.array.deptName, R.layout.spinner_custom);
+
+        adapter_dept.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner_dept.setAdapter(adapter_dept);
+
+        //setting up spinner for year
+        Spinner spinner_year = (Spinner) findViewById(R.id.spinner_year);
+
+        spinner_year.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                if(position <= 0)
+                {
+                    showToast("Choose a proper Year");
+                } else {
+                    currentYear = year[position-1];
+                    showToast(currentYear);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        ArrayAdapter<CharSequence> adapter_year = ArrayAdapter.createFromResource(this, R.array.yearName, R.layout.spinner_custom);
+
+        adapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner_year.setAdapter(adapter_year);
+
+
 
         //firebase storage
 
         mStorageRef = FirebaseStorage.getInstance().getReference();
         db = FirebaseDatabase.getInstance();
         dbref = db.getReference();
+
+        currentType = sh.getString("utype","Student");
+        if(currentType.equals("Student"))
+        {
+            spinner_dept.setVisibility(View.GONE);
+            spinner_year.setVisibility(View.GONE);
+        }
+
+
 
 
     }
@@ -246,8 +339,8 @@ public class UploadActivity extends AppCompatActivity implements
         } else if (id == R.id.logout) {
 
             signOut();
-        }else if(id == R.id.question){
-            goToDrawerPage(getApplicationContext(),question_paper.class);
+        }else if(id == R.id.questions){
+            goToDrawerPage(getApplicationContext(),QuestionPaperActivity.class);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -271,18 +364,7 @@ public class UploadActivity extends AppCompatActivity implements
         });
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {//for the spinner
 
-        type_name = type_ext[position];
-        type_pos = position;
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 
 
     @Override
@@ -415,6 +497,13 @@ public class UploadActivity extends AppCompatActivity implements
                             String user = sh.getString("dis_name","name");
                             String year = sh.getString("dis_year","1");
                             assert fuser1 != null;
+
+                            if(currentType.equals("Faculty"))
+                            {
+                                year = currentYear;
+                                dept = currentDept;
+                                user = user + ": Faculty";
+                            }
                             r = new Record(file_name,rl, user, dateFormat.format(date), desc, motto, null);//setting values
 
                             dbref.child("test_data").child(motto).child(dept).child(year).child(getTimeStamp()).setValue(r).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -481,6 +570,10 @@ public class UploadActivity extends AppCompatActivity implements
         Intent intent = new Intent(present, toPage);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intent);
+    }
+    private void showToast(String message)
+    {
+        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
     }
 
 

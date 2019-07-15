@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_main);
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         GoogleSignInOptions gso;
         final ShimmerFrameLayout shimmerFrameLayout = findViewById(R.id.shimmer);
         final SwipeRefreshLayout swiper = findViewById(R.id.swiper);
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements
         dbref = db.getReference();
 
 
-        setSupportActionBar(toolbar);
+
 
         mAuth = FirebaseAuth.getInstance();
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -177,6 +178,9 @@ public class MainActivity extends AppCompatActivity implements
         String topic1 = "Notes";
         FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications_"+ topic1 +"_"+ currentDept +"_"+ currentYear);
 
+        String topic2 = "Questions";
+        FirebaseMessaging.getInstance().subscribeToTopic("pushNotifications_"+ topic2 +"_"+ currentDept +"_"+ currentYear);
+
 
     }
 
@@ -247,8 +251,8 @@ public class MainActivity extends AppCompatActivity implements
 
             signOut();
         }
-        else if(id == R.id.question){
-            goToDrawerPage(getApplicationContext(),question_paper.class);
+        else if(id == R.id.questions){
+            goToDrawerPage(getApplicationContext(),QuestionPaperActivity.class);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -339,6 +343,13 @@ public class MainActivity extends AppCompatActivity implements
 
         shedit.putString("utype", userType);
         shedit.apply();
+    }
+
+
+    @Override
+    public void error(String error)
+    {
+        signOut();
     }
 
     private void updateProfile(String department, String year, String utype) {

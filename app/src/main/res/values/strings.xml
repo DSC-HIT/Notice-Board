@@ -16,6 +16,7 @@
     <!--<string name="default_web_client_id" translatable="false">123.googleusercontent.com</string>-->
 
     <string-array name="file_type">
+        <item>File Type</item>
         <item>JPEG</item>
         <item>PNG</item>
         <item>PDF</item>
@@ -54,7 +55,6 @@
     <string name="password">Password</string>
     <string name="login1">LOGIN</string>
     <string name="register_with_email">Register With Email</string>
-    <string name="title_activity_question_paper">question_paper</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
 
     <string name="menu_home">Home</string>

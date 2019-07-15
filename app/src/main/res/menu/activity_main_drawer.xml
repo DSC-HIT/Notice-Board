@@ -20,7 +20,7 @@
                     android:iconTint="@color/primarylight"
                     android:title="Notes" />
                 <item
-                    android:id="@+id/question"
+                    android:id="@+id/questions"
                     android:icon="@drawable/ic_question_answer_black_24dp"
                     android:title="Question Papers" />
                 <item

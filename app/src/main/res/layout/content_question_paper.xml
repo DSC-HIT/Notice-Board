@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".question_paper"
+    tools:context=".QuestionPaperActivity"
     tools:showIn="@layout/app_bar_question_paper"
     android:background="@color/colorwhite"
     android:orientation="vertical">
@@ -46,6 +46,7 @@
     </LinearLayout>
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer"
+        android:layout_below="@id/filter"
         android:layout_height="match_parent"
         android:layout_width="match_parent">
         <LinearLayout
@@ -61,6 +62,7 @@
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiper"
+        android:layout_below="@id/filter"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView

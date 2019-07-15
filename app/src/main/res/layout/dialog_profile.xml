@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp">
 
     <Spinner
@@ -28,5 +29,23 @@
         android:layout_below="@+id/dept"
         android:layout_marginTop="20dp"
         android:textAlignment="center" />
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/faculty_pass"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/yr"
+        app:endIconMode="password_toggle"
+        app:boxStrokeColor="@color/colorAccent"
+        app:hintTextColor="@color/colorAccent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/secret_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your Secrect Key"
+            android:inputType="textPassword"
+            android:textColorHint="@color/colorAccent" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </RelativeLayout>

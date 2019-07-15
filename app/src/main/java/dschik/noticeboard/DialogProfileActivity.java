@@ -17,6 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
 public class DialogProfileActivity extends DialogFragment {
 
     private static final String[] dept = {"CSE", "ECE", "IT", "AEIE", "BT", "EE", "ChE", "ME", "CE"};
@@ -41,10 +44,14 @@ public class DialogProfileActivity extends DialogFragment {
         }
     }
 
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setCancelable(false);
+
+
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.dialog_profile, null);
@@ -56,6 +63,11 @@ public class DialogProfileActivity extends DialogFragment {
         final Spinner deptSpin = view.findViewById(R.id.dept);
         final Spinner yearSpin = view.findViewById(R.id.yr);
         final Spinner user_type = view.findViewById(R.id.user_type_spin);
+        final TextInputEditText s_key = view.findViewById(R.id.secret_key);
+        final TextInputLayout s_lay = view.findViewById(R.id.faculty_pass);
+        s_lay.setVisibility(View.GONE);
+        s_key.setVisibility(View.GONE);
+
 
         if(getContext() instanceof ProfileActivity)
         {
@@ -127,9 +139,12 @@ public class DialogProfileActivity extends DialogFragment {
                     flag2 = 1;
                     if (typeStr.equals("Faculty")) {
                         yearSpin.setVisibility(View.GONE);
+                        s_key.setVisibility(View.VISIBLE);
+                        s_lay.setVisibility(View.VISIBLE);
                         flag1 = 1;
                     } else {
                         yearSpin.setVisibility(View.VISIBLE);
+
                     }
                 }
             }
@@ -145,20 +160,45 @@ public class DialogProfileActivity extends DialogFragment {
                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (flag0 == 1 && flag1 == 1 && flag2 == 1) {
-                            listerner.applyData(deptStr, yrStr, typeStr);
-                        }
-                        else {
-                            Toast.makeText(getActivity(), "Enter Proper Department and Year", Toast.LENGTH_LONG).show();
+                        if(typeStr.equals("Faculty"))
+                        {
+                            String secret_key ="";
+                            if(s_key.getText() == null)
+                            {
+                                s_key.setError("Invalid key");
+                            }else {
+                                secret_key = s_key.getText().toString();
+                            }
+                            if (flag0 == 1 && flag1 == 1 && flag2 == 1) {
+                                if(!secret_key.equals("hit_7856"))
+                                {
+                                    listerner.error("Some error/ Faculty Authentication Failed. Please Sign in again");
+                                    dialog.cancel();
+                                }
+                                listerner.applyData(deptStr, yrStr, typeStr);
+                            } else {
+                                Toast.makeText(getActivity(), "Enter Proper Department and Secret Key", Toast.LENGTH_LONG).show();
+                            }
+                        } else if(typeStr.equals("Student")) {
+
+                            if (flag0 == 1 && flag1 == 1 && flag2 == 1) {
+                                listerner.applyData(deptStr, yrStr, typeStr);
+                            } else {
+                                Toast.makeText(getActivity(), "Enter Proper Department and Year", Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                listerner.error("Some error/ Faculty Authentication Failed. Please Sign in again");
+                dialog.cancel();
             }
         });
-        return alert.create();
+        Dialog dialog = alert.create();
+        dialog.setCanceledOnTouchOutside(false);
+
+        return dialog;
 
     }
 
@@ -166,6 +206,7 @@ public class DialogProfileActivity extends DialogFragment {
     public interface DialogListerner {
 
         public void applyData(String department, String Year, String userType);
+        public void error(String error);
     }
 }
 

@@ -123,6 +123,11 @@ public class ProfileActivity extends AppCompatActivity implements DialogProfileA
         updateProfile(department, year,userType);
     }
 
+    @Override
+    public void error(String error) {
+
+    }
+
     public String getYear(String year) {
         String yr = "";
         switch (year) {

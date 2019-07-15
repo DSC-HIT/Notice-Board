@@ -134,7 +134,7 @@ public class AnnouncementActivity<search> extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(AnnouncementActivity.this, UploadActivity.class);
-                i.putExtra("flag", true);
+                i.putExtra("flag", 1);
                 startActivity(i);
             }
 
@@ -468,8 +468,8 @@ public class AnnouncementActivity<search> extends AppCompatActivity
             Intent intent = new Intent(AnnouncementActivity.this, UploadActivity.class);
             intent.putExtra("flag", false);
             startActivity(intent);
-        }else if(id ==R.id.question){
-            goToDrawerPage(getApplicationContext(),question_paper.class);
+        }else if(id ==R.id.questions){
+            goToDrawerPage(getApplicationContext(),QuestionPaperActivity.class);
 
         }
 
