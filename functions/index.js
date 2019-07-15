@@ -4,7 +4,7 @@ const admin = require("firebase-admin");
 admin.initializeApp(functions.config().firebase);
 
 exports.pushNotification = functions.database
-  .ref("/test_data/{motto}/{dept}/{year}/{key}")
+  .ref("/data1/{motto}/{dept}/{year}/{key}")
   .onCreate((snapshot, context) => {
     console.log("Push notification triggered!");
     console.log(context.params);
