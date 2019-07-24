@@ -82,13 +82,16 @@ public class NoticeAsyncTask extends AsyncTask<URL, String, String> {
             int size = jarray.length();
             //Log.d("aa","test"+size);
             for (i = 0; i < size; i++) {
-                if(i == 1)
+
+                try {
+                    JSONObject j = jarray.getJSONObject(i);
+                    head = j.getString(q1);
+                    link = q3 + j.getString(q2);
+                }catch (Exception e)
                 {
-                    i++;//skipping the 2nd index
+                    e.printStackTrace();
+                    continue;
                 }
-                JSONObject j = jarray.getJSONObject(i);
-                head = j.getString(q1);
-                link = q3 + j.getString(q2);
                 if (link.contains(".pdf") && c instanceof MainActivity) {
                     link = "http://heritageit.edu/" + link;
                 }
