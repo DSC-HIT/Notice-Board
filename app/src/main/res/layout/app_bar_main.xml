@@ -20,6 +20,8 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:contentScrim="@color/colorPrimary"
             app:scrimAnimationDuration="500"
+            app:expandedTitleMarginTop="8dp"
+            app:expandedTitleMarginStart="52dp"
             android:fitsSystemWindows="true">
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
